@@ -7,14 +7,18 @@
 </head>
 <body>
 <h1>LOGIN</h1>
-<form action="login" method="post">
-    Username:<input type="text" name="username"/><br/><br/>
-    Password:<input type="password" name="password"/><br/><br/>
-    <input type="submit" value="Login"/>
-</form>
-<% Object error = request.getAttribute("error"); %>
-<% if (Objects.nonNull(error) && (boolean)error) { %>
+<div>
+    <form action="login" method="post">
+        Username:<input type="text" name="username"/><br/><br/>
+        Password:<input type="password" name="password"/><br/><br/>
+        <input type="submit" value="Login"/>
+    </form>
+</div>
+<div>
+    <% Object error = request.getAttribute("error"); %>
+    <% if (Objects.nonNull(error) && (boolean)error) { %>
     <p><b>Wrong login, try again.</b></p>
-<% } %>
+    <% } %>
+</div>
 </body>
 </html>

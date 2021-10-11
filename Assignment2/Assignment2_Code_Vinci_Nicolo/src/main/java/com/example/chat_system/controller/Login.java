@@ -68,7 +68,7 @@ public class Login extends HttpServlet {
 
         if (!username.isEmpty() && !password.isEmpty() && checkCredentials(username, password)) {
             initializeBean(context, session, username, password);
-            request.getRequestDispatcher("/roomPage.jsp").forward(request, response);
+            request.getRequestDispatcher("/userPage.jsp").forward(request, response);
         } else {
             request.setAttribute("error", true);
             request.getRequestDispatcher("/login.jsp").forward(request, response);

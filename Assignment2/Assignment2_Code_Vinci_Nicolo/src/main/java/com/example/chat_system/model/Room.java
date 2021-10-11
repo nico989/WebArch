@@ -2,6 +2,7 @@ package com.example.chat_system.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class Room implements Serializable {
     private String name;

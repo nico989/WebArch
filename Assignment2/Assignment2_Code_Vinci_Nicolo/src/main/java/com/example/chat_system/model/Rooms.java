@@ -1,21 +1,26 @@
 package com.example.chat_system.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class Rooms implements Serializable {
-    private ArrayList<Room> rooms;
+    private HashMap<UUID, Room> rooms;
 
     public Rooms() {
-        rooms = new ArrayList<>();
+        rooms = new HashMap<>();
     }
 
-    public ArrayList<Room> getRooms() {
+    public Room getRoomById(UUID id) {
+        return rooms.get(id);
+    }
+
+    public HashMap<UUID, Room> getRooms() {
         return rooms;
     }
 
-    public void addRoom(Room room) {
-        rooms.add(room);
+    public void addRoom(UUID id, Room room) {
+        rooms.put(id, room);
     }
 
     @Override

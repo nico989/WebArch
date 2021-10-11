@@ -9,7 +9,8 @@ import javax.servlet.annotation.*;
 @WebServlet(name = "logout", value = "/logout")
 public class Logout extends HttpServlet {
 
-    public void init() { }
+    public void init() {
+    }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
@@ -18,5 +19,6 @@ public class Logout extends HttpServlet {
         request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
-    public void destroy() { }
+    public void destroy() {
+    }
 }

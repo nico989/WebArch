@@ -1,41 +1,45 @@
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.example.chat_system.model.Message" %>
+<%@ page import="java.util.UUID" %>
 <%@ page import="com.example.chat_system.model.Room" %>
-<%@ page import="java.net.URLDecoder" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>User Page</title>
+    <!--<meta http-equiv="refresh" content="15" >-->
+    <title>Room Page</title>
 </head>
 <body>
 <jsp:include page="banner.jsp"></jsp:include>
-<h1>Available rooms</h1>
+<h1><%=request.getAttribute("titleRoom")%>
+</h1>
 <jsp:useBean id="rooms" class="com.example.chat_system.model.Rooms" scope="application"/>
-<% if (rooms.getRooms().isEmpty()) { %>
-    <div>
-        <p>Sorry, no rooms are available, but you can create one</p>
-        <form action="room" method="post">
-            Room name:<input type="text" name="title"/><br/><br/>
-            <input type="submit" value="Create"/>
-        </form>
-    </div>
-<% } else { %>
-    <div>
-        <p>
-            Enter in a room or create a new one
-        </p>
-    </div>
-    <% ArrayList<Room> rList = rooms.getRooms();%>
-    <% for (Room r: rList) { %>
+<div>
+    <p>Add new message</p>
+    <form action="room" method="post">
+        Message:<input type="text" name="message"/><br/><br/>
+        <input type="text" name="idRoom" value="<%=request.getParameter("idRoom")%>" hidden>
+        <input type="submit" value="Send"/>
+    </form>
+</div>
+<div>
+    <form action="room" method="get">
+        <input type="text" name="idRoom" value="<%=request.getParameter("idRoom")%>" hidden>
+        <input type="submit" value="Reload"/>
+    </form>
+</div>
+<%  UUID id = (UUID) request.getAttribute("id");
+    Room actualRoom = rooms.getRoomById(id);
+    ArrayList<Message> messages = actualRoom.getMessages();
+%>
+<% if (!messages.isEmpty()) { %>
+    <% for (Message m : messages) { %>
         <div>
-            <a href="RoomServlet"> <%=URLDecoder.decode(r.getName(), "UTF-8")%></a>
+            <p>
+                <%=m%>
+            </p>
         </div>
     <% } %>
-    <div>
-        <form action="room" method="post">
-            Room name:<input type="text" name="title"/><br/><br/>
-            <input type="submit" value="Create"/>
-        </form>
-    </div>
 <% } %>
+<a href="user">Return to User Page</a>
 </body>
 </html>
