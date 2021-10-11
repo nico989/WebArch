@@ -4,6 +4,7 @@ import com.example.chat_system.model.Message;
 import com.example.chat_system.model.Room;
 import com.example.chat_system.model.Rooms;
 import com.example.chat_system.model.User;
+
 import java.io.*;
 import java.util.Objects;
 import java.util.Scanner;
@@ -14,14 +15,14 @@ import javax.servlet.annotation.*;
 
 @WebServlet(name = "login", value = "/login")
 public class Login extends HttpServlet {
-    private static final String auth = "C:\\Users\\vinci\\Documents\\nicolo\\MaterialeUNI\\Magistrale\\2anno\\1semestre\\WebArchitectures\\assignment\\Assignment2\\Assignment2_Code_Vinci_Nicolo\\src\\docs\\authentication.txt";
+    private static final String auth = "/WEB-INF/authentication.txt";
 
     public void init() {
     }
 
     private boolean checkCredentials(String username, String password) throws IOException {
         boolean authorized = false;
-        File myFile = new File(auth);
+        InputStream myFile = getServletContext().getResourceAsStream(auth);
         Scanner myReader = new Scanner(myFile);
         String data;
         String[] splitted;
@@ -72,6 +73,11 @@ public class Login extends HttpServlet {
             request.setAttribute("error", true);
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("error", false);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     public void destroy() {
