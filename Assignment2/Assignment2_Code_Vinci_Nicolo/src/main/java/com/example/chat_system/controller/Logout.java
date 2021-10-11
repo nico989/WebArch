@@ -11,15 +11,11 @@ public class Logout extends HttpServlet {
 
     public void init() { }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         session.invalidate();
         RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp");
-        try {
-            dispatcher.forward(request, response);
-        } catch (ServletException e) {
-            e.printStackTrace();
-        }
+        dispatcher.forward(request, response);
     }
 
     public void destroy() { }

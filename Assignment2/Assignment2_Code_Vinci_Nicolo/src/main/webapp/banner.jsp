@@ -2,21 +2,22 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>LOGOUT</title>
+    <title>Logout</title>
 </head>
 <body>
 <div>
-    <jsp:useBean id="userBean" class="com.example.chat_system.model.User" scope="session"/>
-    <% if (Objects.nonNull(userBean.getUsername())) { %>
-        <div style="float: left;">
-            <p><%=userBean.getUsername()%></p>
-        </div>
-    <% } %>
-    <div style="float: left; margin-top: 15px">
+    <div style="float: right; margin-top: 15px">
         <form action="logout" method="get">
             <input type="submit" value="Logout"/>
         </form>
     </div>
+    <jsp:useBean id="user" class="com.example.chat_system.model.User" scope="session"/>
+    <% if (Objects.nonNull(user.getUsername())) { %>
+        <div style="float: right;">
+            <p><%=user.getUsername()%>
+            </p>
+        </div>
+    <% } %>
 </div>
 </body>
 </html>
