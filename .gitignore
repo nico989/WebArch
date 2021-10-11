@@ -1,6 +1,7 @@
 # Folder
 .idea
 target
+.settings
 
 # File
 sh.exe.stackdump
