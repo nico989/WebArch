@@ -28,12 +28,15 @@ public class UserServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String title = getEncodedTitle(request.getParameter("title"));
-        ServletContext context = getServletContext();
-        Rooms roomsBean = (Rooms) context.getAttribute("rooms");
-        Room r= new Room();
-        r.setName(title);
-        roomsBean.addRoom(UUID.randomUUID(), r);
+        Rooms roomsBean = (Rooms) getServletContext().getAttribute("rooms");
+        String title = request.getParameter("title");
+
+        if (!title.isEmpty()) {
+            Room r= new Room();
+            r.setName(getEncodedTitle(title));
+            roomsBean.addRoom(UUID.randomUUID(), r);
+        }
+
         request.getRequestDispatcher("/userPage.jsp").forward(request, response);
 
     }

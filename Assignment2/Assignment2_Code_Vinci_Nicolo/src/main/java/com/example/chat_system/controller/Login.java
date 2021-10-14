@@ -39,25 +39,17 @@ public class Login extends HttpServlet {
         return authorized;
     }
 
-    private synchronized void initializeBean(ServletContext context, HttpSession session, String username, String password) {
+    private synchronized void initializeBean(ServletContext context, HttpSession session, String username) {
         if (Objects.isNull(session.getAttribute("user"))) {
             session.setAttribute("user", new User());
         }
         User user = (User) session.getAttribute("user");
         user.setUsername(username);
-        user.setPassword(password);
 
         if (Objects.isNull(context.getAttribute("rooms"))) {
             context.setAttribute("rooms", new Rooms());
         }
 
-        if (Objects.isNull(context.getAttribute("room"))) {
-            context.setAttribute("room", new Room());
-        }
-
-        if (Objects.isNull(context.getAttribute("message"))) {
-            context.setAttribute("message", new Message());
-        }
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -67,7 +59,7 @@ public class Login extends HttpServlet {
         String password = request.getParameter("password");
 
         if (!username.isEmpty() && !password.isEmpty() && checkCredentials(username, password)) {
-            initializeBean(context, session, username, password);
+            initializeBean(context, session, username);
             request.getRequestDispatcher("/userPage.jsp").forward(request, response);
         } else {
             request.setAttribute("error", true);
