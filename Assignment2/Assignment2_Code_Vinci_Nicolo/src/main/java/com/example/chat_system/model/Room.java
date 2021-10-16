@@ -19,6 +19,11 @@ public class Room implements Serializable {
         return messages;
     }
 
+    public ArrayList<Message> getOrderedMessages() {
+        this.messages.sort((o1, o2) -> o2.getDate().compareTo(o1.getDate()));
+        return this.messages;
+    }
+
     public void setName(String name) { this.name = name; }
 
     public void addMessage(Message message) {

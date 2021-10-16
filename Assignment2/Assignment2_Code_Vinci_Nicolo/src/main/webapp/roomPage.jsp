@@ -24,7 +24,7 @@
         <input type="submit" value="Reload"/>
     </form>
 </div>
-<% ArrayList<Message> messages = rooms.getRoomById((UUID) request.getSession(false).getAttribute("idRoomInSession")).getMessages(); %>
+<% ArrayList<Message> messages = rooms.getRoomById((UUID) request.getSession(false).getAttribute("idRoomInSession")).getOrderedMessages(); %>
 <% if (!messages.isEmpty()) { %>
     <% for (Message m : messages) { %>
         <div>

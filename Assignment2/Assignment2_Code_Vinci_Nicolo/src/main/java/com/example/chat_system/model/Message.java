@@ -2,6 +2,7 @@ package com.example.chat_system.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Message implements Serializable{
     private String writtenBy;
@@ -37,10 +38,6 @@ public class Message implements Serializable{
 
     @Override
     public String toString() {
-        return "Message{" +
-                "writtenBy='" + writtenBy + '\'' +
-                ", text='" + text + '\'' +
-                ", date=" + date +
-                '}';
+        return "Message:" + text + " [From:" + writtenBy + ", Date:" + date.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH-mm-ss")) +"]";
     }
 }
