@@ -22,14 +22,11 @@ public final class AdminServlet extends HttpServlet {
         String newUsername = request.getParameter("newUsername");
         String newPassword = request.getParameter("newPassword");
         if (!newUsername.isEmpty() && !newPassword.isEmpty()) {
+            request.setAttribute("error", false);
             credentials.put(newUsername, newPassword);
         } else {
             request.setAttribute("error", true);
         }
-        request.getRequestDispatcher("/adminPage.jsp").forward(request, response);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/adminPage.jsp").forward(request, response);
     }
 
