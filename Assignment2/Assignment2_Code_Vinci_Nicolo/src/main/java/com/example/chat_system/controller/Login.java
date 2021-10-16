@@ -52,7 +52,7 @@ public final class Login extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext context = getServletContext();
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession(false);
 
         switch(checkCredentials(context, request)) {
             case 1:
@@ -74,7 +74,7 @@ public final class Login extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
         session.setAttribute("authenticated", false);
         request.setAttribute("error", false);
         request.getRequestDispatcher("/login.jsp").forward(request, response);

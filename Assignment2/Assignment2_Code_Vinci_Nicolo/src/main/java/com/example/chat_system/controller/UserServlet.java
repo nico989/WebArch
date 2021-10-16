@@ -38,11 +38,6 @@ public final class UserServlet extends HttpServlet {
         }
 
         request.getRequestDispatcher("/userPage.jsp").forward(request, response);
-
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("/userPage.jsp").forward(request, response);
     }
 
     public void destroy() {

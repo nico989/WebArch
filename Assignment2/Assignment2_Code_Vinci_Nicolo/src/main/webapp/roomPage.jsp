@@ -34,6 +34,6 @@
         </div>
     <% } %>
 <% } %>
-<a href="<%=request.getContextPath()+"/user"%>"> Return to User Page</a>
+<a href="<%=request.getContextPath()+"/userPage.jsp"%>"> Return to User Page</a>
 </body>
 </html>

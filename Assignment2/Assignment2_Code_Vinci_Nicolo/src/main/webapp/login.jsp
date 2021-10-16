@@ -14,7 +14,7 @@
     </form>
 </div>
 <jsp:include page="inputError.jsp">
-    <jsp:param name="error" value="<% request.getAtrribute('error') %>"/>
+    <jsp:param name="error" value="<% request.getParameter('error') %>"/>
 </jsp:include>
 </body>
 </html>

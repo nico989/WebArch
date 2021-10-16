@@ -1,4 +1,3 @@
-<%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -12,12 +11,9 @@
         </form>
     </div>
     <jsp:useBean id="user" class="com.example.chat_system.model.User" scope="session"/>
-    <% if (Objects.nonNull(user.getUsername())) { %>
-        <div style="float: right;">
-            <p><%=user.getUsername()%>
-            </p>
-        </div>
-    <% } %>
+    <div style="float: right;">
+        <p><%=user.getUsername()%></p>
+    </div>
 </div>
 </body>
 </html>
