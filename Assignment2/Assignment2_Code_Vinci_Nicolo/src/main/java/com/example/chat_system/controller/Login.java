@@ -2,6 +2,7 @@ package com.example.chat_system.controller;
 
 import com.example.chat_system.model.Rooms;
 import com.example.chat_system.model.User;
+import com.example.chat_system.utils.State;
 
 import java.io.*;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public final class Login extends HttpServlet {
 
     }
 
-    private int checkCredentials(ServletContext context, HttpServletRequest request) {
+    private State checkCredentials(ServletContext context, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -36,7 +37,7 @@ public final class Login extends HttpServlet {
         if (username.equals("admin") && password.equals(getInitParameter("AdminPassword"))) {
             session.setAttribute("authenticated", true);
             initializeBean(context, session, username);
-            return 2;
+            return State.ADMIN;
         }
 
         HashMap<String, String> credentials = (HashMap<String, String>) context.getAttribute("credentials");
@@ -44,10 +45,10 @@ public final class Login extends HttpServlet {
         if (Objects.nonNull(getPassword) && getPassword.equals(password)) {
             session.setAttribute("authenticated", true);
             initializeBean(context, session, username);
-            return 1;
+            return State.PLAIN_USER;
         }
 
-        return 3;
+        return State.UNAUTHENTICATED;
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -55,16 +56,16 @@ public final class Login extends HttpServlet {
         HttpSession session = request.getSession(false);
 
         switch(checkCredentials(context, request)) {
-            case 1:
-                session.setAttribute("authenticated", true);
-                request.getRequestDispatcher("/userPage.jsp").forward(request, response);
-                break;
-            case 2:
+            case ADMIN:
                 session.setAttribute("authenticated", true);
                 request.setAttribute("error", false);
                 request.getRequestDispatcher("/adminPage.jsp").forward(request, response);
                 break;
-            case 3:
+            case PLAIN_USER:
+                session.setAttribute("authenticated", true);
+                request.getRequestDispatcher("/userPage.jsp").forward(request, response);
+                break;
+            case UNAUTHENTICATED:
                 session.setAttribute("authenticated", false);
                 request.setAttribute("error", true);
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
