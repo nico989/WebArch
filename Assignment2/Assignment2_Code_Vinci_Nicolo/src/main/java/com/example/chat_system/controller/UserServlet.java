@@ -19,7 +19,7 @@ import java.util.Base64;
 import java.util.UUID;
 
 @WebServlet(name = "user", value = "/user")
-public class UserServlet extends HttpServlet {
+public final class UserServlet extends HttpServlet {
     public void init() {
     }
 

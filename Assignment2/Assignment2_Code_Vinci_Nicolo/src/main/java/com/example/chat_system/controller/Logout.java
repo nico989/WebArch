@@ -6,16 +6,15 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 @WebServlet(name = "logout", value = "/logout")
-public class Logout extends HttpServlet {
+public final class Logout extends HttpServlet {
 
     public void init() {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         session.invalidate();
-        request.setAttribute("error", false);
-        request.getRequestDispatcher("/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/login").forward(request, response);
     }
 
     public void destroy() {

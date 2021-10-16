@@ -7,7 +7,7 @@
 <body>
 <div>
     <div style="float: right; margin-top: 15px">
-        <form action="logout" method="get">
+        <form action="<%=request.getContextPath()+"/logout"%>" method="get">
             <input type="submit" value="Logout"/>
         </form>
     </div>

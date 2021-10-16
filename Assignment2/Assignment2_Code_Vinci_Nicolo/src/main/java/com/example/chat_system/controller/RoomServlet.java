@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
-@WebServlet(name = "room", value = "/room")
-public class RoomServlet extends HttpServlet {
+@WebServlet(name = "room", value = "/user/room")
+public final class RoomServlet extends HttpServlet {
     public void init() {
     }
 
@@ -46,7 +46,7 @@ public class RoomServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Rooms roomsBean = (Rooms) getServletContext().getAttribute("rooms");
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
         User userBean = (User) session.getAttribute("user");
 
         String message = request.getParameter("message");
@@ -64,7 +64,7 @@ public class RoomServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Rooms roomsBean = (Rooms) getServletContext().getAttribute("rooms");
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(false);
 
         UUID idRoom = (UUID) session.getAttribute("idRoomInSession");
         if (Objects.isNull(idRoom)) {

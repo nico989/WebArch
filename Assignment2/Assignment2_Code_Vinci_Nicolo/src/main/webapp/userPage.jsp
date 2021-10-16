@@ -28,7 +28,7 @@
     <% HashMap<UUID, Room> hashRooms = rooms.getRooms();%>
     <% for (HashMap.Entry<UUID, Room> entry : hashRooms.entrySet()) { %>
         <div>
-            <a href="room?idRoom=<%=entry.getKey()%>"> <%=URLDecoder.decode(entry.getValue().getName(), "UTF-8")%></a>
+            <a href="user/room?idRoom=<%=entry.getKey()%>"> <%=URLDecoder.decode(entry.getValue().getName(), "UTF-8")%></a>
         </div>
     <% } %>
     <div>

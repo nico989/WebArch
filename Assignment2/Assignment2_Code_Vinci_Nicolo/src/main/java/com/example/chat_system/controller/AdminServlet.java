@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 @WebServlet(name = "admin", value = "/admin")
-public class AdminServlet extends HttpServlet {
+public final class AdminServlet extends HttpServlet {
 
     public void init() {
     }
