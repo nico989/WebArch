@@ -29,18 +29,21 @@ public class Login extends HttpServlet {
     }
 
     private int checkCredentials(ServletContext context, HttpServletRequest request) {
+        HttpSession session = request.getSession();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
         if (username.equals("admin") && password.equals(getInitParameter("AdminPassword"))) {
-            initializeBean(context, request.getSession(), username);
+            session.setAttribute("authenticated", true);
+            initializeBean(context, session, username);
             return 2;
         }
 
         HashMap<String, String> credentials = (HashMap<String, String>) context.getAttribute("credentials");
         String getPassword = credentials.get(username);
         if (Objects.nonNull(getPassword) && getPassword.equals(password)) {
-            initializeBean(context, request.getSession(), username);
+            session.setAttribute("authenticated", true);
+            initializeBean(context, session, username);
             return 1;
         }
 
@@ -55,6 +58,7 @@ public class Login extends HttpServlet {
                 request.getRequestDispatcher("/userPage.jsp").forward(request, response);
                 break;
             case 2:
+                request.setAttribute("error", false);
                 request.getRequestDispatcher("/adminPage.jsp").forward(request, response);
                 break;
             case 3:

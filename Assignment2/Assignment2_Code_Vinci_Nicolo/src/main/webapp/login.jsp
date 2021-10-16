@@ -14,11 +14,8 @@
         <input type="submit" value="Login"/>
     </form>
 </div>
-<div>
-    <% Object error = request.getAttribute("error"); %>
-    <% if (Objects.nonNull(error) && (boolean)error) { %>
-    <p><b>Wrong login, try again.</b></p>
-    <% } %>
-</div>
+<jsp:include page="inputError.jsp">
+    <jsp:param name="error" value="<% request.getAtrribute('error') %>"/>
+</jsp:include>
 </body>
 </html>

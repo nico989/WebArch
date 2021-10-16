@@ -24,11 +24,8 @@
         <input type="submit" value="Create"/>
     </form>
 </div>
-<div>
-    <% Object error = request.getAttribute("error"); %>
-    <% if (Objects.nonNull(error) && (boolean)error) { %>
-    <p><b>You must insert a valid Username and Password.</b></p>
-    <% } %>
-</div>
+<jsp:include page="inputError.jsp">
+    <jsp:param name="error" value="<% request.getAtrribute('error') %>"/>
+</jsp:include>
 </body>
 </html>

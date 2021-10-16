@@ -5,7 +5,7 @@
          version="4.0">
 
     <welcome-file-list>
-        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
     <servlet>
@@ -22,7 +22,7 @@
     </servlet-mapping>
 
     <context-param>
-        <param-name>pathToAuthentication</param-name>
+        <param-name>PathToAuthentication</param-name>
         <param-value>WEB-INF/classes/authentication.txt</param-value>
     </context-param>
 
@@ -31,7 +31,7 @@
     </listener>
 
     <session-config>
-        <session-timeout>1</session-timeout>
+        <session-timeout>30</session-timeout>
     </session-config>
 
 </web-app>

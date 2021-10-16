@@ -12,7 +12,7 @@ public class FileListener implements ServletContextListener {
         HashMap<String, String> credentials = new HashMap<>();
         FileReader fileReader;
         try {
-            fileReader = new FileReader(context.getRealPath("/") + context.getInitParameter("pathToAuthentication"));
+            fileReader = new FileReader(context.getRealPath("/") + context.getInitParameter("PathToAuthentication"));
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line = bufferedReader.readLine();
             String[] splitted;
@@ -34,7 +34,7 @@ public class FileListener implements ServletContextListener {
         HashMap<String, String> credentials = (HashMap<String, String>) context.getAttribute("credentials");
         FileWriter fileWriter;
         try {
-            fileWriter = new FileWriter(context.getRealPath("/") + context.getInitParameter("pathToAuthentication"), false);
+            fileWriter = new FileWriter(context.getRealPath("/") + context.getInitParameter("PathToAuthentication"), false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             for (HashMap.Entry<String , String> entry : credentials.entrySet()) {
                 bufferedWriter.write(entry.getKey() + "-" + entry.getValue() + "\n");
