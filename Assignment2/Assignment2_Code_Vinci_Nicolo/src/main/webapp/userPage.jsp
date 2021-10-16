@@ -1,9 +1,7 @@
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="com.example.chat_system.model.Room" %>
 <%@ page import="java.net.URLDecoder" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.UUID" %>
-<%@ page import="java.util.Map" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -28,7 +26,7 @@
         </p>
     </div>
     <% HashMap<UUID, Room> hashRooms = rooms.getRooms();%>
-    <% for (Map.Entry<UUID, Room> entry : hashRooms.entrySet()) { %>
+    <% for (HashMap.Entry<UUID, Room> entry : hashRooms.entrySet()) { %>
         <div>
             <a href="room?idRoom=<%=entry.getKey()%>"> <%=URLDecoder.decode(entry.getValue().getName(), "UTF-8")%></a>
         </div>

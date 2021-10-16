@@ -1,45 +1,21 @@
 package com.example.chat_system.controller;
 
-import com.example.chat_system.model.Message;
-import com.example.chat_system.model.Room;
 import com.example.chat_system.model.Rooms;
 import com.example.chat_system.model.User;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Objects;
-import java.util.Scanner;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
-import javax.servlet.annotation.*;
 
-@WebServlet(name = "login", value = "/login")
 public class Login extends HttpServlet {
-    private static final String auth = "/WEB-INF/authentication.txt";
 
     public void init() {
     }
 
-    private boolean checkCredentials(String username, String password) throws IOException {
-        boolean authorized = false;
-        InputStream myFile = getServletContext().getResourceAsStream(auth);
-        Scanner myReader = new Scanner(myFile);
-        String data;
-        String[] splitted;
-        while (myReader.hasNextLine()) {
-            data = myReader.nextLine();
-            splitted = data.split("-");
-            if (splitted[0].equals(username) && splitted[1].equals(password)) {
-                authorized = true;
-                break;
-            }
-
-        }
-        myReader.close();
-        return authorized;
-    }
-
-    private synchronized void initializeBean(ServletContext context, HttpSession session, String username) {
+    private void initializeBean(ServletContext context, HttpSession session, String username) {
         if (Objects.isNull(session.getAttribute("user"))) {
             session.setAttribute("user", new User());
         }
@@ -52,19 +28,40 @@ public class Login extends HttpServlet {
 
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        ServletContext context = getServletContext();
+    private int checkCredentials(ServletContext context, HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
-        if (!username.isEmpty() && !password.isEmpty() && checkCredentials(username, password)) {
-            initializeBean(context, session, username);
-            request.getRequestDispatcher("/userPage.jsp").forward(request, response);
-        } else {
-            request.setAttribute("error", true);
-            request.getRequestDispatcher("/login.jsp").forward(request, response);
+        if (username.equals("admin") && password.equals(getInitParameter("AdminPassword"))) {
+            initializeBean(context, request.getSession(), username);
+            return 2;
         }
+
+        HashMap<String, String> credentials = (HashMap<String, String>) context.getAttribute("credentials");
+        if (Objects.nonNull(credentials.get(username))) {
+            initializeBean(context, request.getSession(), username);
+            return 1;
+        }
+
+        return 3;
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        ServletContext context = getServletContext();
+
+        switch(checkCredentials(context, request)) {
+            case 1:
+                request.getRequestDispatcher("/userPage.jsp").forward(request, response);
+                break;
+            case 2:
+                request.getRequestDispatcher("/adminPage.jsp").forward(request, response);
+                break;
+            case 3:
+                request.setAttribute("error", true);
+                request.getRequestDispatcher("/login.jsp").forward(request, response);
+                break;
+        }
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
