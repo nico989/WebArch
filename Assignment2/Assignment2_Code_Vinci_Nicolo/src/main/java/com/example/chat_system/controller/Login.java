@@ -38,7 +38,8 @@ public class Login extends HttpServlet {
         }
 
         HashMap<String, String> credentials = (HashMap<String, String>) context.getAttribute("credentials");
-        if (Objects.nonNull(credentials.get(username))) {
+        String getPassword = credentials.get(username);
+        if (Objects.nonNull(getPassword) && getPassword.equals(password)) {
             initializeBean(context, request.getSession(), username);
             return 1;
         }

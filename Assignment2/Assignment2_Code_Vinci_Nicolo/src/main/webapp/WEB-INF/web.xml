@@ -23,12 +23,15 @@
 
     <context-param>
         <param-name>pathToAuthentication</param-name>
-        <param-value>/WEB-INF/authentication.txt</param-value>
+        <param-value>WEB-INF/classes/authentication.txt</param-value>
     </context-param>
 
     <listener>
         <listener-class>com.example.chat_system.listener.FileListener</listener-class>
     </listener>
 
+    <session-config>
+        <session-timeout>1</session-timeout>
+    </session-config>
 
 </web-app>
