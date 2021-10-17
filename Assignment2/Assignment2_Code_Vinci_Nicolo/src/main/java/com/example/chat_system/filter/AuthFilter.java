@@ -18,7 +18,7 @@ public class AuthFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpSession session = httpServletRequest.getSession(false);
-        if (Objects.nonNull(session) && (boolean)session.getAttribute("authenticated")) {
+        if (Objects.nonNull(session) && Objects.nonNull(session.getAttribute("authenticated")) && (boolean) session.getAttribute("authenticated")) {
             chain.doFilter(request, response);
         } else {
             httpServletResponse.sendError(javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED);
