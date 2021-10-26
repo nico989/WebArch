@@ -24,7 +24,6 @@ public final class LoginFilter implements Filter {
             String usernameInSession = (String) session.getAttribute("usernameInSession");
             ServletContext context = filterConfig.getServletContext();
             ArrayList<String> users = (ArrayList<String>) context.getAttribute("users");
-            System.out.println(users.size());
             if (users.contains(usernameInSession)) {
                 httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/userPage.jsp");
                 return;
