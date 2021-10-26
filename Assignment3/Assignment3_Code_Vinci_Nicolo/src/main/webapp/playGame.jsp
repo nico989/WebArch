@@ -11,7 +11,7 @@
     <h2>Tentativi rimasti:</h2>
     <div>
         <div class="card">
-            <img id="0x0" src="./imgs/cardBack.jpg" class="cardImg" alt="blank" onclick="document.get('pippo').src=('./imgs/number-1.jpg')"/>
+            <img id="0x0" src="./imgs/cardBack.jpg" class="cardImg" alt="blank" onclick="changeImg(this.id)"/>
         </div>
         <div class="card">
             <img id="0x1" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
@@ -66,6 +66,6 @@
         </div>
     </div>
     <h2>punti:</h2>
-    <!--<script type="text/javascript" src="./playGameJS.js"></script>-->
+    <script type="text/javascript" src="./playGameJS.js"></script>
 </body>
 </html>
