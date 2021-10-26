@@ -7,7 +7,6 @@
 </head>
 <body>
     <h1>Welcome <%= request.getSession(false).getAttribute("usernameInSession") %> </h1>
-    <br/>
     <h2>Classifica</h2>
     <jsp:useBean id="gamesBean" class="com.example.memory_game.model.Games" scope="application"/>
     <% if (gamesBean.getGames().isEmpty()) { %>
