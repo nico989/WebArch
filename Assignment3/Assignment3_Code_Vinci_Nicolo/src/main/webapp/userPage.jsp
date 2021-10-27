@@ -24,7 +24,7 @@
         <% } %>
     <% } %>
     <div>
-        <form action="playGame.jsp" method="get">
+        <form action="game" method="get">
             <input type="submit" value="Play Game"/>
         </form>
     </div>

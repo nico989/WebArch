@@ -8,64 +8,17 @@
 </head>
 <body>
     <h1>Welcome to Memory</h1>
-    <h2>Tentativi rimasti:</h2>
-    <div>
-        <div class="card">
-            <img id="0x0" src="./imgs/cardBack.jpg" class="cardImg" alt="blank" onclick="changeImg(this.id)"/>
+    <h2 id="tentativi">Tentativi rimasti: 4</h2>
+    <% for (int i=0; i<4; i++) { %>
+        <div>
+            <% for (int j=4*i; j<4*(i+1); j++) { %>
+                <div class="card">
+                    <img id="<%=j%>" src="./imgs/cardBack.jpg" class="cardImg" alt="blank" onclick="changeImg(this.id)"/>
+                </div>
+            <% } %>
         </div>
-        <div class="card">
-            <img id="0x1" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="0x2" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="0x3" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-    </div>
-    <div>
-        <div class="card">
-            <img id="1x0" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="1x1" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="1x2" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="1x3" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-    </div>
-    <div>
-        <div class="card">
-            <img id="2x0" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="2x1" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="2x2" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="2x3" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-    </div>
-    <div>
-        <div class="card">
-            <img id="3x0" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="3x1" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="3x2" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-        <div class="card">
-            <img id="3x3" src="./imgs/cardBack.jpg" class="cardImg" alt="blank"/>
-        </div>
-    </div>
-    <h2>punti:</h2>
+    <% } %>
+    <h2 id="score">punti:</h2>
     <script type="text/javascript" src="./playGameJS.js"></script>
 </body>
 </html>
