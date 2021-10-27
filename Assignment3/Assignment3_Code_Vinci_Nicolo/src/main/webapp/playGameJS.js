@@ -3,6 +3,8 @@ let clickedCard = null;
 function changeImg(id) {
     if (!clickedCard) {
         clickedCard = id;
+        // unclickable card
+        document.getElementById(id).onclick = null;
         const xhttp = new XMLHttpRequest();
         xhttp.open("GET", "card?id="+id, true);
         xhttp.responseType = "json";
@@ -15,7 +17,6 @@ function changeImg(id) {
             }
         };
     } else {
-        console.log(clickedCard);
-        alert("Card UNCLICKABLE!");
+        alert("second click!");
     }
 }
