@@ -2,7 +2,7 @@ package com.example.memory_game.model;
 
 import java.io.Serializable;
 
-public final class Game implements Serializable, Comparable<Game> {
+public final class Game implements Serializable {
     private String username;
     private int score;
 
@@ -26,15 +26,7 @@ public final class Game implements Serializable, Comparable<Game> {
     }
 
     @Override
-    public int compareTo(Game o) {
-        return Integer.compare(score, o.getScore());
-    }
-
-    @Override
     public String toString() {
-        return "Game{" +
-                "username='" + username + '\'' +
-                ", score=" + score +
-                '}';
+        return score + " - " + username;
     }
 }

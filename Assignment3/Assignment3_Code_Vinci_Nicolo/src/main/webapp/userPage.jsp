@@ -14,12 +14,12 @@
             <p>Classifica vuota - Nessuna partita giocata</p>
         </div>
     <% } else { %>
-        <% ArrayList<Game> games = gamesBean.getGames();%>
-        <% for (Game game : games) { %>
+        <% ArrayList<Game> games = gamesBean.getOrderedGames();%>
+        <% for (Game game: games) { %>
         <div>
-            <ul>
-                <li><%=game%></li>
-            </ul>
+            <p>
+                <%=game%>
+            </p>
         </div>
         <% } %>
     <% } %>
