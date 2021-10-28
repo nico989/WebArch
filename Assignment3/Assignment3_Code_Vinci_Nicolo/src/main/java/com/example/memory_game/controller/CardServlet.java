@@ -19,16 +19,14 @@ public final class CardServlet extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        ServletContext context = getServletContext();
         String id = request.getParameter("id");
-        List<Integer> grid = (List<Integer>) context.getAttribute("grid");
-        Integer cardValue = grid.get(Integer.parseInt(id));
+        List<Integer> grid = (List<Integer>) getServletContext().getAttribute("grid");
+        int cardValue = grid.get(Integer.parseInt(id));
         JSONObject obj = new JSONObject();
         obj.put("cardValue", cardValue);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(obj.toString());
-
     }
 
     public void destroy() {

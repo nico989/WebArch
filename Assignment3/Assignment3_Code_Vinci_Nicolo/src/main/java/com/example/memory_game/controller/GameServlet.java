@@ -31,11 +31,9 @@ public final class GameServlet extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        ServletContext context = getServletContext();
-        HttpSession session = request.getSession(false);
         int score = Integer.parseInt(request.getParameter("score"));
-        String username = (String) session.getAttribute("usernameInSession");
-        Games gamesBean = (Games) context.getAttribute("gamesBean");
+        String username = (String) request.getSession(false).getAttribute("usernameInSession");
+        Games gamesBean = (Games) getServletContext().getAttribute("gamesBean");
         Game game = new Game();
         game.setUsername(username);
         game.setScore(score);

@@ -27,13 +27,11 @@ public final class LoginServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext context = getServletContext();
-        HttpSession session = request.getSession(false);
         String username = request.getParameter("usernameInRequest");
         if (!username.isEmpty()) {
             initializeBean(context);
-            ArrayList<String> users = (ArrayList<String>) context.getAttribute("users");
-            users.add(username);
-            session.setAttribute("usernameInSession", username);
+            ((ArrayList<String>)context.getAttribute("users")).add(username);
+            request.getSession(false).setAttribute("usernameInSession", username);
             request.getRequestDispatcher("/userPage.jsp").forward(request, response);
         } else {
             request.setAttribute("error", true);
