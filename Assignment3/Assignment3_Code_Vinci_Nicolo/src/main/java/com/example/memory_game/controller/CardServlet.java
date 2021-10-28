@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet(name = "card", value = "/card")
-public class CardServlet extends HttpServlet {
+public final class CardServlet extends HttpServlet {
 
     public void init() {
     }

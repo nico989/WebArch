@@ -13,12 +13,13 @@
         <div>
             <% for (int j=4*i; j<4*(i+1); j++) { %>
                 <div class="card">
-                    <img id="<%=j%>" src="./imgs/cardBack.jpg" class="cardImg" alt="blank" onclick="changeImg(this.id)"/>
+                    <img id="<%=j%>" src="./imgs/cardBack.jpg" class="cardImg" alt="blank" onclick="onClickEv(this.id)"/>
                 </div>
             <% } %>
         </div>
     <% } %>
-    <h2 id="score">punti:</h2>
+    <h2 id="score">punti:0</h2>
+    <script>let requestContextPath = "${pageContext.request.contextPath}";</script>
     <script type="text/javascript" src="./playGameJS.js"></script>
 </body>
 </html>
