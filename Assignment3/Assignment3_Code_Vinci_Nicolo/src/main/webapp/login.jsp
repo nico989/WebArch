@@ -1,3 +1,4 @@
+<%@ page import="java.util.Objects" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -12,6 +13,10 @@
             <input type="submit" value="Let's go!"/>
         </form>
     </div>
-
+    <% if (Objects.nonNull(request.getAttribute("error")) && (boolean)request.getAttribute("error")) { %>
+        <div>
+            <p><b>Error in Input Field</b></p>
+        </div>
+    <% } %>
 </body>
 </html>

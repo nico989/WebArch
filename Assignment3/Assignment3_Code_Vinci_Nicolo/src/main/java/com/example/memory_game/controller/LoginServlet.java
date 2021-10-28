@@ -36,6 +36,7 @@ public final class LoginServlet extends HttpServlet {
             session.setAttribute("usernameInSession", username);
             request.getRequestDispatcher("/userPage.jsp").forward(request, response);
         } else {
+            request.setAttribute("error", true);
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
     }

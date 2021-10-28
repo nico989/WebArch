@@ -26,12 +26,11 @@ public final class GameServlet extends HttpServlet {
         if (mode.equals("production")) {
             Collections.shuffle(grid);
         }
-        System.out.println(grid);
         context.setAttribute("grid", grid);
         request.getRequestDispatcher("/playGame.jsp").forward(request, response);
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         ServletContext context = getServletContext();
         HttpSession session = request.getSession(false);
         int score = Integer.parseInt(request.getParameter("score"));
