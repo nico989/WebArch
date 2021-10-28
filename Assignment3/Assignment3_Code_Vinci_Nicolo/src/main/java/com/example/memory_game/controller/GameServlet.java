@@ -23,6 +23,8 @@ public final class GameServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext context = getServletContext();
+        String mode = context.getInitParameter("mode");
+        System.out.println(mode);
         ArrayList<Integer> grid = new ArrayList<>();
         Random rand = new Random();
         for (int i=0; i < 16; i++) {

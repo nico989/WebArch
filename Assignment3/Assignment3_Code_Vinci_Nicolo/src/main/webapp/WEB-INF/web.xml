@@ -22,4 +22,9 @@
         <session-timeout>30</session-timeout>
     </session-config>
 
+    <context-param>
+        <param-name>mode</param-name>
+        <param-value>test</param-value>
+    </context-param>
+
 </web-app>
