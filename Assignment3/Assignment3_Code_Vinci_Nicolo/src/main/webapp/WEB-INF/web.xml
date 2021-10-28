@@ -24,7 +24,7 @@
 
     <context-param>
         <param-name>mode</param-name>
-        <param-value>test</param-value>
+        <param-value>production</param-value>
     </context-param>
 
 </web-app>

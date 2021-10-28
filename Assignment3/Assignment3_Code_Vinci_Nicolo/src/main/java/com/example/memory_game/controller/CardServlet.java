@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet(name = "card", value = "/card")
 public final class CardServlet extends HttpServlet {
@@ -20,7 +21,7 @@ public final class CardServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ServletContext context = getServletContext();
         String id = request.getParameter("id");
-        ArrayList<Integer> grid = (ArrayList<Integer>) context.getAttribute("grid");
+        List<Integer> grid = (List<Integer>) context.getAttribute("grid");
         Integer cardValue = grid.get(Integer.parseInt(id));
         JSONObject obj = new JSONObject();
         obj.put("cardValue", cardValue);

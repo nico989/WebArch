@@ -32,6 +32,19 @@ function onClickEv(id) {
             if (this.readyState === 4 && this.status === 200) {
                 card2 = this.response.cardValue;
                 document.getElementById(id).src = "./imgs/number-" + card2.toString() + ".jpg";
+                if (card1 === card2) {
+                    score += 2 * card2;
+                    document.getElementById("score").innerText = "punti:" + score.toString();
+                } else {
+                    score -= 1;
+                    document.getElementById("score").innerText = "punti:" + score.toString();
+                    setTimeout(function () {
+                        document.getElementById(previousCard).src = "./imgs/cardBack.jpg";
+                        document.getElementById(id).src = "./imgs/cardBack.jpg";
+                        document.getElementById(previousCard).setAttribute("onclick", "onClickEv(this.id)");
+                        document.getElementById(id).setAttribute("onclick", "onClickEv(this.id)");
+                    }, 1000);
+                }
                 if (tentativi === 0) {
                     let cards = document.getElementsByClassName("cardImg");
                     for (let i=0; i<cards.length; i++) {
@@ -51,18 +64,6 @@ function onClickEv(id) {
                                 window.location = requestContextPath + "/userPage.jsp";
                             }
                         };
-                    }, 1000);
-                } else if (card1 === card2) {
-                    score += 2 * card2;
-                    document.getElementById("score").innerText = "punti:" + score.toString();
-                } else {
-                    score -= 1;
-                    document.getElementById("score").innerText = "punti:" + score.toString();
-                    setTimeout(function () {
-                        document.getElementById(previousCard).src = "./imgs/cardBack.jpg";
-                        document.getElementById(id).src = "./imgs/cardBack.jpg";
-                        document.getElementById(previousCard).setAttribute("onclick", "onClickEv(this.id)");
-                        document.getElementById(id).setAttribute("onclick", "onClickEv(this.id)");
                     }, 1000);
                 }
             }
