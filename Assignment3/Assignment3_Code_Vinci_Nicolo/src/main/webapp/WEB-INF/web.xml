@@ -5,9 +5,19 @@
          version="4.0">
 
     <filter>
+        <filter-name>JSPFilter</filter-name>
+        <filter-class>com.example.memory_game.filter.JSPFilter</filter-class>
+    </filter>
+
+    <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>com.example.memory_game.filter.LoginFilter</filter-class>
     </filter>
+
+    <filter-mapping>
+        <filter-name>JSPFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
