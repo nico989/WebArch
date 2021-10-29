@@ -9,6 +9,11 @@ public final class Game implements Serializable {
     public Game() {
     }
 
+    public Game(String username, int score) {
+        this.username = username;
+        this.score = score;
+    }
+
     public String getUsername() {
         return username;
     }

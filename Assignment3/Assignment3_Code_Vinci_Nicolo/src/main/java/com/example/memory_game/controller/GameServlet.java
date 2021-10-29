@@ -34,10 +34,7 @@ public final class GameServlet extends HttpServlet {
         int score = Integer.parseInt(request.getParameter("score"));
         String username = (String) request.getSession(false).getAttribute("usernameInSession");
         Games gamesBean = (Games) getServletContext().getAttribute("gamesBean");
-        Game game = new Game();
-        game.setUsername(username);
-        game.setScore(score);
-        gamesBean.getGames().add(game);
+        gamesBean.getGames().add(new Game(username, score));
     }
 
     public void destroy() {
