@@ -10,7 +10,7 @@ function updateTentativi() {
     document.getElementById("tentativi").innerText = "Tentativi rimasti:" + tentativi.toString();
 }
 
-function checkCard() {
+function checkCard(id) {
     if (card1 === card2) {
         score += 2 * card2;
     } else {
@@ -73,7 +73,7 @@ function onClickEv(id) {
             if (this.readyState === 4 && this.status === 200) {
                 card2 = this.response.cardValue;
                 document.getElementById(id).src = "./imgs/number-" + card2.toString() + ".jpg";
-                checkCard();
+                checkCard(id);
                 document.getElementById("score").innerText = "punti:" + score.toString();
                 endGame();
             }
