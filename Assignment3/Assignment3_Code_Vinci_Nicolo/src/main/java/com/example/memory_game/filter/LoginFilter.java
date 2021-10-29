@@ -26,10 +26,10 @@ public final class LoginFilter implements Filter {
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpSession session = httpServletRequest.getSession(false);
         if (Objects.nonNull(session) && checkUser(session)) {
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/userPage.jsp");
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/user");
         } else if (Objects.isNull(session) || !checkUser(session)) {
             httpServletRequest.getSession(true);
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login");
         } else {
             chain.doFilter(request, response);
         }

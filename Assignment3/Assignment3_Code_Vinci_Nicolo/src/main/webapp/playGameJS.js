@@ -40,7 +40,7 @@ function endGame() {
             xhttp.send("score=" + score.toString());
             xhttp.onreadystatechange = function () {
                 if (this.readyState === 4 && this.status === 200) {
-                    window.location = requestContextPath + "/userPage.jsp";
+                    window.location = requestContextPath + "/user";
                 }
             };
         }, 1000);

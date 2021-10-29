@@ -30,13 +30,18 @@ public final class LoginServlet extends HttpServlet {
         String username = request.getParameter("usernameInRequest");
         if (!username.isEmpty()) {
             initializeBean(context);
-            ((ArrayList<String>)context.getAttribute("users")).add(username);
+            ((ArrayList<String>) context.getAttribute("users")).add(username);
             request.getSession(false).setAttribute("usernameInSession", username);
             request.getRequestDispatcher("/userPage.jsp").forward(request, response);
         } else {
             request.setAttribute("error", true);
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("error", false);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
     public void destroy() {
