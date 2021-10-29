@@ -8,27 +8,25 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public final class LoginFilter implements Filter {
+public class AuthFilter implements Filter {
     private FilterConfig filterConfig;
 
     public void init(FilterConfig filterConfig) {
         this.filterConfig = filterConfig;
     }
 
+    protected boolean checkUser(HttpSession session) {
+        String username = (String) session.getAttribute("usernameInSession");
+        ArrayList<String> users = (ArrayList<String>) filterConfig.getServletContext().getAttribute("users");
+        return users.contains(username);
+    }
+
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
         HttpSession session = httpServletRequest.getSession(false);
-        if (Objects.nonNull(session)) {
-            String usernameInSession = (String) session.getAttribute("usernameInSession");
-            ArrayList<String> users = (ArrayList<String>) filterConfig.getServletContext().getAttribute("users");
-            if (users.contains(usernameInSession)) {
-                httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/userPage.jsp");
-                return;
-            }
-        } else {
-            httpServletRequest.getSession(true);
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() +  "/login.jsp");
+        if (Objects.isNull(session) || !checkUser(session)) {
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/login.jsp");
             return;
         }
         chain.doFilter(request, response);

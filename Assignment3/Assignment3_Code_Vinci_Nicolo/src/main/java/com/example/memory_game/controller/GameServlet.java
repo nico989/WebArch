@@ -23,7 +23,7 @@ public final class GameServlet extends HttpServlet {
         ServletContext context = getServletContext();
         String mode = context.getInitParameter("mode");
         List<Integer> grid = Arrays.asList(1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8);
-        if (mode.equals("production")) {
+        if (mode.equals("PRODUCTION")) {
             Collections.shuffle(grid);
         }
         context.setAttribute("grid", grid);
