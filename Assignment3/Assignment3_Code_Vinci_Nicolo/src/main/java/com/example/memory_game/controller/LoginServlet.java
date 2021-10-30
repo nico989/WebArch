@@ -32,7 +32,7 @@ public final class LoginServlet extends HttpServlet {
             initializeBean(context);
             ((ArrayList<String>) context.getAttribute("users")).add(username);
             request.getSession(false).setAttribute("usernameInSession", username);
-            request.getRequestDispatcher("/userPage.jsp").forward(request, response);
+            response.sendRedirect( request.getContextPath() + "/user");
         } else {
             request.setAttribute("error", true);
             request.getRequestDispatcher("/login.jsp").forward(request, response);

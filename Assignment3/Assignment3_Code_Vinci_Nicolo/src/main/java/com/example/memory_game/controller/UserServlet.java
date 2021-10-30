@@ -1,7 +1,5 @@
 package com.example.memory_game.controller;
 
-import com.example.memory_game.model.Games;
-
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
