@@ -8,6 +8,11 @@ import { AppComponent } from './app.component';
 import { ItemDirective } from './item.directive';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { ListParlamentsComponent } from './list-parlaments/list-parlaments.component';
+import { CardParlamentsComponent } from './card-parlaments/card-parlaments.component';
+import { ErrorComponent } from './error/error.component';
+import { RouterModule } from "@angular/router";
+import { appRoutes } from "./app.routes";
 
 // @NgModule decorator with its metadata
 @NgModule({
@@ -16,11 +21,15 @@ import { FooterComponent } from './footer/footer.component';
     ItemDirective,
     HeaderComponent,
     FooterComponent,
+    ListParlamentsComponent,
+    CardParlamentsComponent,
+    ErrorComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]
