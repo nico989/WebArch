@@ -5,6 +5,11 @@
   margin-right: 200px;
 }
 
-.my-card {
+.parl-card {
   background: white;
+  width: 80%;
+}
+
+.parl-name {
+  text-align: center;
 }
