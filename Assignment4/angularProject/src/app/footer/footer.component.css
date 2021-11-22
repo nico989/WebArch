@@ -5,6 +5,16 @@ footer {
   background-color: #d2d7d9;
 }
 
+.image-parl {
+  margin-left: 32px;
+  margin-right: auto;
+}
+
+.logo-parl {
+  height: 50px;
+  margin-right: auto;
+}
+
 p {
   margin-right: 32px;
 }
