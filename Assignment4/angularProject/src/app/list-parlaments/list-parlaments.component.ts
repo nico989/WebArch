@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IParlament } from '../parlament-interface';
 import { ParlamentService } from '../parlament.service';
 
@@ -10,19 +11,10 @@ import { ParlamentService } from '../parlament.service';
 })
 export class ListParlamentsComponent implements OnInit {
 
-  cards = [
-    {title: 'Title 1', content: 'Content 1'},
-    {title: 'Title 2', content: 'Content 2'},
-    {title: 'Title 3', content: 'Content 3'},
-    {title: 'Title 4', content: 'Content 4'}
-  ];
-
   parlaments:IParlament[];
-  error:string
 
-  constructor(private parlamentService:ParlamentService) {
+  constructor(private parlamentService:ParlamentService, private router:Router) {
     this.parlaments=[];
-    this.error="";
   }
 
   ngOnInit(): void {
@@ -31,11 +23,16 @@ export class ListParlamentsComponent implements OnInit {
         {
           next: (response) => {
             this.parlaments=response;
-            console.log(this.parlaments)
           },
-          error: (error) => this.error=error
+          error: (error) => {
+            console.log(error);
+          }
         }
       )
+  }
+
+  public cardClicked() {
+    this.router.navigate(['cardParlament']);
   }
 
 }

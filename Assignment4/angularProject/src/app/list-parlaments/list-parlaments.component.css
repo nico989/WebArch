@@ -8,7 +8,14 @@
 .parl-card {
   background: white;
   width: 80%;
+  cursor: pointer;
 }
+
+/*
+.parl-card:hover {
+  border: 1px solid black;
+}
+*/
 
 .parl-name {
   text-align: center;
