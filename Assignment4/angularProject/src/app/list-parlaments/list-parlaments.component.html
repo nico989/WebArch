@@ -1,1 +1,12 @@
-<p>list-parlaments works!</p>
+<div class="mat-custom">
+<mat-grid-list cols="3" rowHeight="4:3">
+  <mat-grid-tile *ngFor="let card of cards">
+    <mat-card class="my-card">
+      <img mat-card-image src="http://scottishparliament.thirdlight.com/file/35820129812" alt="parlament-photo">
+      <mat-card-content>
+         {{card.content}}
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
+</div>
