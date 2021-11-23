@@ -5,18 +5,12 @@
   margin-right: 200px;
 }
 
-.parl-card {
+mat-card {
   background: white;
   width: 80%;
   cursor: pointer;
 }
 
-/*
-.parl-card:hover {
-  border: 1px solid black;
-}
-*/
-
-.parl-name {
+mat-card-content {
   text-align: center;
 }

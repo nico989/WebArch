@@ -1,9 +1,9 @@
 <div class="mat-custom">
   <mat-grid-list cols="3" rowHeight="4:3">
     <mat-grid-tile *ngFor="let parlament of parlaments">
-      <mat-card class="parl-card" (click)="cardClicked()">
+      <mat-card (click)="cardClicked($event)" [id]="parlament.PersonID">
         <img mat-card-image [src]="parlament.PhotoURL" alt="parlament-photo">
-        <mat-card-content class="parl-name">
+        <mat-card-content>
           {{parlament.ParliamentaryName}}
         </mat-card-content>
       </mat-card>

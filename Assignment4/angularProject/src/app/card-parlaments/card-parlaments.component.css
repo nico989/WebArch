@@ -1,0 +1,44 @@
+mat-card {
+  background: white;
+  width: 30%;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+mat-card-title {
+  text-align: center;
+}
+
+ul {
+  list-style: none;
+}
+
+.parties li::before {
+  content: "\2022";
+  color: lightblue;
+  font-weight: bold;
+  display: inline-block;
+  width: 16px;
+  margin-left: -40px;
+}
+
+.websites {
+  margin-left: -40px;
+}
+
+.websites li::before {
+  content: "\2022";
+  color: grey;
+  font-weight: bold;
+  display: inline-block;
+  width: 16px;
+}
+
+.websites li {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
