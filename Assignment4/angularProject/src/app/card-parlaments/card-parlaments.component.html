@@ -8,7 +8,9 @@
   <mat-card>
     <mat-card-content>Party</mat-card-content>
     <ul class="parties">
-      <li>{{party}} | from {{lastValidFrom}}</li>
+      <li *ngFor="let memberParty of memberParties">
+        {{memberParty.PartyName}} | From {{memberParty.ValidFromDate}} To {{memberParty.ValidUntilDate}}
+      </li>
     </ul>
   </mat-card>
   <mat-card>

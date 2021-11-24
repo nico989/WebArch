@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IMemberParties } from '../member-parties';
+import { IMemberParties } from '../member-parties-interface';
 import { Parlament } from '../parlament-class';
 import { IParlament } from '../parlament-interface';
 import { ParlamentService } from '../parlament.service';
@@ -15,14 +15,12 @@ export class CardParlamentsComponent implements OnInit {
 
   parlament:IParlament;
   websites:string[];
-  party:string;
-  lastValidFrom:string;
+  memberParties:IMemberParties[];
 
   constructor(private parlamentService:ParlamentService, private activatedroute:ActivatedRoute) {
     this.parlament=new Parlament(-1,-1,"","","",false);
+    this.memberParties=[];
     this.websites=[];
-    this.party="";
-    this.lastValidFrom="";
   }
 
   ngOnInit(): void {
@@ -44,20 +42,20 @@ export class CardParlamentsComponent implements OnInit {
       .subscribe(
         {
           next: (response) => {
-            let memberParties:IMemberParties[]=response;
-            let lastMemberParty=memberParties[memberParties.length-1];
-            this.lastValidFrom=lastMemberParty.ValidFromDate;
-            this.parlamentService.getPartiesById(lastMemberParty.PartyID)
-              .subscribe(
-                {
-                  next: (response) => {
-                    this.party=response;
-                  },
-                  error: (error) => {
-                    console.log(error);
+            this.memberParties=response;
+            this.memberParties.forEach(element => {
+              this.parlamentService.getPartiesById(element.PartyID)
+                .subscribe(
+                  {
+                    next: (response) => {
+                      element.PartyName=response;
+                    },
+                    error: (error) => {
+                      console.log(error);
+                    }
                   }
-                }
-              )
+                )
+            })
           },
           error: (error) => {
             console.log(error);
