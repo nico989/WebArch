@@ -12,37 +12,35 @@ import { ParlamentService } from '../parlament.service';
 })
 export class CardParlamentsComponent implements OnInit {
 
-  parlament:IParlament;
-  websites:string[];
+  parlament:IParlament=new Parlament(-1,-1,"","","",false);
+  /*websites:string[];
   party={
     "party":"",
     "startDate":""
-  }
+  }*/
 
   constructor(private parlamentService:ParlamentService, private activatedroute:ActivatedRoute) {
-    this.parlament=new Parlament();
-    this.websites=[];
   }
 
   ngOnInit(): void {
     this.activatedroute.paramMap.subscribe(params => {
-      let id:any;
-      id = params.get('id');
-
-      this.parlamentService.getParlaments()
-        .subscribe(
-          {
-            next: (response) => {
-              let tmp:any=response.find(e => e.PersonID === +id);
-              this.parlament=tmp;
-            },
-            error: (error) => {
-              console.log(error);
-            }
+      let id:any = params.get('id');
+      this.parlamentService.getParlamentsByID(+id)
+      .subscribe(
+        {
+          next: (response) => {
+            this.parlament=response;
+          },
+          error: (error) => {
+            console.log(error);
           }
-      )
+        }
+    )
+    });
+  }
+}
 
-      this.parlamentService.getMemberParties()
+      /*this.parlamentService.getMemberParties()
         .subscribe(
           {
             next: (response) => {
@@ -93,9 +91,6 @@ export class CardParlamentsComponent implements OnInit {
       )
     });
 
-
-
-
   }
 
-}
+}*/

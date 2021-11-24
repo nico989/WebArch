@@ -31,8 +31,7 @@ export class ListParlamentsComponent implements OnInit {
       )
   }
 
-  public cardClicked(event:any) {
-    let id=event.path[1].id;
+  public cardClicked(id:number) {
     this.router.navigate(['cardParlament', id]);
   }
 
