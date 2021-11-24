@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 import { Parlament } from './parlament-class';
 import { IParlament } from './parlament-interface';
+import { IWebsite } from './website-interface';
+import { IMemberParties } from './member-parties';
+import { IParties } from './parties-interface';
 
 @Injectable()
 export class ParlamentService{
@@ -29,8 +32,8 @@ export class ParlamentService{
     )
   }
 
-  public getParlamentsByID(id:number): Observable<IParlament> {
-    return this.http.get<IParlament>(`https://data.parliament.scot/api/members/${id}`)
+  public getParlamentsById(parlamentId:number): Observable<IParlament> {
+    return this.http.get<IParlament>(`https://data.parliament.scot/api/members/${parlamentId}`)
     .pipe(
         map((response) => {;
           return new Parlament(response.PersonID, response.GenderTypeID, this.modifyName(response), this.pickPhotoURL(response), response.BirthDate, response.IsCurrent);
@@ -43,16 +46,58 @@ export class ParlamentService{
     )
   }
 
-  public getMemberParties(): Observable<any> {
-    return this.http.get('https://data.parliament.scot/api/memberparties');
+  public getMemberPartiesById(parlamentId:number): Observable<IMemberParties[]> {
+    return this.http.get<IMemberParties[]>('https://data.parliament.scot/api/memberparties')
+    .pipe(
+        map((response) => {
+          let memberParties:IMemberParties[]=[];
+          response.filter(element => element.PersonID===parlamentId).forEach(element => {
+            memberParties.push(element);
+          });
+          return memberParties;
+        }),
+        catchError((error) => {
+          console.error(error);
+          throw error;
+        }
+      )
+    )
   }
 
-  public getParties(): Observable<any> {
-    return this.http.get('https://data.parliament.scot/api/parties');
+  public getPartiesById(partyId:number): Observable<string> {
+    return this.http.get<IParties[]>('https://data.parliament.scot/api/parties')
+      .pipe(
+        map((response) => {
+          let partyName="";
+          response.filter(element => element.ID===partyId).forEach(element => {
+            partyName=element.ActualName;
+          });
+          return partyName;
+        }),
+        catchError((error) => {
+          console.error(error);
+          throw error;
+        }
+      )
+    )
   }
 
-  public getWebsites(): Observable<any> {
-    return this.http.get('https://data.parliament.scot/api/websites');
+  public getWebsitesById(parlamentId:number): Observable<string[]> {
+    return this.http.get<IWebsite[]>('https://data.parliament.scot/api/websites')
+    .pipe(
+        map((response) => {
+          let websites:string[]=[];
+          response.filter(element => element.PersonID===parlamentId).forEach(element => {
+            websites.push(element.WebURL);
+          });
+          return websites;
+        }),
+        catchError((error) => {
+          console.error(error);
+          throw error;
+        }
+      )
+    )
   }
 
   private modifyName(parl: IParlament): string {
