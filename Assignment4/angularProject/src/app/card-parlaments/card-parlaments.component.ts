@@ -9,7 +9,7 @@ import { ParlamentService } from '../parlament.service';
   selector: 'app-card-parlaments',
   templateUrl: './card-parlaments.component.html',
   styleUrls: ['./card-parlaments.component.css'],
-  providers: [ParlamentService]
+  providers: []
 })
 export class CardParlamentsComponent implements OnInit {
 

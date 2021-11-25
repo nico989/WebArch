@@ -18,6 +18,8 @@ import { appRoutes } from "./app.routes";
 import { CustomReversePipe } from './custom-reverse.pipe';
 import { CustomDatePipe } from './custom-date.pipe';
 import { DatePipe } from '@angular/common';
+import { ParlamentService } from './parlament.service';
+import { CacheService } from './cache.service';
 
 // @NgModule decorator with its metadata
 @NgModule({
@@ -40,7 +42,7 @@ import { DatePipe } from '@angular/common';
     MatCardModule,
     RouterModule.forRoot(appRoutes, {useHash: true})
   ],
-  providers: [DatePipe],
+  providers: [CacheService,ParlamentService,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

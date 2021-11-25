@@ -32,6 +32,19 @@ export class ParlamentService{
     )
   }
 
+  /*public getParlaments(): Observable<IParlament[]> {
+    let parlaments:IParlament[]=[];
+    return this.http.get<IParlament[]>('https://data.parliament.scot/api/members');
+    .subscribe(
+      response => {
+        response.forEach(element => {
+          parlaments.push(element);
+        });
+      }
+    )
+    return of(parlaments);
+  }*/
+
   public getParlamentsById(parlamentId:number): Observable<IParlament> {
     return this.http.get<IParlament>(`https://data.parliament.scot/api/members/${parlamentId}`)
     .pipe(
@@ -110,7 +123,7 @@ export class ParlamentService{
       if (parl.GenderTypeID==1) {
         return "/assets/images/woman-icon.png";
       } else if (parl.GenderTypeID==2) {
-        return "/assets/images/woman-icon.png";
+        return "/assets/images/man-icon.png";
       } else {
         return "";
       }
