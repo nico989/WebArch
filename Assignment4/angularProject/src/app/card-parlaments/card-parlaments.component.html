@@ -2,15 +2,13 @@
   <mat-card>
     <mat-card-title>Member {{parlament.PersonID}}</mat-card-title>
     <img mat-card-image [src]="parlament.PhotoURL" alt="parlament-photo">
-    <mat-card-content>{{parlament.ParliamentaryName}}</mat-card-content>
-    <mat-card-subtitle>{{parlament.BirthDate}}</mat-card-subtitle>
+    <mat-card-content>{{parlament.ParliamentaryName | customReverse}}</mat-card-content>
+    <mat-card-subtitle>{{parlament.BirthDate | customDate}}</mat-card-subtitle>
   </mat-card>
   <mat-card>
     <mat-card-content>Party</mat-card-content>
     <ul class="parties">
-      <li *ngFor="let memberParty of memberParties">
-        {{memberParty.PartyName}} | From {{memberParty.ValidFromDate}} To {{memberParty.ValidUntilDate}}
-      </li>
+      <li *ngFor="let memberParty of memberParties">{{memberParty.PartyName}} | {{memberParty.ValidFromDate | customDate:"From"}} {{memberParty.ValidUntilDate | customDate:"To"}}</li>
     </ul>
   </mat-card>
   <mat-card>

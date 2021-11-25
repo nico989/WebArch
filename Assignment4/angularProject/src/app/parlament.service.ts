@@ -6,7 +6,6 @@ import { IParlament } from './parlament-interface';
 import { IWebsite } from './website-interface';
 import { IMemberParties } from './member-parties-interface';
 import { IParties } from './parties-interface';
-import { Data } from '@angular/router';
 
 @Injectable()
 export class ParlamentService{

@@ -15,6 +15,9 @@ import { CardParlamentsComponent } from './card-parlaments/card-parlaments.compo
 import { ErrorComponent } from './error/error.component';
 import { RouterModule } from "@angular/router";
 import { appRoutes } from "./app.routes";
+import { CustomReversePipe } from './custom-reverse.pipe';
+import { CustomDatePipe } from './custom-date.pipe';
+import { DatePipe } from '@angular/common';
 
 // @NgModule decorator with its metadata
 @NgModule({
@@ -26,6 +29,8 @@ import { appRoutes } from "./app.routes";
     ListParlamentsComponent,
     CardParlamentsComponent,
     ErrorComponent,
+    CustomReversePipe,
+    CustomDatePipe
   ],
   imports: [
     BrowserModule,
@@ -35,7 +40,7 @@ import { appRoutes } from "./app.routes";
     MatCardModule,
     RouterModule.forRoot(appRoutes, {useHash: true})
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
