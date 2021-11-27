@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of, publishReplay, refCount, shareReplay, tap } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { IParlament } from '../models/parlament-interface';
 import { IWebsite } from '../models/website-interface';
 import { IMemberParties } from '../models/member-parties-interface';
@@ -28,7 +28,6 @@ export class ParlamentService{
       return this.http.get<IParlament[]>(this.urlGetParlaments)
       .pipe(
         map((response) => {
-          console.log(response);
           response.forEach(element => {
             parlaments.push(this.adjustParlament(element));
           })

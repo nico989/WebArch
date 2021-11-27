@@ -1,3 +1,7 @@
+/**
+ * Member parties interface
+ */
+
 export interface IMemberParties {
   ID: number;
   PersonID:number;

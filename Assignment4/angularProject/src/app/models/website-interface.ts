@@ -1,3 +1,7 @@
+/**
+ * Website interface
+ */
+
 export interface IWebsite {
   ID:number;
   PersonID:number;

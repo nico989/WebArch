@@ -21,8 +21,8 @@ export class ListParlamentsComponent implements OnInit {
     this.parlamentService.getParlaments()
       .subscribe(
         {
-          next: (response) => {
-            this._parlaments=response;
+          next: (parlaments) => {
+            this._parlaments=parlaments;
             this._parlaments.sort((a:IParlament,b:IParlament)=>a.ParliamentaryName.localeCompare(b.ParliamentaryName));
           },
           error: (error) => {

@@ -1,3 +1,7 @@
+/**
+ * Parlament interface
+ */
+
 export interface IParlament {
   PersonID: number;
   PhotoURL: string;

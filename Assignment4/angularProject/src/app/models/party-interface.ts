@@ -1,3 +1,7 @@
+/**
+ * Party interface
+ */
+
 export interface IParty {
   ID:number;
   Abbreviation:string;

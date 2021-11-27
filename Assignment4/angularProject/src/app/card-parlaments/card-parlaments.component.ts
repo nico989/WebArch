@@ -28,8 +28,8 @@ export class CardParlamentsComponent implements OnInit {
       this.parlamentService.getParlamentsById(+parlamentId)
       .subscribe(
         {
-          next: (response) => {
-            this._parlament=response;
+          next: (parlament) => {
+            this._parlament=parlament;
           },
           error: (error) => {
             console.log(error);
@@ -40,14 +40,14 @@ export class CardParlamentsComponent implements OnInit {
       this.parlamentService.getMemberPartiesById(+parlamentId)
       .subscribe(
         {
-          next: (response) => {
-            this._memberParties=response;
+          next: (memberParties) => {
+            this._memberParties=memberParties;
             this._memberParties.forEach(element => {
               this.parlamentService.getPartyNameById(element.PartyID)
                 .subscribe(
                   {
-                    next: (response) => {
-                      element.PartyName=response;
+                    next: (partyName) => {
+                      element.PartyName=partyName;
                     },
                     error: (error) => {
                       console.log(error);
@@ -65,8 +65,8 @@ export class CardParlamentsComponent implements OnInit {
       this.parlamentService.getWebsitesById(+parlamentId)
       .subscribe(
         {
-          next: (response) => {
-            this._websites=response;
+          next: (websites) => {
+            this._websites=websites;
           },
           error: (error) => {
             console.log(error);
