@@ -19,7 +19,7 @@ export class ParlamentService{
   constructor(private http:HttpClient, private cacheService:CacheService) {
   }
 
-  // Use custom cache
+  // Use cache service
   public getParlaments(): Observable<IParlament[]> {
     let parlaments:IParlament[]=this.cacheService.parlaments;
     if(parlaments.length>0) {
