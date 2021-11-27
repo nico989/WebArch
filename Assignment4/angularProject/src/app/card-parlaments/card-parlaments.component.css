@@ -42,3 +42,8 @@ ul {
   text-overflow: ellipsis;
   display: block;
 }
+
+.websites a {
+  text-decoration: none;
+  color: black;
+}

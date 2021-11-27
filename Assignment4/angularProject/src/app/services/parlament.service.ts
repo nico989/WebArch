@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of } from 'rxjs';
+import { catchError, map, Observable, of, publishReplay, refCount, shareReplay, tap } from 'rxjs';
 import { IParlament } from '../models/parlament-interface';
 import { IWebsite } from '../models/website-interface';
 import { IMemberParties } from '../models/member-parties-interface';
@@ -19,6 +19,7 @@ export class ParlamentService{
   constructor(private http:HttpClient, private cacheService:CacheService) {
   }
 
+  // Use custom cache
   public getParlaments(): Observable<IParlament[]> {
     let parlaments:IParlament[];
     parlaments=this.cacheService.parlaments;
@@ -44,6 +45,26 @@ export class ParlamentService{
     }
   }
 
+  /* //Cache with shareReplay
+  public getParlaments(): Observable<IParlament[]> {
+    return this.http.get<IParlament[]>(this.urlGetParlaments)
+      .pipe(
+        map((response) => {
+          let parlaments:IParlament[]=[];
+          response.forEach(element => {
+            parlaments.push(this.adjustParlament(element));
+          })
+          return parlaments;
+        }),
+        catchError((error) => {
+          console.error(error);
+          throw error;
+        }),
+      shareReplay(1)
+    );
+  }
+  */
+
   public getParlamentsById(parlamentId:number): Observable<IParlament> {
     return this.http.get<IParlament>(this.urlGetParlaments+"/"+parlamentId)
     .pipe(
@@ -60,54 +81,51 @@ export class ParlamentService{
   public getMemberPartiesById(parlamentId:number): Observable<IMemberParties[]> {
     return this.http.get<IMemberParties[]>(this.urlGetMemberPartiesById)
     .pipe(
-        map((response) => {
-          let memberParties:IMemberParties[]=[];
-          response.filter(element => element.PersonID===parlamentId).forEach(element => {
-            memberParties.push(element);
-          });
-          return memberParties;
-        }),
-        catchError((error) => {
-          console.error(error);
-          throw error;
-        }
-      )
+      map((response) => {
+        let memberParties:IMemberParties[]=[];
+        response.filter(element => element.PersonID===parlamentId).forEach(element => {
+          memberParties.push(element);
+        });
+        return memberParties;
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
     )
   }
 
   public getPartiesById(partyId:number): Observable<string> {
     return this.http.get<IParties[]>(this.urlGetPartiesById)
-      .pipe(
-        map((response) => {
-          let partyName="";
-          response.filter(element => element.ID===partyId).forEach(element => {
-            partyName=element.ActualName;
-          });
-          return partyName;
-        }),
-        catchError((error) => {
-          console.error(error);
-          throw error;
-        }
-      )
+    .pipe(
+      map((response) => {
+        let partyName="";
+        response.filter(element => element.ID===partyId).forEach(element => {
+          partyName=element.ActualName;
+        });
+        return partyName;
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
     )
   }
 
   public getWebsitesById(parlamentId:number): Observable<string[]> {
     return this.http.get<IWebsite[]>(this.urlGetWebsitesById)
     .pipe(
-        map((response) => {
-          let websites:string[]=[];
-          response.filter(element => element.PersonID===parlamentId).forEach(element => {
-            websites.push(element.WebURL);
-          });
-          return websites;
-        }),
-        catchError((error) => {
-          console.error(error);
-          throw error;
-        }
-      )
+      map((response) => {
+        let websites:string[]=[];
+        response.filter(element => element.PersonID===parlamentId).forEach(element => {
+          websites.push(element.WebURL);
+        });
+        return websites;
+      }),
+      catchError((error) => {
+        console.error(error);
+        throw error;
+      })
     )
   }
 

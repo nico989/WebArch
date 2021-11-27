@@ -14,7 +14,9 @@
   <mat-card>
     <mat-card-content>Websites</mat-card-content>
     <ul class="websites">
-      <li *ngFor="let website of websites">{{website}}</li>
+      <li *ngFor="let website of websites">
+        <a [href]="website">{{website}}</a>
+      </li>
     </ul>
   </mat-card>
 </div>
