@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IParlament } from './parlament-interface';
+import { IParlament } from '../models/parlament-interface';
 
 @Injectable()
 export class CacheService{

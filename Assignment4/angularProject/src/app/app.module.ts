@@ -1,4 +1,3 @@
-// imports
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -14,11 +13,10 @@ import { CardParlamentsComponent } from './card-parlaments/card-parlaments.compo
 import { ErrorComponent } from './error/error.component';
 import { RouterModule } from "@angular/router";
 import { appRoutes } from "./app.routes";
-import { CustomDatePipe } from './custom-date.pipe';
+import { CustomDatePipe } from './pipe/custom-date.pipe';
 import { DatePipe } from '@angular/common';
-import { CacheService } from './cache.service';
+import { CacheService } from './services/cache.service';
 
-// @NgModule decorator with its metadata
 @NgModule({
   declarations: [
     AppComponent,

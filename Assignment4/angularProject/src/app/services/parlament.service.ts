@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
-import { IParlament } from './parlament-interface';
-import { IWebsite } from './website-interface';
-import { IMemberParties } from './member-parties-interface';
-import { IParties } from './parties-interface';
+import { IParlament } from '../models/parlament-interface';
+import { IWebsite } from '../models/website-interface';
+import { IMemberParties } from '../models/member-parties-interface';
+import { IParties } from '../models/parties-interface';
 import { CacheService } from './cache.service';
 
 @Injectable()

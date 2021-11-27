@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IParlament } from '../parlament-interface';
-import { ParlamentService } from '../parlament.service';
+import { IParlament } from '../models/parlament-interface';
+import { ParlamentService } from '../services/parlament.service';
 
 @Component({
   selector: 'app-list-parlaments',

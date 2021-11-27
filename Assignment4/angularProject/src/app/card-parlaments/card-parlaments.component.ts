@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IMemberParties } from '../member-parties-interface';
-import { IParlament } from '../parlament-interface';
-import { ParlamentService } from '../parlament.service';
+import { IMemberParties } from '../models/member-parties-interface';
+import { IParlament } from '../models/parlament-interface';
+import { ParlamentService } from '../services/parlament.service';
 
 @Component({
   selector: 'app-card-parlaments',
