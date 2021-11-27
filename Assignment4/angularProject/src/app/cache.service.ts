@@ -1,23 +1,21 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { IParlament } from './parlament-interface';
 
 @Injectable()
 export class CacheService{
 
-  parlaments:IParlament[]=[];
-  constructor(){ }
+  private _parlaments:IParlament[];
 
-  public getParlaments():IParlament[] {
-    return this.parlaments;
+  constructor(){
+    this._parlaments=[];
   }
 
-  public setParlaments(parlaments:IParlament[]) {
-    this.parlaments=parlaments;
+  public get parlaments():IParlament[] {
+    return this._parlaments;
   }
 
-  public pushParlament(parlament:IParlament) {
-    this.parlaments.push(parlament);
+  public set parlaments(parlaments:IParlament[]) {
+    this._parlaments=parlaments;
   }
 
 }

@@ -16,7 +16,6 @@ import { RouterModule } from "@angular/router";
 import { appRoutes } from "./app.routes";
 import { CustomDatePipe } from './custom-date.pipe';
 import { DatePipe } from '@angular/common';
-import { ParlamentService } from './parlament.service';
 import { CacheService } from './cache.service';
 
 // @NgModule decorator with its metadata
@@ -38,7 +37,7 @@ import { CacheService } from './cache.service';
     MatCardModule,
     RouterModule.forRoot(appRoutes, {useHash: true})
   ],
-  providers: [CacheService,ParlamentService,DatePipe],
+  providers: [CacheService,DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

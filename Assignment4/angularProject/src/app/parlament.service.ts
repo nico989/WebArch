@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of, publishReplay, refCount, shareReplay, tap } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { IParlament } from './parlament-interface';
 import { IWebsite } from './website-interface';
 import { IMemberParties } from './member-parties-interface';
@@ -19,46 +19,10 @@ export class ParlamentService{
   constructor(private http:HttpClient, private cacheService:CacheService) {
   }
 
-  /*public getParlaments(): Observable<IParlament[]> {
-    let parlaments:IParlament[]=[];
-    //console.log(this.cacheService.getParlaments());
-    if(this.cacheService.getParlaments()) {
-      console.log("cache");
-      return of(this.cacheService.getParlaments());
-    } else {
-      console.log("no cache");
-      this.http.get<IParlament[]>(this.urlGetParlaments).subscribe(
-        resp => {
-          resp.forEach(elem => {parlaments.push(this.adjustParlament(elem))
-          });
-        }
-      );
-      return of(parlaments);
-    }
-  }*/
-
-  private parlaments$?: Observable<IParlament[]>;
-
   public getParlaments(): Observable<IParlament[]> {
-    if(this.parlaments$){
-      console.log("cache");
-      return this.parlaments$;
-    }
-
-    console.log("no cache");
-    this.parlaments$=this.http.get<IParlament[]>(this.urlGetParlaments)
-    .pipe(
-      tap((data) => data.map(this.adjustParlament)),
-      shareReplay(1)
-    );
-
-    return this.parlaments$;
-  }
-
-  /*public getParlaments(): Observable<IParlament[]> {
-    let parlaments:IParlament[]=[];
-    parlaments=this.cacheService.getParlaments();
-    if(parlaments.length) {
+    let parlaments:IParlament[];
+    parlaments=this.cacheService.parlaments;
+    if(parlaments.length > 0) {
       console.log("cache");
       return of(parlaments);
     } else {
@@ -69,7 +33,7 @@ export class ParlamentService{
           response.forEach(element => {
             parlaments.push(this.adjustParlament(element));
           })
-          this.cacheService.setParlaments(parlaments);
+          this.cacheService.parlaments = parlaments;
           return parlaments;
         }),
         catchError((error) => {
@@ -78,7 +42,7 @@ export class ParlamentService{
         })
       )
     }
-  }*/
+  }
 
   public getParlamentsById(parlamentId:number): Observable<IParlament> {
     return this.http.get<IParlament>(this.urlGetParlaments+"/"+parlamentId)

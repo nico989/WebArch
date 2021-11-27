@@ -7,14 +7,14 @@ import { ParlamentService } from '../parlament.service';
   selector: 'app-list-parlaments',
   templateUrl: './list-parlaments.component.html',
   styleUrls: ['./list-parlaments.component.css'],
-  providers: []
+  providers: [ParlamentService]
 })
 export class ListParlamentsComponent implements OnInit {
 
-  private _parlaments:IParlament[]=[];
+  private _parlaments:IParlament[];
 
   constructor(private parlamentService:ParlamentService, private router:Router) {
-    //this.parlaments=[];
+    this._parlaments=[];
   }
 
   ngOnInit(): void {
@@ -22,7 +22,6 @@ export class ListParlamentsComponent implements OnInit {
       .subscribe(
         {
           next: (response) => {
-            console.log(response);
             this._parlaments=response;
             this._parlaments.sort((a:IParlament,b:IParlament)=>a.ParliamentaryName.localeCompare(b.ParliamentaryName));
           },
@@ -31,6 +30,8 @@ export class ListParlamentsComponent implements OnInit {
           }
         }
     )
+
+
   }
 
   public cardClicked(id:number) {
