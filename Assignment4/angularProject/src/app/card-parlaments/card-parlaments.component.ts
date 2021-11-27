@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IMemberParties } from '../member-parties-interface';
-import { Parlament } from '../parlament-class';
 import { IParlament } from '../parlament-interface';
 import { ParlamentService } from '../parlament.service';
 
@@ -13,14 +12,13 @@ import { ParlamentService } from '../parlament.service';
 })
 export class CardParlamentsComponent implements OnInit {
 
-  parlament:IParlament;
-  websites:string[];
-  memberParties:IMemberParties[];
+  private _parlament?:IParlament;
+  private _websites:string[];
+  private _memberParties:IMemberParties[];
 
   constructor(private parlamentService:ParlamentService, private activatedroute:ActivatedRoute) {
-    this.parlament=new Parlament(-1,-1,"","","",false);
-    this.memberParties=[];
-    this.websites=[];
+    this._memberParties=[];
+    this._websites=[];
   }
 
   ngOnInit(): void {
@@ -30,7 +28,7 @@ export class CardParlamentsComponent implements OnInit {
       .subscribe(
         {
           next: (response) => {
-            this.parlament=response;
+            this._parlament=response;
           },
           error: (error) => {
             console.log(error);
@@ -42,8 +40,8 @@ export class CardParlamentsComponent implements OnInit {
       .subscribe(
         {
           next: (response) => {
-            this.memberParties=response;
-            this.memberParties.forEach(element => {
+            this._memberParties=response;
+            this._memberParties.forEach(element => {
               this.parlamentService.getPartiesById(element.PartyID)
                 .subscribe(
                   {
@@ -67,7 +65,7 @@ export class CardParlamentsComponent implements OnInit {
       .subscribe(
         {
           next: (response) => {
-            this.websites=response;
+            this._websites=response;
           },
           error: (error) => {
             console.log(error);
@@ -76,4 +74,17 @@ export class CardParlamentsComponent implements OnInit {
       )
     });
   }
+
+  public get parlament(): IParlament | undefined {
+    return this._parlament;
+  }
+
+  public get memberParties(): IMemberParties[] {
+    return this._memberParties;
+  }
+
+  public get websites(): string[] {
+    return this._websites;
+  }
+
 }

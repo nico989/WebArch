@@ -1,8 +1,11 @@
 export interface IParlament {
-  PersonID:number;
-  GenderTypeID:number
-  ParliamentaryName:string;
-  PhotoURL:string;
-  BirthDate:string;
-  IsCurrent:boolean;
+  PersonID: number;
+  PhotoURL: string;
+  Notes: string;
+  BirthDate: string;
+  BirthDateIsProtected: boolean;
+  ParliamentaryName: string;
+  PreferredName: string;
+  GenderTypeID: number;
+  IsCurrent: boolean;
 }

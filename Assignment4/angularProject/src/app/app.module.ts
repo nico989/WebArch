@@ -7,7 +7,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 
 import { AppComponent } from './app.component';
-import { ItemDirective } from './item.directive';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { ListParlamentsComponent } from './list-parlaments/list-parlaments.component';
@@ -15,7 +14,6 @@ import { CardParlamentsComponent } from './card-parlaments/card-parlaments.compo
 import { ErrorComponent } from './error/error.component';
 import { RouterModule } from "@angular/router";
 import { appRoutes } from "./app.routes";
-import { CustomReversePipe } from './custom-reverse.pipe';
 import { CustomDatePipe } from './custom-date.pipe';
 import { DatePipe } from '@angular/common';
 import { ParlamentService } from './parlament.service';
@@ -25,13 +23,11 @@ import { CacheService } from './cache.service';
 @NgModule({
   declarations: [
     AppComponent,
-    ItemDirective,
     HeaderComponent,
     FooterComponent,
     ListParlamentsComponent,
     CardParlamentsComponent,
     ErrorComponent,
-    CustomReversePipe,
     CustomDatePipe
   ],
   imports: [

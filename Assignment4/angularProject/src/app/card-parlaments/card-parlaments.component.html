@@ -1,9 +1,9 @@
 <div>
   <mat-card>
-    <mat-card-title>Member {{parlament.PersonID}}</mat-card-title>
-    <img mat-card-image [src]="parlament.PhotoURL" alt="parlament-photo">
-    <mat-card-content>{{parlament.ParliamentaryName | customReverse}}</mat-card-content>
-    <mat-card-subtitle>{{parlament.BirthDate | customDate}}</mat-card-subtitle>
+    <mat-card-title>Member {{parlament?.PersonID}}</mat-card-title>
+    <img mat-card-image [src]="parlament?.PhotoURL" alt="parlament-photo">
+    <mat-card-content>{{parlament?.ParliamentaryName}}</mat-card-content>
+    <mat-card-subtitle>{{parlament?.BirthDate | customDate}}</mat-card-subtitle>
   </mat-card>
   <mat-card>
     <mat-card-content>Party</mat-card-content>

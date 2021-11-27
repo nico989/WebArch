@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CacheService } from '../cache.service';
 import { IParlament } from '../parlament-interface';
 import { ParlamentService } from '../parlament.service';
 
@@ -8,14 +7,14 @@ import { ParlamentService } from '../parlament.service';
   selector: 'app-list-parlaments',
   templateUrl: './list-parlaments.component.html',
   styleUrls: ['./list-parlaments.component.css'],
-  providers: [CacheService, ParlamentService]
+  providers: []
 })
 export class ListParlamentsComponent implements OnInit {
 
-  parlaments:IParlament[];
+  private _parlaments:IParlament[]=[];
 
-  constructor(private cacheService:CacheService, private parlamentService:ParlamentService, private router:Router) {
-    this.parlaments=[];
+  constructor(private parlamentService:ParlamentService, private router:Router) {
+    //this.parlaments=[];
   }
 
   ngOnInit(): void {
@@ -23,8 +22,9 @@ export class ListParlamentsComponent implements OnInit {
       .subscribe(
         {
           next: (response) => {
-            this.parlaments=response;
-            this.parlaments.sort((a:IParlament,b:IParlament)=>a.ParliamentaryName.localeCompare(b.ParliamentaryName));
+            console.log(response);
+            this._parlaments=response;
+            this._parlaments.sort((a:IParlament,b:IParlament)=>a.ParliamentaryName.localeCompare(b.ParliamentaryName));
           },
           error: (error) => {
             console.log(error);
@@ -35,6 +35,10 @@ export class ListParlamentsComponent implements OnInit {
 
   public cardClicked(id:number) {
     this.router.navigate(['cardParlament', id]);
+  }
+
+  public get parlaments(): IParlament[] {
+    return this._parlaments;
   }
 
 }
