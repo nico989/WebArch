@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IMemberParties } from '../models/member-parties-interface';
 import { IParlament } from '../models/parlament-interface';
+import { IWebsite } from '../models/website-interface';
 import { ParlamentService } from '../services/parlament.service';
 
 @Component({
@@ -13,7 +14,7 @@ import { ParlamentService } from '../services/parlament.service';
 export class CardParlamentsComponent implements OnInit {
 
   private _parlament?:IParlament;
-  private _websites:string[];
+  private _websites:IWebsite[];
   private _memberParties:IMemberParties[];
 
   constructor(private parlamentService:ParlamentService, private activatedroute:ActivatedRoute) {
@@ -42,7 +43,7 @@ export class CardParlamentsComponent implements OnInit {
           next: (response) => {
             this._memberParties=response;
             this._memberParties.forEach(element => {
-              this.parlamentService.getPartiesById(element.PartyID)
+              this.parlamentService.getPartyNameById(element.PartyID)
                 .subscribe(
                   {
                     next: (response) => {
@@ -83,7 +84,7 @@ export class CardParlamentsComponent implements OnInit {
     return this._memberParties;
   }
 
-  public get websites(): string[] {
+  public get websites(): IWebsite[] {
     return this._websites;
   }
 

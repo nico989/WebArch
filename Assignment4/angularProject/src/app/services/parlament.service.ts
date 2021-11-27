@@ -4,7 +4,7 @@ import { catchError, map, Observable, of, publishReplay, refCount, shareReplay, 
 import { IParlament } from '../models/parlament-interface';
 import { IWebsite } from '../models/website-interface';
 import { IMemberParties } from '../models/member-parties-interface';
-import { IParties } from '../models/parties-interface';
+import { IParty } from '../models/party-interface';
 import { CacheService } from './cache.service';
 
 @Injectable()
@@ -21,20 +21,21 @@ export class ParlamentService{
 
   // Use custom cache
   public getParlaments(): Observable<IParlament[]> {
-    let parlaments:IParlament[];
-    parlaments=this.cacheService.parlaments;
-    if(parlaments.length > 0) {
-      console.log("cache");
+    let parlaments:IParlament[]=this.cacheService.parlaments;
+    if(parlaments.length>0) {
       return of(parlaments);
     } else {
-      console.log("no cache");
       return this.http.get<IParlament[]>(this.urlGetParlaments)
       .pipe(
         map((response) => {
+          console.log(response);
           response.forEach(element => {
             parlaments.push(this.adjustParlament(element));
           })
+
+          //cache results
           this.cacheService.parlaments = parlaments;
+
           return parlaments;
         }),
         catchError((error) => {
@@ -45,7 +46,8 @@ export class ParlamentService{
     }
   }
 
-  /* //Cache with shareReplay
+  /*
+  //Cache with shareReplay
   public getParlaments(): Observable<IParlament[]> {
     return this.http.get<IParlament[]>(this.urlGetParlaments)
       .pipe(
@@ -66,67 +68,93 @@ export class ParlamentService{
   */
 
   public getParlamentsById(parlamentId:number): Observable<IParlament> {
-    return this.http.get<IParlament>(this.urlGetParlaments+"/"+parlamentId)
-    .pipe(
-      map((response) => {
-        return this.adjustParlament(response);
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    )
+    let parlament:IParlament | undefined=this.cacheService.getParlamentById(parlamentId);
+    if (parlament!=undefined) {
+      return of(parlament);
+    } else {
+      return this.http.get<IParlament>(this.urlGetParlaments+"/"+parlamentId)
+      .pipe(
+        map((response) => {
+          return this.adjustParlament(response);
+        }),
+        catchError((error) => {
+          console.error(error);
+          throw error;
+        })
+      )
+    }
   }
 
   public getMemberPartiesById(parlamentId:number): Observable<IMemberParties[]> {
-    return this.http.get<IMemberParties[]>(this.urlGetMemberPartiesById)
-    .pipe(
-      map((response) => {
-        let memberParties:IMemberParties[]=[];
-        response.filter(element => element.PersonID===parlamentId).forEach(element => {
-          memberParties.push(element);
-        });
-        return memberParties;
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    )
+    let memberParties:IMemberParties[]=this.cacheService.getMemberPartiesById(parlamentId);
+    if (memberParties.length>0) {
+      return of(memberParties);
+    } else {
+      return this.http.get<IMemberParties[]>(this.urlGetMemberPartiesById)
+      .pipe(
+        map((response) => {
+          // cache results
+          this.cacheService.memberParties=response;
+
+          response.filter(element => element.PersonID===parlamentId).forEach(element => {
+            memberParties.push(element);
+          });
+          return memberParties;
+        }),
+        catchError((error) => {
+          console.error(error);
+          throw error;
+        })
+      )
+    }
   }
 
-  public getPartiesById(partyId:number): Observable<string> {
-    return this.http.get<IParties[]>(this.urlGetPartiesById)
-    .pipe(
-      map((response) => {
-        let partyName="";
-        response.filter(element => element.ID===partyId).forEach(element => {
-          partyName=element.ActualName;
-        });
-        return partyName;
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    )
+  public getPartyNameById(partyId:number): Observable<string> {
+    let party:string=this.cacheService.getPartyNameById(partyId);
+    if(party!="") {
+      return of(party);
+    } else {
+      return this.http.get<IParty[]>(this.urlGetPartiesById)
+      .pipe(
+        map((response) => {
+          // cache results
+          this.cacheService.parties=response;
+
+          response.filter(element => element.ID===partyId).forEach(element => {
+            party=element.ActualName;
+          });
+          return party;
+        }),
+        catchError((error) => {
+          console.error(error);
+          throw error;
+        })
+      )
+    }
   }
 
-  public getWebsitesById(parlamentId:number): Observable<string[]> {
-    return this.http.get<IWebsite[]>(this.urlGetWebsitesById)
-    .pipe(
-      map((response) => {
-        let websites:string[]=[];
-        response.filter(element => element.PersonID===parlamentId).forEach(element => {
-          websites.push(element.WebURL);
-        });
-        return websites;
-      }),
-      catchError((error) => {
-        console.error(error);
-        throw error;
-      })
-    )
+  public getWebsitesById(parlamentId:number): Observable<IWebsite[]> {
+    let websites:IWebsite[]=this.cacheService.getWebsitesById(parlamentId);
+    if(websites.length>0) {
+      return of(websites);
+    } else {
+      return this.http.get<IWebsite[]>(this.urlGetWebsitesById)
+      .pipe(
+        map((response) => {
+          // cache results
+          this.cacheService.websites=response;
+
+          response.filter(element => element.PersonID===parlamentId).forEach(element => {
+            websites.push(element);
+          });
+          return websites;
+        }),
+        catchError((error) => {
+          console.error(error);
+          throw error;
+        })
+      )
+    }
   }
 
   private adjustParlament(parlament: IParlament): IParlament {

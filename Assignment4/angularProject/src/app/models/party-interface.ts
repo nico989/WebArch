@@ -1,4 +1,4 @@
-export interface IParties {
+export interface IParty {
   ID:number;
   Abbreviation:string;
   ActualName:string;
