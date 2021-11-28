@@ -1,8 +1,8 @@
 /**
- * Parlament interface
+ * Member interface
  */
 
-export interface IParlament {
+export interface IMember {
   PersonID: number;
   PhotoURL: string;
   Notes: string;

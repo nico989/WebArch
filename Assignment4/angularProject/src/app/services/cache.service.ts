@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { IMemberParties } from '../models/member-parties-interface';
-import { IParlament } from '../models/parlament-interface';
+import { IMember } from '../models/member-interface';
 import { IParty } from '../models/party-interface';
 import { IWebsite } from '../models/website-interface';
 
 @Injectable()
 export class CacheService{
 
-  private _parlaments:IParlament[];
+  private _parlaments:IMember[];
   private _memberParties:IMemberParties[];
   private _parties:IParty[];
   private _websites:IWebsite[];
@@ -19,11 +19,11 @@ export class CacheService{
     this._websites=[];
   }
 
-  public get parlaments(): IParlament[] {
+  public get parlaments(): IMember[] {
     return this._parlaments;
   }
 
-  public set parlaments(parlaments: IParlament[]) {
+  public set parlaments(parlaments: IMember[]) {
     this._parlaments=parlaments;
   }
 
@@ -51,8 +51,8 @@ export class CacheService{
     this._parties=parties;
   }
 
-  public getParlamentById(parlamentId:number): IParlament | undefined {
-    let parlament:IParlament | undefined;
+  public getParlamentById(parlamentId:number): IMember | undefined {
+    let parlament:IMember | undefined;
     this._parlaments.forEach(element => {
       if (element.PersonID === parlamentId) {
         parlament=element;

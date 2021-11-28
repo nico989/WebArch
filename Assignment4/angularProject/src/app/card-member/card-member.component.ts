@@ -1,23 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { IMemberParties } from '../models/member-parties-interface';
-import { IParlament } from '../models/parlament-interface';
+import { IMember } from '../models/member-interface';
 import { IWebsite } from '../models/website-interface';
-import { ParlamentService } from '../services/parlament.service';
+import { ParliamentService } from '../services/parliament.service';
 
 @Component({
-  selector: 'app-card-parlaments',
-  templateUrl: './card-parlaments.component.html',
-  styleUrls: ['./card-parlaments.component.css'],
-  providers: [ParlamentService]
+  selector: 'app-card-member',
+  templateUrl: './card-member.component.html',
+  styleUrls: ['./card-member.component.css'],
+  providers: [ParliamentService]
 })
-export class CardParlamentsComponent implements OnInit {
+export class CardMemberComponent implements OnInit {
 
-  private _parlament?:IParlament;
+  private _member?:IMember;
   private _memberParties:IMemberParties[];
   private _websites:IWebsite[];
 
-  constructor(private parlamentService:ParlamentService, private activatedroute:ActivatedRoute) {
+  constructor(private parliamentService:ParliamentService, private activatedroute:ActivatedRoute) {
     this._memberParties=[];
     this._memberParties=[];
     this._websites=[];
@@ -26,11 +26,11 @@ export class CardParlamentsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedroute.paramMap.subscribe(params => {
       let parlamentId:any = params.get('id');
-      this.parlamentService.getParlamentsById(+parlamentId)
+      this.parliamentService.getParlamentsById(+parlamentId)
       .subscribe(
         {
-          next: (parlament) => {
-            this._parlament=parlament;
+          next: (member) => {
+            this._member=member;
           },
           error: (error) => {
             console.log(error);
@@ -38,13 +38,13 @@ export class CardParlamentsComponent implements OnInit {
         }
       )
 
-      this.parlamentService.getMemberPartiesById(+parlamentId)
+      this.parliamentService.getMemberPartiesById(+parlamentId)
       .subscribe(
         {
           next: (memberParties) => {
             this._memberParties=memberParties;
             this._memberParties.forEach(element => {
-              this.parlamentService.getPartyNameById(element.PartyID)
+              this.parliamentService.getPartyNameById(element.PartyID)
                 .subscribe(
                   {
                     next: (partyName) => {
@@ -63,7 +63,7 @@ export class CardParlamentsComponent implements OnInit {
         }
       )
 
-      this.parlamentService.getWebsitesById(+parlamentId)
+      this.parliamentService.getWebsitesById(+parlamentId)
       .subscribe(
         {
           next: (websites) => {
@@ -77,8 +77,8 @@ export class CardParlamentsComponent implements OnInit {
     });
   }
 
-  public get parlament(): IParlament | undefined {
-    return this._parlament;
+  public get member(): IMember | undefined {
+    return this._member;
   }
 
   public get memberParties(): IMemberParties[] {

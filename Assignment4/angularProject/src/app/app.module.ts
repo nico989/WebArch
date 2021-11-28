@@ -8,8 +8,8 @@ import { MatCardModule } from '@angular/material/card';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { ListParlamentsComponent } from './list-parlaments/list-parlaments.component';
-import { CardParlamentsComponent } from './card-parlaments/card-parlaments.component';
+import { ListMembersComponent } from './list-members/list-members.component';
+import { CardMemberComponent } from './card-member/card-member.component';
 import { ErrorComponent } from './error/error.component';
 import { RouterModule } from "@angular/router";
 import { appRoutes } from "./app.routes";
@@ -22,8 +22,8 @@ import { CacheService } from './services/cache.service';
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    ListParlamentsComponent,
-    CardParlamentsComponent,
+    ListMembersComponent,
+    CardMemberComponent,
     ErrorComponent,
     CustomDatePipe
   ],

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
-import { IParlament } from '../models/parlament-interface';
+import { IMember } from '../models/member-interface';
 import { IWebsite } from '../models/website-interface';
 import { IMemberParties } from '../models/member-parties-interface';
 import { IParty } from '../models/party-interface';
 import { CacheService } from './cache.service';
 
 @Injectable()
-export class ParlamentService{
+export class ParliamentService{
 
   private readonly urlGetParlaments='https://data.parliament.scot/api/members';
   private readonly urlGetMemberPartiesById='https://data.parliament.scot/api/memberparties';
@@ -20,12 +20,12 @@ export class ParlamentService{
   }
 
   // Use cache service
-  public getParlaments(): Observable<IParlament[]> {
-    let parlaments:IParlament[]=this.cacheService.parlaments;
+  public getParlaments(): Observable<IMember[]> {
+    let parlaments:IMember[]=this.cacheService.parlaments;
     if(parlaments.length>0) {
       return of(parlaments);
     } else {
-      return this.http.get<IParlament[]>(this.urlGetParlaments)
+      return this.http.get<IMember[]>(this.urlGetParlaments)
       .pipe(
         map((response) => {
           response.forEach(element => {
@@ -66,12 +66,12 @@ export class ParlamentService{
   }
   */
 
-  public getParlamentsById(parlamentId:number): Observable<IParlament> {
-    let parlament:IParlament | undefined=this.cacheService.getParlamentById(parlamentId);
+  public getParlamentsById(parlamentId:number): Observable<IMember> {
+    let parlament:IMember | undefined=this.cacheService.getParlamentById(parlamentId);
     if (parlament!=undefined) {
       return of(parlament);
     } else {
-      return this.http.get<IParlament>(this.urlGetParlaments+"/"+parlamentId)
+      return this.http.get<IMember>(this.urlGetParlaments+"/"+parlamentId)
       .pipe(
         map((response) => {
           return this.adjustParlament(response);
@@ -156,7 +156,7 @@ export class ParlamentService{
     }
   }
 
-  private adjustParlament(parlament: IParlament): IParlament {
+  private adjustParlament(parlament: IMember): IMember {
     parlament.ParliamentaryName=parlament.ParliamentaryName.replace(/,/, " ");
     if (!parlament.PhotoURL) {
       switch (parlament.GenderTypeID) {
