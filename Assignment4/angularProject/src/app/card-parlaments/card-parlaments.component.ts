@@ -14,10 +14,11 @@ import { ParlamentService } from '../services/parlament.service';
 export class CardParlamentsComponent implements OnInit {
 
   private _parlament?:IParlament;
-  private _websites:IWebsite[];
   private _memberParties:IMemberParties[];
+  private _websites:IWebsite[];
 
   constructor(private parlamentService:ParlamentService, private activatedroute:ActivatedRoute) {
+    this._memberParties=[];
     this._memberParties=[];
     this._websites=[];
   }

@@ -9,5 +9,5 @@ export interface IMemberParties {
   ValidFromDate:string;
   ValidUntilDate?:string;
   MemberPartyRoles?: string;
-  PartyName:string;
+  PartyName?:string;
 }
