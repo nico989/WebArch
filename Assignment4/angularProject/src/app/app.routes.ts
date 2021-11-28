@@ -5,8 +5,8 @@ import { CardMemberComponent } from './card-member/card-member.component';
 import { ErrorComponent } from "./error/error.component";
 
 export const appRoutes: Routes = [
-  { path: "listParlaments", component: ListMembersComponent },
-  { path: "cardParlament/:id", component: CardMemberComponent },
-  { path: "", redirectTo: "listParlaments", pathMatch: "full" },
+  { path: "listMembers", component: ListMembersComponent },
+  { path: "cardMember/:id", component: CardMemberComponent },
+  { path: "", redirectTo: "listMembers", pathMatch: "full" },
   { path: "**", component: ErrorComponent }
 ];

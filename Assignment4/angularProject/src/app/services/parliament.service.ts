@@ -10,7 +10,7 @@ import { CacheService } from './cache.service';
 @Injectable()
 export class ParliamentService{
 
-  private readonly urlGetParlaments='https://data.parliament.scot/api/members';
+  private readonly urlGetMembers='https://data.parliament.scot/api/members';
   private readonly urlGetMemberPartiesById='https://data.parliament.scot/api/memberparties';
   private readonly urlGetPartiesById='https://data.parliament.scot/api/parties';
   private readonly urlGetWebsitesById='https://data.parliament.scot/api/websites';
@@ -20,22 +20,22 @@ export class ParliamentService{
   }
 
   // Use cache service
-  public getParlaments(): Observable<IMember[]> {
-    let parlaments:IMember[]=this.cacheService.parlaments;
-    if(parlaments.length>0) {
-      return of(parlaments);
+  public getMembers(): Observable<IMember[]> {
+    let members:IMember[]=this.cacheService.members;
+    if(members.length>0) {
+      return of(members);
     } else {
-      return this.http.get<IMember[]>(this.urlGetParlaments)
+      return this.http.get<IMember[]>(this.urlGetMembers)
       .pipe(
         map((response) => {
           response.forEach(element => {
-            parlaments.push(this.adjustParlament(element));
+            members.push(this.adjustMember(element));
           })
 
           //cache results
-          this.cacheService.parlaments = parlaments;
+          this.cacheService.members = members;
 
-          return parlaments;
+          return members;
         }),
         catchError((error) => {
           console.error(error);
@@ -47,15 +47,15 @@ export class ParliamentService{
 
   /*
   //Cache with shareReplay
-  public getParlaments(): Observable<IParlament[]> {
-    return this.http.get<IParlament[]>(this.urlGetParlaments)
+  public getMembers(): Observable<IMember[]> {
+    return this.http.get<IMember[]>(this.urlGetMembers)
       .pipe(
         map((response) => {
-          let parlaments:IParlament[]=[];
+          let members:IMember[]=[];
           response.forEach(element => {
-            parlaments.push(this.adjustParlament(element));
+            members.push(this.adjustMember(element));
           })
-          return parlaments;
+          return members;
         }),
         catchError((error) => {
           console.error(error);
@@ -66,15 +66,15 @@ export class ParliamentService{
   }
   */
 
-  public getParlamentsById(parlamentId:number): Observable<IMember> {
-    let parlament:IMember | undefined=this.cacheService.getParlamentById(parlamentId);
-    if (parlament!=undefined) {
-      return of(parlament);
+  public getMemberById(memberId:number): Observable<IMember> {
+    let member:IMember | undefined=this.cacheService.getMemberById(memberId);
+    if (member!=undefined) {
+      return of(member);
     } else {
-      return this.http.get<IMember>(this.urlGetParlaments+"/"+parlamentId)
+      return this.http.get<IMember>(this.urlGetMembers+"/"+memberId)
       .pipe(
         map((response) => {
-          return this.adjustParlament(response);
+          return this.adjustMember(response);
         }),
         catchError((error) => {
           console.error(error);
@@ -84,8 +84,8 @@ export class ParliamentService{
     }
   }
 
-  public getMemberPartiesById(parlamentId:number): Observable<IMemberParties[]> {
-    let memberParties:IMemberParties[]=this.cacheService.getMemberPartiesById(parlamentId);
+  public getMemberPartiesById(memberId:number): Observable<IMemberParties[]> {
+    let memberParties:IMemberParties[]=this.cacheService.getMemberPartiesById(memberId);
     if (memberParties.length>0) {
       return of(memberParties);
     } else {
@@ -95,7 +95,7 @@ export class ParliamentService{
           // cache results
           this.cacheService.memberParties=response;
 
-          response.filter(element => element.PersonID===parlamentId).forEach(element => {
+          response.filter(element => element.PersonID===memberId).forEach(element => {
             memberParties.push(element);
           });
           return memberParties;
@@ -132,8 +132,8 @@ export class ParliamentService{
     }
   }
 
-  public getWebsitesById(parlamentId:number): Observable<IWebsite[]> {
-    let websites:IWebsite[]=this.cacheService.getWebsitesById(parlamentId);
+  public getWebsitesById(memberId:number): Observable<IWebsite[]> {
+    let websites:IWebsite[]=this.cacheService.getWebsitesById(memberId);
     if(websites.length>0) {
       return of(websites);
     } else {
@@ -143,7 +143,7 @@ export class ParliamentService{
           // cache results
           this.cacheService.websites=response;
 
-          response.filter(element => element.PersonID===parlamentId).forEach(element => {
+          response.filter(element => element.PersonID===memberId).forEach(element => {
             websites.push(element);
           });
           return websites;
@@ -156,25 +156,25 @@ export class ParliamentService{
     }
   }
 
-  private adjustParlament(parlament: IMember): IMember {
-    parlament.ParliamentaryName=parlament.ParliamentaryName.replace(/,/, " ");
-    if (!parlament.PhotoURL) {
-      switch (parlament.GenderTypeID) {
+  private adjustMember(member: IMember): IMember {
+    member.ParliamentaryName=member.ParliamentaryName.replace(/,/, " ");
+    if (!member.PhotoURL) {
+      switch (member.GenderTypeID) {
         case 1: {
-          parlament.PhotoURL='assets/images/woman-icon.png';
+          member.PhotoURL='assets/images/woman-icon.png';
           break;
         }
         case 2: {
-          parlament.PhotoURL='assets/images/man-icon.png';
+          member.PhotoURL='assets/images/man-icon.png';
           break;
         }
         default: {
-          parlament.PhotoURL='';
+          member.PhotoURL='';
           break;
         }
       }
     }
-    return parlament;
+    return member;
   }
 
 }

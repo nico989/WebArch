@@ -19,14 +19,13 @@ export class CardMemberComponent implements OnInit {
 
   constructor(private parliamentService:ParliamentService, private activatedroute:ActivatedRoute) {
     this._memberParties=[];
-    this._memberParties=[];
     this._websites=[];
   }
 
   ngOnInit(): void {
     this.activatedroute.paramMap.subscribe(params => {
-      let parlamentId:any = params.get('id');
-      this.parliamentService.getParlamentsById(+parlamentId)
+      let memberId:any = params.get('id');
+      this.parliamentService.getMemberById(+memberId)
       .subscribe(
         {
           next: (member) => {
@@ -38,7 +37,7 @@ export class CardMemberComponent implements OnInit {
         }
       )
 
-      this.parliamentService.getMemberPartiesById(+parlamentId)
+      this.parliamentService.getMemberPartiesById(+memberId)
       .subscribe(
         {
           next: (memberParties) => {
@@ -63,7 +62,7 @@ export class CardMemberComponent implements OnInit {
         }
       )
 
-      this.parliamentService.getWebsitesById(+parlamentId)
+      this.parliamentService.getWebsitesById(+memberId)
       .subscribe(
         {
           next: (websites) => {

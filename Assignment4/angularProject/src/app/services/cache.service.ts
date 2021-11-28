@@ -7,24 +7,24 @@ import { IWebsite } from '../models/website-interface';
 @Injectable()
 export class CacheService{
 
-  private _parlaments:IMember[];
+  private _members:IMember[];
   private _memberParties:IMemberParties[];
   private _parties:IParty[];
   private _websites:IWebsite[];
 
   constructor(){
-    this._parlaments=[];
+    this._members=[];
     this._memberParties=[];
     this._parties=[];
     this._websites=[];
   }
 
-  public get parlaments(): IMember[] {
-    return this._parlaments;
+  public get members(): IMember[] {
+    return this._members;
   }
 
-  public set parlaments(parlaments: IMember[]) {
-    this._parlaments=parlaments;
+  public set members(members: IMember[]) {
+    this._members=members;
   }
 
   public get websites(): IWebsite[] {
@@ -51,27 +51,27 @@ export class CacheService{
     this._parties=parties;
   }
 
-  public getParlamentById(parlamentId:number): IMember | undefined {
-    let parlament:IMember | undefined;
-    this._parlaments.forEach(element => {
-      if (element.PersonID === parlamentId) {
-        parlament=element;
+  public getMemberById(memberId:number): IMember | undefined {
+    let member:IMember | undefined;
+    this._members.forEach(element => {
+      if (element.PersonID === memberId) {
+        member=element;
       }
     })
-    return parlament;
+    return member;
   }
 
-  public getWebsitesById(parlamentId:number): IWebsite[] {
+  public getWebsitesById(memberId:number): IWebsite[] {
     let websites:IWebsite[]=[];
-    this._websites.filter(element => element.PersonID===parlamentId).forEach(element => {
+    this._websites.filter(element => element.PersonID===memberId).forEach(element => {
       websites.push(element);
     });
     return websites;
   }
 
-  public getMemberPartiesById(parlamentId:number): IMemberParties[] {
+  public getMemberPartiesById(memberId:number): IMemberParties[] {
     let memberParties:IMemberParties[]=[];
-    this._memberParties.filter(element => element.PersonID===parlamentId).forEach(element => {
+    this._memberParties.filter(element => element.PersonID===memberId).forEach(element => {
       memberParties.push(element);
     });
     return memberParties;

@@ -1,7 +1,7 @@
 <div>
   <mat-card>
     <mat-card-title>Member {{member?.PersonID}}</mat-card-title>
-    <img mat-card-image [src]="member?.PhotoURL" alt="parlament-photo">
+    <img mat-card-image [src]="member?.PhotoURL" alt="member-photo">
     <mat-card-content>{{member?.ParliamentaryName}}</mat-card-content>
     <mat-card-subtitle>{{member?.BirthDate | customDate}}</mat-card-subtitle>
   </mat-card>

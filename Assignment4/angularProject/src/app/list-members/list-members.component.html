@@ -2,7 +2,7 @@
   <mat-grid-list cols="3" rowHeight="4:3">
     <mat-grid-tile *ngFor="let member of members">
       <mat-card (click)="cardClicked(member.PersonID)">
-        <img mat-card-image [src]="member.PhotoURL" alt="parlament-photo">
+        <img mat-card-image [src]="member.PhotoURL" alt="member-photo">
         <mat-card-content>
           {{member.ParliamentaryName}}
         </mat-card-content>

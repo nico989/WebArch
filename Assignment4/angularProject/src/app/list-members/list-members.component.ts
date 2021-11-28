@@ -18,7 +18,7 @@ export class ListMembersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.parliamentService.getParlaments()
+    this.parliamentService.getMembers()
       .subscribe(
         {
           next: (members) => {
@@ -35,7 +35,7 @@ export class ListMembersComponent implements OnInit {
   }
 
   public cardClicked(id:number) {
-    this.router.navigate(['cardParlament', id]);
+    this.router.navigate(['cardMember', id]);
   }
 
   public get members(): IMember[] {
