@@ -4,5 +4,4 @@ https://www.tektutorialshub.com/angular/angular-passing-parameters-to-route/#ret
 https://material.angular.io/components/card/overview
 https://angular.io/api/common/DatePipe
 https://www.ngdevelop.tech/angular/pipes/
-https://eliteionic.com/tutorials/caching-and-sharing-firestore-data-with-rxjs-sharereplay/
 https://www.learnrxjs.io/learn-rxjs/operators/multicasting/sharereplay
