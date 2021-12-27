@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Hotel extends Accommodation implements Serializable {
 
     private static final long serialVersionUID = -2040789886273628048L;
-    
+
     @Column(name = "extra_half_board", nullable = false)
     private int extra_half_board;
 
