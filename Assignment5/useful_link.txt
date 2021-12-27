@@ -1,0 +1,3 @@
+https://www.jpa-buddy.com/documentation/entity-designer/
+https://howtodoinjava.com/hibernate/hibernate-jpa-cascade-types/
+https://stackoverflow.com/questions/2990799/difference-between-fetchtype-lazy-and-eager-in-java-persistence-api
