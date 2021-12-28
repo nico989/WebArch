@@ -1,7 +1,6 @@
 package it.unitn.disi.vinci.entities;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "accommodation")

@@ -63,3 +63,20 @@ ALTER TABLE reservation
 
 ALTER TABLE reservation
     ADD CONSTRAINT FK_RESERVATION_ON_GUEST FOREIGN KEY (guest_id) REFERENCES guest (id);
+
+-- Insert of apartments and hotel
+INSERT INTO accommodation (name, price) VALUES ('Artemide', 100);
+INSERT INTO accommodation (name, price) VALUES ('Majestic', 65);
+INSERT INTO accommodation (name, price) VALUES ('Palace', 200);
+INSERT INTO accommodation (name, price) VALUES ('Zenith', 70);
+INSERT INTO hotel (id, extra_half_board, stars, places) VALUES (1, 20, 4, 60);
+INSERT INTO hotel (id, extra_half_board, stars, places) VALUES (2, 15, 3, 50);
+INSERT INTO hotel (id, extra_half_board, stars, places) VALUES (3, 30, 5, 25);
+INSERT INTO hotel (id, extra_half_board, stars, places) VALUES (4, 18, 3, 40);
+
+INSERT INTO accommodation (name, price) VALUES ('Pietra Bianca', 40);
+INSERT INTO accommodation (name, price) VALUES ('Sapore Di Sale', 80);
+INSERT INTO accommodation (name, price) VALUES ('Tenuta Di Artimino', 60);
+INSERT INTO apartment (id, final_cleaning, max_n_persons) VALUES (5, 15, 4);
+INSERT INTO apartment (id, final_cleaning, max_n_persons) VALUES (6, 20, 8);
+INSERT INTO apartment (id, final_cleaning, max_n_persons) VALUES (7, 12, 6);

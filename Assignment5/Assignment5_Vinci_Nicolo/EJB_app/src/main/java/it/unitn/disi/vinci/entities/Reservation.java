@@ -22,7 +22,7 @@ public class Reservation implements Serializable {
     private Accommodation accommodation;
 
     @Column(name = "persons_number", nullable = false)
-    private int persons_number;
+    private int n_persons;
 
     @Column(name = "credit_card_number", nullable = false)
     private int credit_card_number;
@@ -63,12 +63,12 @@ public class Reservation implements Serializable {
         this.accommodation = accommodation;
     }
 
-    public int getPersons_number() {
-        return persons_number;
+    public int getN_persons() {
+        return n_persons;
     }
 
-    public void setPersons_number(int persons_number) {
-        this.persons_number = persons_number;
+    public void setN_persons(int n_persons) {
+        this.n_persons = n_persons;
     }
 
     public int getCredit_card_number() {
