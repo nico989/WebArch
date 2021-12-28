@@ -3,7 +3,10 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
              version="2.2">
-    <persistence-unit name="Default">
+    <persistence-unit name="Default" transaction-type="JTA">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <jta-data-source>java:jboss/datasources/H2DB</jta-data-source>
+
         <class>it.unitn.disi.vinci.entities.Guest</class>
         <class>it.unitn.disi.vinci.entities.Accommodation</class>
         <class>it.unitn.disi.vinci.entities.Hotel</class>
@@ -11,14 +14,13 @@
         <class>it.unitn.disi.vinci.entities.Reservation</class>
 
         <properties>
-            <property name="hibernate.connection.url" value="jdbc:h2:tcp://localhost/~/Documents/nicolo/MaterialeUNI/Magistrale/2anno/1semestre/WebArchitectures/assignment/Assignment5/Assignment5_Vinci_Nicolo"/>
-            <property name="hibernate.connection.driver_class" value="org.h2.Driver" />
-            <property name="hibernate.connection.username" value="sa"/>
-            <property name="hibernate.connection.password" value=""/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
+            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
+            <property name="hibernate.cache.use_second_level_cache" value="false"/>
+            <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/>
         </properties>
 
     </persistence-unit>

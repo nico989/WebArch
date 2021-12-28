@@ -2,6 +2,7 @@ package it.unitn.disi.vinci.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "guest")
@@ -45,5 +46,25 @@ public class Guest implements Serializable {
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Guest guest = (Guest) o;
+
+        if (!Objects.equals(id, guest.id)) return false;
+        if (!Objects.equals(name, guest.name)) return false;
+        return Objects.equals(surname, guest.surname);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        return result;
     }
 }

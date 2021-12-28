@@ -36,4 +36,24 @@ public class Apartment extends Accommodation implements Serializable {
     public void setMax_n_persons(int max_n_persons) {
         this.max_n_persons = max_n_persons;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Apartment apartment = (Apartment) o;
+
+        if (final_cleaning != apartment.final_cleaning) return false;
+        return max_n_persons == apartment.max_n_persons;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + final_cleaning;
+        result = 31 * result + max_n_persons;
+        return result;
+    }
 }

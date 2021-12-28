@@ -1,6 +1,7 @@
 package it.unitn.disi.vinci.entities;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "accommodation")
@@ -42,5 +43,25 @@ public abstract class Accommodation {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Accommodation that = (Accommodation) o;
+
+        if (price != that.price) return false;
+        if (!Objects.equals(id, that.id)) return false;
+        return Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + price;
+        return result;
     }
 }

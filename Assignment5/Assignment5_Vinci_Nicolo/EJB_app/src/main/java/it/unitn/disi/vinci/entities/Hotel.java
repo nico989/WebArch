@@ -47,4 +47,26 @@ public class Hotel extends Accommodation implements Serializable {
     public void setPlaces(int places) {
         this.places = places;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Hotel hotel = (Hotel) o;
+
+        if (extra_half_board != hotel.extra_half_board) return false;
+        if (stars != hotel.stars) return false;
+        return places == hotel.places;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + extra_half_board;
+        result = 31 * result + stars;
+        result = 31 * result + places;
+        return result;
+    }
 }
