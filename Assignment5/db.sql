@@ -51,10 +51,10 @@ CREATE TABLE reservation
     guest_id           BIGINT                NULL,
     accommodation_id   BIGINT                NULL,
     persons_number     INT                   NOT NULL,
-    credit_card_number INT                   NOT NULL,
+    credit_card_number VARCHAR(255)          NOT NULL,
     `from`             datetime              NOT NULL,
     `to`               datetime              NOT NULL,
-    half_board         BIT(1)                NULL,
+    half_board         VARCHAR(255)          NOT NULL,
     CONSTRAINT pk_reservation PRIMARY KEY (id)
 );
 

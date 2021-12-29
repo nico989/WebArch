@@ -11,6 +11,12 @@ public class Reservation implements Serializable {
 
     private static final long serialVersionUID = -4581598877222772474L;
 
+    public enum Half_Board {
+        Yes,
+        No,
+        Null
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -26,7 +32,7 @@ public class Reservation implements Serializable {
     private int n_persons;
 
     @Column(name = "credit_card_number", nullable = false)
-    private int credit_card_number;
+    private String credit_card_number;
 
     @Column(name = "from", nullable = false)
     private Date from;
@@ -34,8 +40,9 @@ public class Reservation implements Serializable {
     @Column(name = "to", nullable = false)
     private Date to;
 
-    @Column(name = "half_board")
-    private boolean half_board;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "half_board", nullable = false)
+    private Half_Board half_board;
 
     public Reservation() {
     }
@@ -72,11 +79,11 @@ public class Reservation implements Serializable {
         this.n_persons = n_persons;
     }
 
-    public int getCredit_card_number() {
+    public String getCredit_card_number() {
         return credit_card_number;
     }
 
-    public void setCredit_card_number(int credit_card_number) {
+    public void setCredit_card_number(String credit_card_number) {
         this.credit_card_number = credit_card_number;
     }
 
@@ -96,11 +103,11 @@ public class Reservation implements Serializable {
         this.to = to;
     }
 
-    public boolean isHalf_board() {
+    public Half_Board getHalf_board() {
         return half_board;
     }
 
-    public void setHalf_board(boolean half_board) {
+    public void setHalf_board(Half_Board half_board) {
         this.half_board = half_board;
     }
 
@@ -112,14 +119,15 @@ public class Reservation implements Serializable {
         Reservation that = (Reservation) o;
 
         if (n_persons != that.n_persons) return false;
-        if (credit_card_number != that.credit_card_number) return false;
-        if (half_board != that.half_board) return false;
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(guest, that.guest)) return false;
         if (!Objects.equals(accommodation, that.accommodation))
             return false;
+        if (!Objects.equals(credit_card_number, that.credit_card_number))
+            return false;
         if (!Objects.equals(from, that.from)) return false;
-        return Objects.equals(to, that.to);
+        if (!Objects.equals(to, that.to)) return false;
+        return half_board == that.half_board;
     }
 
     @Override
@@ -128,10 +136,10 @@ public class Reservation implements Serializable {
         result = 31 * result + (guest != null ? guest.hashCode() : 0);
         result = 31 * result + (accommodation != null ? accommodation.hashCode() : 0);
         result = 31 * result + n_persons;
-        result = 31 * result + credit_card_number;
+        result = 31 * result + (credit_card_number != null ? credit_card_number.hashCode() : 0);
         result = 31 * result + (from != null ? from.hashCode() : 0);
         result = 31 * result + (to != null ? to.hashCode() : 0);
-        result = 31 * result + (half_board ? 1 : 0);
+        result = 31 * result + (half_board != null ? half_board.hashCode() : 0);
         return result;
     }
 }
