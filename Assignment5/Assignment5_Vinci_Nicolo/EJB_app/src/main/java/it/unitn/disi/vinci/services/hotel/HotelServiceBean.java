@@ -1,6 +1,8 @@
 package it.unitn.disi.vinci.services.hotel;
 
+import it.unitn.disi.vinci.entities.Guest;
 import it.unitn.disi.vinci.entities.Hotel;
+import it.unitn.disi.vinci.entities.Reservation;
 
 import javax.annotation.Resource;
 import javax.ejb.*;
@@ -33,6 +35,11 @@ public class HotelServiceBean implements HotelService{
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<Hotel> readByDateFromDateTo(final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
+        final Query query = entityManager.createQuery("SELECT R.accommodation FROM Reservation R WHERE R.dateFrom > :dateFrom AND R.dateTo < :dateTo");
+        final List<Hotel> hotels = query
+                .setParameter("dateFrom", dateFrom)
+                .setParameter("dateTo", dateTo)
+                .getResultList();
         return null;
     }
 

@@ -68,18 +68,20 @@ public class GuestServiceBean implements GuestService {
         if (Objects.isNull(surname) || surname.length() < this.MIN_LENGTH || surname.length() > this.MAX_LENGTH) {
             throw new EntityInputException("Surname length must be greater than 1 and less than 64 characters");
         }
-        Guest guest = this.readByNameSurname(name, surname);
-        if (Objects.nonNull(guest)) {
-            throw new EntityInputException(String.format("Guest with name %s and surname %s already exists", name, surname));
-        }
+        Guest guest;
         try {
-            guest = new Guest();
-            guest.setName(name);
-            guest.setSurname(surname);
-            this.entityManager.persist(guest);
-        } catch (final Exception e) {
-            context.setRollbackOnly();
-            throw new EntityCRUDException(String.format("Something went wrong: Guest insertion failed due to %s", e.getMessage()));
+            guest = this.readByNameSurname(name, surname);
+            throw new EntityInputException(String.format("Guest with name %s and surname %s already exists", guest.getName(), guest.getSurname()));
+        } catch (EntityNotFoundException customException) {
+            try {
+                guest = new Guest();
+                guest.setName(name);
+                guest.setSurname(surname);
+                this.entityManager.persist(guest);
+            } catch (final Exception e) {
+                context.setRollbackOnly();
+                throw new EntityCRUDException(String.format("Something went wrong: Guest insertion failed due to %s", e.getMessage()));
+            }
         }
     }
 
