@@ -11,30 +11,30 @@ public class Apartment extends Accommodation implements Serializable {
 
     private static final long serialVersionUID = 8815481020514640832L;
 
-    @Column(name = "final_cleaning", nullable = false)
-    private int final_cleaning;
+    @Column(name = "finalCleaning", nullable = false)
+    private int finalCleaning;
 
-    @Column(name = "max_n_persons", nullable = false)
-    private int max_n_persons;
+    @Column(name = "maxPersons", nullable = false)
+    private int maxPersons;
 
     public Apartment() {
         super();
     }
 
-    public int getFinal_cleaning() {
-        return final_cleaning;
+    public int getFinalCleaning() {
+        return finalCleaning;
     }
 
-    public void setFinal_cleaning(int final_cleaning) {
-        this.final_cleaning = final_cleaning;
+    public void setFinalCleaning(int final_cleaning) {
+        this.finalCleaning = final_cleaning;
     }
 
-    public int getMax_n_persons() {
-        return max_n_persons;
+    public int getMaxPersons() {
+        return maxPersons;
     }
 
-    public void setMax_n_persons(int max_n_persons) {
-        this.max_n_persons = max_n_persons;
+    public void setMaxPersons(int max_n_persons) {
+        this.maxPersons = max_n_persons;
     }
 
     @Override
@@ -45,15 +45,15 @@ public class Apartment extends Accommodation implements Serializable {
 
         Apartment apartment = (Apartment) o;
 
-        if (final_cleaning != apartment.final_cleaning) return false;
-        return max_n_persons == apartment.max_n_persons;
+        if (finalCleaning != apartment.finalCleaning) return false;
+        return maxPersons == apartment.maxPersons;
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + final_cleaning;
-        result = 31 * result + max_n_persons;
+        result = 31 * result + finalCleaning;
+        result = 31 * result + maxPersons;
         return result;
     }
 }

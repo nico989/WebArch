@@ -11,8 +11,8 @@ public class Hotel extends Accommodation implements Serializable {
 
     private static final long serialVersionUID = -2040789886273628048L;
 
-    @Column(name = "extra_half_board", nullable = false)
-    private int extra_half_board;
+    @Column(name = "extraHalfBoard", nullable = false)
+    private int extraHalfBoard;
 
     @Column(name = "stars", nullable = false)
     private int stars;
@@ -24,12 +24,12 @@ public class Hotel extends Accommodation implements Serializable {
         super();
     }
 
-    public int getExtra_half_board() {
-        return extra_half_board;
+    public int getExtraHalfBoard() {
+        return extraHalfBoard;
     }
 
-    public void setExtra_half_board(int extra_half_board) {
-        this.extra_half_board = extra_half_board;
+    public void setExtraHalfBoard(int extra_half_board) {
+        this.extraHalfBoard = extra_half_board;
     }
 
     public int getStars() {
@@ -56,7 +56,7 @@ public class Hotel extends Accommodation implements Serializable {
 
         Hotel hotel = (Hotel) o;
 
-        if (extra_half_board != hotel.extra_half_board) return false;
+        if (extraHalfBoard != hotel.extraHalfBoard) return false;
         if (stars != hotel.stars) return false;
         return places == hotel.places;
     }
@@ -64,7 +64,7 @@ public class Hotel extends Accommodation implements Serializable {
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + extra_half_board;
+        result = 31 * result + extraHalfBoard;
         result = 31 * result + stars;
         result = 31 * result + places;
         return result;

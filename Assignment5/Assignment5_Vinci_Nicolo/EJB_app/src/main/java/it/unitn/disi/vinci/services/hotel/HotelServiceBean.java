@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,6 +28,12 @@ public class HotelServiceBean implements HotelService{
             throw new EntityNotFoundException(String.format("Can't find Hotel with id %d", id));
         }
         return hotel;
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<Hotel> readByDateFromDateTo(final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
+        return null;
     }
 
     @Override

@@ -11,7 +11,7 @@ public class Reservation implements Serializable {
 
     private static final long serialVersionUID = -4581598877222772474L;
 
-    public enum Half_Board {
+    public enum HalfBoard {
         Yes,
         No,
         Null
@@ -28,21 +28,21 @@ public class Reservation implements Serializable {
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private Accommodation accommodation;
 
-    @Column(name = "persons_number", nullable = false)
-    private int n_persons;
+    @Column(name = "nPersons", nullable = false)
+    private int nPersons;
 
-    @Column(name = "credit_card_number", nullable = false)
-    private String credit_card_number;
+    @Column(name = "creditCardNumber", nullable = false)
+    private String creditCardNumber;
 
-    @Column(name = "date_from", nullable = false)
-    private Date date_from;
+    @Column(name = "dateFrom", nullable = false)
+    private Date dateFrom;
 
-    @Column(name = "date_to", nullable = false)
-    private Date date_to;
+    @Column(name = "dateTo", nullable = false)
+    private Date dateTo;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "half_board", nullable = false)
-    private Half_Board half_board;
+    @Column(name = "halfBoard", nullable = false)
+    private HalfBoard halfBoard;
 
     public Reservation() {
     }
@@ -71,44 +71,44 @@ public class Reservation implements Serializable {
         this.accommodation = accommodation;
     }
 
-    public int getN_persons() {
-        return n_persons;
+    public int getNPersons() {
+        return nPersons;
     }
 
-    public void setN_persons(int n_persons) {
-        this.n_persons = n_persons;
+    public void setNPersons(int n_persons) {
+        this.nPersons = n_persons;
     }
 
-    public String getCredit_card_number() {
-        return credit_card_number;
+    public String getCreditCardNumber() {
+        return creditCardNumber;
     }
 
-    public void setCredit_card_number(String credit_card_number) {
-        this.credit_card_number = credit_card_number;
+    public void setCreditCardNumber(String credit_card_number) {
+        this.creditCardNumber = credit_card_number;
     }
 
-    public Date getDate_from() {
-        return date_from;
+    public Date getDateFrom() {
+        return dateFrom;
     }
 
-    public void setDate_from(Date from) {
-        this.date_from = from;
+    public void setDateFrom(Date from) {
+        this.dateFrom = from;
     }
 
-    public Date getDate_to() {
-        return date_to;
+    public Date getDateTo() {
+        return dateTo;
     }
 
-    public void setDate_to(Date to) {
-        this.date_to = to;
+    public void setDateTo(Date to) {
+        this.dateTo = to;
     }
 
-    public Half_Board getHalf_board() {
-        return half_board;
+    public HalfBoard getHalfBoard() {
+        return halfBoard;
     }
 
-    public void setHalf_board(Half_Board half_board) {
-        this.half_board = half_board;
+    public void setHalfBoard(HalfBoard half_board) {
+        this.halfBoard = half_board;
     }
 
     @Override
@@ -118,16 +118,16 @@ public class Reservation implements Serializable {
 
         Reservation that = (Reservation) o;
 
-        if (n_persons != that.n_persons) return false;
+        if (nPersons != that.nPersons) return false;
         if (!Objects.equals(id, that.id)) return false;
         if (!Objects.equals(guest, that.guest)) return false;
         if (!Objects.equals(accommodation, that.accommodation))
             return false;
-        if (!Objects.equals(credit_card_number, that.credit_card_number))
+        if (!Objects.equals(creditCardNumber, that.creditCardNumber))
             return false;
-        if (!Objects.equals(date_from, that.date_from)) return false;
-        if (!Objects.equals(date_to, that.date_to)) return false;
-        return half_board == that.half_board;
+        if (!Objects.equals(dateFrom, that.dateFrom)) return false;
+        if (!Objects.equals(dateTo, that.dateTo)) return false;
+        return halfBoard == that.halfBoard;
     }
 
     @Override
@@ -135,11 +135,11 @@ public class Reservation implements Serializable {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (guest != null ? guest.hashCode() : 0);
         result = 31 * result + (accommodation != null ? accommodation.hashCode() : 0);
-        result = 31 * result + n_persons;
-        result = 31 * result + (credit_card_number != null ? credit_card_number.hashCode() : 0);
-        result = 31 * result + (date_from != null ? date_from.hashCode() : 0);
-        result = 31 * result + (date_to != null ? date_to.hashCode() : 0);
-        result = 31 * result + (half_board != null ? half_board.hashCode() : 0);
+        result = 31 * result + nPersons;
+        result = 31 * result + (creditCardNumber != null ? creditCardNumber.hashCode() : 0);
+        result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
+        result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
+        result = 31 * result + (halfBoard != null ? halfBoard.hashCode() : 0);
         return result;
     }
 }
