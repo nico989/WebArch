@@ -37,7 +37,7 @@ public class GuestServiceBean implements GuestService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Guest read(final String name, final String surname) throws EntityNotFoundException {
+    public Guest readByNameSurname(final String name, final String surname) throws EntityNotFoundException {
         final Query query = entityManager.createQuery("FROM Guest G WHERE G.name = :name AND G.surname = :surname");
         final Guest guest = (Guest) query
                 .setParameter("name", name)
@@ -68,8 +68,12 @@ public class GuestServiceBean implements GuestService {
         if (Objects.isNull(surname) || surname.length() < this.MIN_LENGTH || surname.length() > this.MAX_LENGTH) {
             throw new EntityInputException("Surname length must be greater than 1 and less than 64 characters");
         }
+        Guest guest = this.readByNameSurname(name, surname);
+        if (Objects.nonNull(guest)) {
+            throw new EntityInputException(String.format("Guest with name %s and surname %s already exists", name, surname));
+        }
         try {
-            Guest guest = new Guest();
+            guest = new Guest();
             guest.setName(name);
             guest.setSurname(surname);
             this.entityManager.persist(guest);
@@ -94,7 +98,7 @@ public class GuestServiceBean implements GuestService {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void delete(final String name, final String surname) throws EntityNotFoundException, EntityCRUDException {
-        final Guest guest = this.read(name, surname);
+        final Guest guest = this.readByNameSurname(name, surname);
         try {
             entityManager.remove(guest);
         } catch (Exception e) {

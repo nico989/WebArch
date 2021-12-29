@@ -63,18 +63,18 @@ public class ReservationServiceBean implements ReservationService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void create(final Guest guest, final Accommodation accommodation, final int n_persons, final String credit_card_number, final Date from, final Date to, final Reservation.Half_Board half_board) throws EntityCRUDException, EntityInputException {
-        if (Objects.isNull(guest) || Objects.isNull(accommodation) || n_persons==0 || Objects.isNull(credit_card_number) || Objects.isNull(from) || Objects.isNull(to) || Objects.isNull(half_board)) {
+    public void create(final Guest guest, final Accommodation accommodation, final int n_persons, final String credit_card_number, final Date date_from, final Date date_to, final Reservation.Half_Board half_board) throws EntityCRUDException, EntityInputException {
+        if (Objects.isNull(guest) || Objects.isNull(accommodation) || n_persons==0 || Objects.isNull(credit_card_number) || Objects.isNull(date_from) || Objects.isNull(date_to) || Objects.isNull(half_board)) {
             throw new EntityInputException("All input parameters are needed to create a Reservation");
         }
         try {
-            Reservation reservation = new Reservation();
+            final Reservation reservation = new Reservation();
             reservation.setGuest(guest);
             reservation.setAccommodation(accommodation);
             reservation.setN_persons(n_persons);
             reservation.setCredit_card_number(credit_card_number);
-            reservation.setFrom(from);
-            reservation.setTo(to);
+            reservation.setDate_from(date_from);
+            reservation.setDate_to(date_to);
             reservation.setHalf_board(half_board);
             this.entityManager.persist(reservation);
         } catch (final Exception e) {

@@ -34,11 +34,11 @@ public class Reservation implements Serializable {
     @Column(name = "credit_card_number", nullable = false)
     private String credit_card_number;
 
-    @Column(name = "from", nullable = false)
-    private Date from;
+    @Column(name = "date_from", nullable = false)
+    private Date date_from;
 
-    @Column(name = "to", nullable = false)
-    private Date to;
+    @Column(name = "date_to", nullable = false)
+    private Date date_to;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "half_board", nullable = false)
@@ -87,20 +87,20 @@ public class Reservation implements Serializable {
         this.credit_card_number = credit_card_number;
     }
 
-    public Date getFrom() {
-        return from;
+    public Date getDate_from() {
+        return date_from;
     }
 
-    public void setFrom(Date from) {
-        this.from = from;
+    public void setDate_from(Date from) {
+        this.date_from = from;
     }
 
-    public Date getTo() {
-        return to;
+    public Date getDate_to() {
+        return date_to;
     }
 
-    public void setTo(Date to) {
-        this.to = to;
+    public void setDate_to(Date to) {
+        this.date_to = to;
     }
 
     public Half_Board getHalf_board() {
@@ -125,8 +125,8 @@ public class Reservation implements Serializable {
             return false;
         if (!Objects.equals(credit_card_number, that.credit_card_number))
             return false;
-        if (!Objects.equals(from, that.from)) return false;
-        if (!Objects.equals(to, that.to)) return false;
+        if (!Objects.equals(date_from, that.date_from)) return false;
+        if (!Objects.equals(date_to, that.date_to)) return false;
         return half_board == that.half_board;
     }
 
@@ -137,8 +137,8 @@ public class Reservation implements Serializable {
         result = 31 * result + (accommodation != null ? accommodation.hashCode() : 0);
         result = 31 * result + n_persons;
         result = 31 * result + (credit_card_number != null ? credit_card_number.hashCode() : 0);
-        result = 31 * result + (from != null ? from.hashCode() : 0);
-        result = 31 * result + (to != null ? to.hashCode() : 0);
+        result = 31 * result + (date_from != null ? date_from.hashCode() : 0);
+        result = 31 * result + (date_to != null ? date_to.hashCode() : 0);
         result = 31 * result + (half_board != null ? half_board.hashCode() : 0);
         return result;
     }

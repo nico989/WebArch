@@ -10,7 +10,7 @@ import java.util.List;
 public interface GuestService {
 
     public Guest readById(final long id) throws EntityNotFoundException;
-    public Guest read(final String name, final String surname) throws EntityNotFoundException;
+    public Guest readByNameSurname(final String name, final String surname) throws EntityNotFoundException;
     public List<Guest> readAll() throws EntityNotFoundException;
     public void create(final String name, final String surname) throws EntityCRUDException, EntityInputException;
     public void deleteByID(final long id) throws EntityNotFoundException, EntityCRUDException;
