@@ -7,8 +7,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 @Stateless
 @Remote(ApartmentService.class)
@@ -30,6 +32,25 @@ public class ApartmentServiceBean implements ApartmentService{
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    public List<Apartment> readByDateFromDateTo(final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
+        final Query query = entityManager.createQuery("FROM Apartment A WHERE A.id NOT IN (" +
+                "SELECT R.accommodation.id FROM Reservation R WHERE (" +
+                "R.dateFrom >= :dateFrom AND R.dateTo <= :dateTo) OR (" +
+                "R.dateFrom BETWEEN :dateFrom AND :dateTo) OR (" +
+                "R.dateTo BETWEEN :dateFrom AND :dateTo)" +
+                ")");
+        final List<Apartment> apartments = query
+                .setParameter("dateFrom", dateFrom)
+                .setParameter("dateTo", dateTo)
+                .getResultList();
+        if (apartments.isEmpty()) {
+            throw new EntityNotFoundException(String.format("No Apartments available from %s to %s", dateFrom.toString(), dateTo.toString()));
+        }
+        return apartments;
+    }
+
+    @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<Apartment> readAll() throws EntityNotFoundException {
         final Query query = entityManager.createQuery("FROM Apartment ");
         final List<Apartment> apartments = query.getResultList();
@@ -37,5 +58,13 @@ public class ApartmentServiceBean implements ApartmentService{
             throw new EntityNotFoundException("There are no Apartments!");
         }
         return apartments;
+    }
+
+    @Override
+    public long getPriceByID(final long id, Date dateFrom, Date dateTo) throws EntityNotFoundException{
+        final Apartment apartment = this.readByID(id);
+        long diffInMillies = Math.abs(dateTo.getTime() - dateFrom.getTime());
+        long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        return (apartment.getPrice() * days) + apartment.getFinalCleaning();
     }
 }

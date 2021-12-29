@@ -1,6 +1,7 @@
 package it.unitn.disi.vinci.services.hotel;
 
 import it.unitn.disi.vinci.entities.Hotel;
+import it.unitn.disi.vinci.entities.Reservation;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Date;
@@ -8,7 +9,8 @@ import java.util.List;
 
 public interface HotelService {
 
-    public Hotel readByID(final int id) throws EntityNotFoundException;
+    public Hotel readByID(final long id) throws EntityNotFoundException;
     public List<Hotel> readByDateFromDateTo(final Date dateFrom, final Date dateTo) throws EntityNotFoundException;
     public List<Hotel> readAll() throws EntityNotFoundException;
+    public long getPriceByID(final long id, final int nPersons, final Reservation.HalfBoard halfBoard, final Date dateFrom, final Date dateTo) throws EntityNotFoundException;
 }
