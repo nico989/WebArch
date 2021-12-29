@@ -77,8 +77,6 @@ INSERT INTO hotel (id, extraHalfBoard, stars, places) VALUES (4, 18, 3, 40);
 INSERT INTO accommodation (name, price) VALUES ('Pietra Bianca', 40);
 INSERT INTO accommodation (name, price) VALUES ('Sapore Di Sale', 80);
 INSERT INTO accommodation (name, price) VALUES ('Tenuta Di Artimino', 60);
-INSERT INTO apartment (id, finalCleaning, nPersons) VALUES (5, 15, 4);
-INSERT INTO apartment (id, finalCleaning, nPersons) VALUES (6, 20, 8);
-INSERT INTO apartment (id, finalCleaning, nPersons) VALUES (7, 12, 6);
-
-insert into reservation (guest_id, accommodation_id, nPersons, creditCardNumber, dateFrom, dateTo, halfBoard)  values (1, 1, 2, '055', '20220210', '20220214', 'Yes');
+INSERT INTO apartment (id, finalCleaning, maxPersons) VALUES (5, 15, 4);
+INSERT INTO apartment (id, finalCleaning, maxPersons) VALUES (6, 20, 8);
+INSERT INTO apartment (id, finalCleaning, maxPersons) VALUES (7, 12, 6);
