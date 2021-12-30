@@ -2,6 +2,7 @@ package it.unitn.disi.vinci.services.hotel;
 
 import it.unitn.disi.vinci.entities.Hotel;
 import it.unitn.disi.vinci.entities.Reservation;
+import it.unitn.disi.vinci.services.exceptions.EntityInputException;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
@@ -33,8 +34,23 @@ public class HotelServiceBean implements HotelService{
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<Hotel> readByDateFromDateTo(final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
-        return null;
+    public List<Hotel> readByDateFromDateTo(final int nPersons, final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
+        final Query query = entityManager.createNativeQuery(" SELECT * FROM WEBARCH.Accommodation AS A" +
+                "INNER JOIN WEBARCH.Hotel as H" +
+                "ON A.id = H.id" +
+                "INNER JOIN" +
+                "(SELECT R.accommodationId, SUM(R.nPersons) AS Busy FROM WEBARCH.Reservation AS R WHERE R.dateFrom > :dateTo OR R.dateTo < :dateFrom GROUP BY R.accomodationId)" +
+                "AS Tmp ON Tmp.accomodationId = H.id" +
+                "WHERE H.places > Tmp.Busy + :nPersons ");
+        final List<Hotel> hotels = query
+                .setParameter("dateFrom", dateFrom)
+                .setParameter("dateTo", dateTo)
+                .setParameter("nPersons", nPersons)
+                .getResultList();
+        if (hotels.isEmpty()) {
+            throw new EntityNotFoundException(String.format("No Hotels available from %s to %s for %d people", dateFrom.toString(), dateTo.toString(), nPersons));
+        }
+        return hotels;
     }
 
     @Override
@@ -49,14 +65,16 @@ public class HotelServiceBean implements HotelService{
     }
 
     @Override
-    public long getPriceByID(final long id, final int nPersons, final Reservation.HalfBoard halfBoard, final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
-        final Hotel apartment = this.readByID(id);
+    public long getPriceByID(final long id, final int nPersons, final Reservation.HalfBoard halfBoard, final Date dateFrom, final Date dateTo) throws EntityNotFoundException, EntityInputException {
+        final Hotel hotel = this.readByID(id);
         long diffInMillies = Math.abs(dateTo.getTime() - dateFrom.getTime());
         long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         if (halfBoard.equals(Reservation.HalfBoard.Yes)) {
-            return (apartment.getPrice() * days * nPersons) + apartment.getExtraHalfBoard();
+            return (hotel.getPrice()+ hotel.getExtraHalfBoard()) * days * nPersons;
+        } else if (halfBoard.equals(Reservation.HalfBoard.No)){
+            return (hotel.getPrice() * days * nPersons);
         } else {
-            return (apartment.getPrice() * days * nPersons);
+            throw new EntityInputException("Invalid value in HalfBoard field");
         }
     }
 }

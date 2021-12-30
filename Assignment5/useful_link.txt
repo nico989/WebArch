@@ -2,3 +2,7 @@ https://www.jpa-buddy.com/documentation/entity-designer/
 https://howtodoinjava.com/hibernate/hibernate-jpa-cascade-types/
 https://stackoverflow.com/questions/2990799/difference-between-fetchtype-lazy-and-eager-in-java-persistence-api
 https://www.baeldung.com/jpa-query-parameters
+https://www.baeldung.com/jpa-join-column
+https://www.baeldung.com/jpa-basic-annotation
+https://www.baeldung.com/jpa-join-types
+https://stackoverflow.com/questions/9906710/how-can-i-inner-join-a-subquery-in-jpql

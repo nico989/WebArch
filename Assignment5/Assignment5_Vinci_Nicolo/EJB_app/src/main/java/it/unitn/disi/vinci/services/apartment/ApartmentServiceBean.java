@@ -34,10 +34,7 @@ public class ApartmentServiceBean implements ApartmentService{
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<Apartment> readByDateFromDateTo(final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
         final Query query = entityManager.createQuery("FROM Apartment A WHERE A.id NOT IN (" +
-                "SELECT R.accommodation.id FROM Reservation R WHERE (" +
-                "R.dateFrom >= :dateFrom AND R.dateTo <= :dateTo) OR (" +
-                "R.dateFrom BETWEEN :dateFrom AND :dateTo) OR (" +
-                "R.dateTo BETWEEN :dateFrom AND :dateTo)" +
+                "SELECT R.accommodation.id FROM Reservation R WHERE R.dateFrom > :dateTo OR R.dateTo < :dateFrom" +
                 ")");
         final List<Apartment> apartments = query
                 .setParameter("dateFrom", dateFrom)
