@@ -3,8 +3,8 @@ package it.unitn.disi.vinci.services.hotel;
 import it.unitn.disi.vinci.entities.Hotel;
 import it.unitn.disi.vinci.entities.Reservation;
 import it.unitn.disi.vinci.services.exceptions.EntityInputException;
+import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.List;
 

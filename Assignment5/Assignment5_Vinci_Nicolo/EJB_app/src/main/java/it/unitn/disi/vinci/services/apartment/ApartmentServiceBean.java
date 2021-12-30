@@ -1,10 +1,10 @@
 package it.unitn.disi.vinci.services.apartment;
 
 import it.unitn.disi.vinci.entities.Apartment;
+import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Date;

@@ -5,11 +5,11 @@ import it.unitn.disi.vinci.entities.Guest;
 import it.unitn.disi.vinci.entities.Reservation;
 import it.unitn.disi.vinci.services.exceptions.EntityCRUDException;
 import it.unitn.disi.vinci.services.exceptions.EntityInputException;
+import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
 import javax.annotation.Resource;
 import javax.ejb.*;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Date;

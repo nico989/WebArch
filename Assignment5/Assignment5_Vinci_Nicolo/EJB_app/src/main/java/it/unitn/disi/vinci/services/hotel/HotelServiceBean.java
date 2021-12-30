@@ -3,10 +3,10 @@ package it.unitn.disi.vinci.services.hotel;
 import it.unitn.disi.vinci.entities.Hotel;
 import it.unitn.disi.vinci.entities.Reservation;
 import it.unitn.disi.vinci.services.exceptions.EntityInputException;
+import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.Date;
@@ -24,7 +24,7 @@ public class HotelServiceBean implements HotelService{
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Hotel readByID(final long id) {
+    public Hotel readByID(final long id) throws EntityNotFoundException {
         final Hotel hotel = entityManager.find(Hotel.class, id);
         if(Objects.isNull(hotel)) {
             throw new EntityNotFoundException(String.format("Can't find Hotel with id %d", id));
@@ -36,7 +36,7 @@ public class HotelServiceBean implements HotelService{
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<Hotel> readByDateFromDateTo(final int nPersons, final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
         final Query query = entityManager.createNativeQuery(" SELECT * FROM WEBARCH.Accommodation AS A" +
-                "INNER JOIN WEBARCH.Hotel as H" +
+                "INNER JOIN WEBARCH.Hotel AS H" +
                 "ON A.id = H.id" +
                 "INNER JOIN" +
                 "(SELECT R.accommodationId, SUM(R.nPersons) AS Busy FROM WEBARCH.Reservation AS R WHERE R.dateFrom > :dateTo OR R.dateTo < :dateFrom GROUP BY R.accomodationId)" +
@@ -55,7 +55,7 @@ public class HotelServiceBean implements HotelService{
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<Hotel> readAll() {
+    public List<Hotel> readAll() throws EntityNotFoundException {
         final Query query = entityManager.createQuery("FROM Hotel");
         final List<Hotel> hotels = query.getResultList();
         if (hotels.isEmpty()) {

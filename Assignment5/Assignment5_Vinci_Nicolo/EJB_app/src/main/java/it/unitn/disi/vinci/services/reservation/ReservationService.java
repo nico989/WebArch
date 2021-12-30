@@ -5,8 +5,8 @@ import it.unitn.disi.vinci.entities.Guest;
 import it.unitn.disi.vinci.entities.Reservation;
 import it.unitn.disi.vinci.services.exceptions.EntityCRUDException;
 import it.unitn.disi.vinci.services.exceptions.EntityInputException;
+import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.Date;
 import java.util.List;
 
