@@ -2,7 +2,7 @@
 .idea
 target
 .settings
-.out
+out
 
 # File
 sh.exe.stackdump
