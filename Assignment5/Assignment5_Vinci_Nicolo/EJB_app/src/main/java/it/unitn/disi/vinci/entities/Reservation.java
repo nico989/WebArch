@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "reservation")
+@Table(name = "reservation", schema = "webarch")
 public class Reservation implements Serializable {
 
     private static final long serialVersionUID = -4581598877222772474L;

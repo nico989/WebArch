@@ -1,5 +1,8 @@
 package it.unitn.disi.vinci;
 
+import it.unitn.disi.vinci.services.guest.GuestService;
+import it.unitn.disi.vinci.exceptions.EntityNotFoundException;
+
 import java.io.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -14,12 +17,22 @@ public class HelloServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
-        String handleKey="link/mykey";
-        Object ss= ServiceLocator.getInstance().getHandle(handleKey);
+        GuestService ss = null;
+        try {
+            ss = ServiceLocator.getInstance().lookup(GuestService.class);
+            System.out.println(ss);
+            System.out.println(ss.readById(1).getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         PrintWriter out = response.getWriter();
         out.println("<html><body>");
         out.println("<h1>" + message + "</h1>");
-        out.println("<h1>" + ss + "</h1>");
+        try {
+            out.println("<h1>" + ss.readById(1).getName() + "</h1>");
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
         out.println("</body></html>");
     }
 

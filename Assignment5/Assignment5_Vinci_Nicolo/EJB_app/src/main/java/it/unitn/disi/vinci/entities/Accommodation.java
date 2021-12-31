@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "accommodation")
+@Table(name = "accommodation", schema = "webarch")
 @Inheritance(strategy=InheritanceType.JOINED)
 public abstract class Accommodation {
     @Id

@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "guest")
+@Table(name = "guest", schema = "webarch")
 public class Guest implements Serializable {
 
     private static final long serialVersionUID = 2233437979204528659L;

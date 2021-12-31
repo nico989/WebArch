@@ -5,7 +5,7 @@
              version="2.2">
     <persistence-unit name="Default" transaction-type="JTA">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <jta-data-source>java:jboss/datasources/H2DB</jta-data-source>
+        <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
 
         <class>it.unitn.disi.vinci.entities.Guest</class>
         <class>it.unitn.disi.vinci.entities.Accommodation</class>
@@ -18,9 +18,6 @@
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.use_sql_comments" value="true"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-            <property name="hibernate.hbm2ddl.auto" value="create-drop"/>
-            <property name="hibernate.cache.use_second_level_cache" value="false"/>
-            <property name="hibernate.temp.use_jdbc_metadata_defaults" value="false"/>
         </properties>
 
     </persistence-unit>

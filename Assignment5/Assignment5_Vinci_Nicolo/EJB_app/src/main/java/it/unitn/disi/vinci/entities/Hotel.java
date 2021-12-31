@@ -6,7 +6,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "hotel")
+@Table(name = "hotel", schema = "webarch")
 public class Hotel extends Accommodation implements Serializable {
 
     private static final long serialVersionUID = -2040789886273628048L;
