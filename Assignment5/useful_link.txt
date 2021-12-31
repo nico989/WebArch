@@ -6,3 +6,4 @@ https://www.baeldung.com/jpa-join-column
 https://www.baeldung.com/jpa-basic-annotation
 https://www.baeldung.com/jpa-join-types
 https://stackoverflow.com/questions/9906710/how-can-i-inner-join-a-subquery-in-jpql
+https://stackoverflow.com/questions/33798493/jpas-entitymanager-createquery-vs-createnamedquery-vs-createnativequery
