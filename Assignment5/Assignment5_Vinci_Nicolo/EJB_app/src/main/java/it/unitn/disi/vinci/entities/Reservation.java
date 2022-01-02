@@ -22,11 +22,11 @@ public class Reservation implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "guestId", referencedColumnName = "id", nullable = false)
     private Guest guest;
 
-    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "accommodationId", referencedColumnName = "id", nullable = false)
     private Accommodation accommodation;
 

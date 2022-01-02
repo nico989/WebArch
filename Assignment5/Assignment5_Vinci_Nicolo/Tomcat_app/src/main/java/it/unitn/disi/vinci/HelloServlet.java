@@ -1,5 +1,6 @@
 package it.unitn.disi.vinci;
 
+import it.unitn.disi.vinci.app.locator.ServiceLocator;
 import it.unitn.disi.vinci.services.guest.GuestService;
 import it.unitn.disi.vinci.exceptions.EntityNotFoundException;
 
@@ -19,7 +20,7 @@ public class HelloServlet extends HttpServlet {
         response.setContentType("text/html");
         GuestService ss = null;
         try {
-            ss = ServiceLocator.getInstance().lookup(GuestService.class);
+            ss = ServiceLocator.getInstance().ejbLookUp(GuestService.class);
             System.out.println(ss);
             System.out.println(ss.readById(1).getName());
         } catch (Exception e) {

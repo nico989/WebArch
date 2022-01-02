@@ -1,8 +1,11 @@
 package it.unitn.disi.vinci.entities;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public abstract class Accommodation {
+public abstract class Accommodation implements Serializable {
+
+    private static final long serialVersionUID = -516567852441179460L;
 
     private Long id;
 

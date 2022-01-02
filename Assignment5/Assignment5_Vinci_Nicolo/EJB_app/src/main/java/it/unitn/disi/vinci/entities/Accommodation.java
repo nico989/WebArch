@@ -1,12 +1,16 @@
 package it.unitn.disi.vinci.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "accommodation", schema = "webarch")
 @Inheritance(strategy=InheritanceType.JOINED)
-public abstract class Accommodation {
+public abstract class Accommodation implements Serializable {
+
+    private static final long serialVersionUID = -516567852441179460L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

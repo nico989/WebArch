@@ -1,4 +1,4 @@
-package it.unitn.disi.vinci.filter;
+package it.unitn.disi.vinci.app.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
