@@ -1,6 +1,7 @@
 package it.unitn.disi.vinci.services.apartment;
 
 import it.unitn.disi.vinci.entities.Apartment;
+import it.unitn.disi.vinci.entities.Reservation;
 import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
 import javax.ejb.*;
@@ -15,16 +16,16 @@ import java.util.concurrent.TimeUnit;
 @Stateless
 @Remote(ApartmentService.class)
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class ApartmentServiceBean implements ApartmentService{
+public class ApartmentServiceBean implements ApartmentService {
 
-    @PersistenceContext(unitName="Default")
+    @PersistenceContext(unitName = "Default")
     private EntityManager entityManager;
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Apartment readByID(long id) throws EntityNotFoundException {
         final Apartment apartment = entityManager.find(Apartment.class, id);
-        if(Objects.isNull(apartment)) {
+        if (Objects.isNull(apartment)) {
             throw new EntityNotFoundException(String.format("Can't find Apartment with id %d", id));
         }
         return apartment;
@@ -33,15 +34,21 @@ public class ApartmentServiceBean implements ApartmentService{
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<Apartment> readByDateFromDateTo(final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
-        final Query query = entityManager.createQuery("FROM Apartment A WHERE A.id NOT IN (" +
-                "SELECT R.accommodation.id FROM Reservation R WHERE R.dateFrom > :dateTo OR R.dateTo < :dateFrom" +
-                ")");
-        final List<Apartment> apartments = query
+        final List<Apartment> apartments = this.readAll();
+
+        final Query queryReservations = entityManager.createQuery("FROM Reservation AS R WHERE R.dateFrom > :dateTo OR R.dateTo < :dateFrom");
+        final List<Reservation> reservations = queryReservations
                 .setParameter("dateFrom", dateFrom)
                 .setParameter("dateTo", dateTo)
                 .getResultList();
-        if (apartments.isEmpty()) {
-            throw new EntityNotFoundException(String.format("No Apartments available from %s to %s", dateFrom.toString(), dateTo.toString()));
+
+        if (!reservations.isEmpty()) {
+            for (Reservation reservation : reservations) {
+                apartments.remove((Apartment) reservation.getAccommodation());
+                if (apartments.isEmpty()) {
+                    throw new EntityNotFoundException(String.format("No Apartments available from %s to %s", dateFrom.toString(), dateTo.toString()));
+                }
+            }
         }
         return apartments;
     }
@@ -58,7 +65,7 @@ public class ApartmentServiceBean implements ApartmentService{
     }
 
     @Override
-    public long getPriceByID(final long id, Date dateFrom, Date dateTo) throws EntityNotFoundException{
+    public long getPriceByID(final long id, Date dateFrom, Date dateTo) throws EntityNotFoundException {
         final Apartment apartment = this.readByID(id);
         long diffInMillies = Math.abs(dateTo.getTime() - dateFrom.getTime());
         long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);

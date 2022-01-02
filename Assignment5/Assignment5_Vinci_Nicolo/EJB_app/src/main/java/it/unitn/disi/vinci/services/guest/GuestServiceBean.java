@@ -53,6 +53,7 @@ public class GuestServiceBean implements GuestService {
     }
 
     @Override
+    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<Guest> readAll() throws EntityNotFoundException {
         final Query query = entityManager.createQuery("FROM Guest");
         final List<Guest> guests = query.getResultList();

@@ -1,14 +1,14 @@
 package it.unitn.disi.vinci.services.hotel;
 
 import it.unitn.disi.vinci.entities.Hotel;
-import it.unitn.disi.vinci.entities.Reservation;
-import it.unitn.disi.vinci.services.exceptions.EntityInputException;
+import it.unitn.disi.vinci.entities.ReservationHotel;
 import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -35,22 +35,33 @@ public class HotelServiceBean implements HotelService{
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<Hotel> readByDateFromDateTo(final int nPersons, final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
-        final Query query = entityManager.createNativeQuery(" SELECT * FROM WEBARCH.Accommodation AS A" +
-                "INNER JOIN WEBARCH.Hotel AS H" +
-                "ON A.id = H.id" +
-                "INNER JOIN" +
-                "(SELECT R.accommodationId, SUM(R.nPersons) AS Busy FROM WEBARCH.Reservation AS R WHERE R.dateFrom > :dateTo OR R.dateTo < :dateFrom GROUP BY R.accomodationId)" +
-                "AS Tmp ON Tmp.accomodationId = H.id" +
-                "WHERE H.places > Tmp.Busy + :nPersons ");
-        final List<Hotel> hotels = query
+        final List<Hotel> hotels = this.readAll();
+
+        final Query queryReservationsHotel = entityManager.createQuery("FROM ReservationHotel AS RH WHERE RH.dateFrom > :dateTo OR RH.dateTo < :dateFrom");
+        final List<ReservationHotel> reservationsHotel = queryReservationsHotel
                 .setParameter("dateFrom", dateFrom)
                 .setParameter("dateTo", dateTo)
-                .setParameter("nPersons", nPersons)
                 .getResultList();
-        if (hotels.isEmpty()) {
-            throw new EntityNotFoundException(String.format("No Hotels available from %s to %s for %d people", dateFrom.toString(), dateTo.toString(), nPersons));
+
+        final List<Hotel> filteredHotel = new ArrayList<>();
+
+        for (Hotel hotel: hotels) {
+            int totPersons = 0;
+            for (ReservationHotel reservationHotel: reservationsHotel) {
+                if (hotel.equals(reservationHotel.getAccommodation())){
+                    totPersons += reservationHotel.getnPersons();
+                }
+            }
+            if (hotel.getPlaces() > totPersons + nPersons) {
+                filteredHotel.add(hotel);
+            }
         }
-        return hotels;
+
+        if (filteredHotel.isEmpty()) {
+            throw new EntityNotFoundException(String.format("No Hotels available from %s to %s for %d persons", dateFrom.toString(), dateTo.toString(), nPersons));
+        }
+
+        return filteredHotel;
     }
 
     @Override
@@ -65,16 +76,14 @@ public class HotelServiceBean implements HotelService{
     }
 
     @Override
-    public long getPriceByID(final long id, final int nPersons, final Reservation.HalfBoard halfBoard, final Date dateFrom, final Date dateTo) throws EntityNotFoundException, EntityInputException {
+    public long getPriceByID(final long id, final int nPersons, final boolean halfBoard, final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
         final Hotel hotel = this.readByID(id);
         long diffInMillies = Math.abs(dateTo.getTime() - dateFrom.getTime());
         long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
-        if (halfBoard.equals(Reservation.HalfBoard.Yes)) {
+        if (halfBoard) {
             return (hotel.getPrice()+ hotel.getExtraHalfBoard()) * days * nPersons;
-        } else if (halfBoard.equals(Reservation.HalfBoard.No)){
+        } else{
             return (hotel.getPrice() * days * nPersons);
-        } else {
-            throw new EntityInputException("Invalid value in HalfBoard field");
         }
     }
 }

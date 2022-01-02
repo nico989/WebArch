@@ -1,9 +1,9 @@
 package it.unitn.disi.vinci.services.guest;
 
 import it.unitn.disi.vinci.entities.Guest;
-import it.unitn.disi.vinci.exceptions.EntityCRUDException;
-import it.unitn.disi.vinci.exceptions.EntityInputException;
-import it.unitn.disi.vinci.exceptions.EntityNotFoundException;
+import it.unitn.disi.vinci.services.exceptions.EntityCRUDException;
+import it.unitn.disi.vinci.services.exceptions.EntityInputException;
+import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
 import java.util.List;
 

@@ -3,4 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
+
+    <welcome-file-list>
+        <welcome-file>welcome.jsp</welcome-file>
+    </welcome-file-list>
+
+    <filter>
+        <filter-name>JSPFilter</filter-name>
+        <filter-class>it.unitn.disi.vinci.app.filter.JSPFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>JSPFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <listener>
+        <listener-class>it.unitn.disi.vinci.app.listener.Listener</listener-class>
+    </listener>
+
 </web-app>

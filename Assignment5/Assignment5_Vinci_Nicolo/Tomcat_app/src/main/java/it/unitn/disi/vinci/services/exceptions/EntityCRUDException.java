@@ -1,4 +1,4 @@
-package it.unitn.disi.vinci.exceptions;
+package it.unitn.disi.vinci.services.exceptions;
 
 public class EntityCRUDException extends Exception{
 

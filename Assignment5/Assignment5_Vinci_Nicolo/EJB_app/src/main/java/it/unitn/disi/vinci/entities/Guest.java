@@ -12,7 +12,7 @@ public class Guest implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, updatable = false, unique = true)
+    @Column(name = "id", nullable = false, updatable = false)
     private Long id;
 
     @Column(name = "name", nullable = false)

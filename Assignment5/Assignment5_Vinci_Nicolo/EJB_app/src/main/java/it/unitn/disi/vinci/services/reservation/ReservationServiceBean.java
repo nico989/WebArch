@@ -63,19 +63,18 @@ public class ReservationServiceBean implements ReservationService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void create(final Guest guest, final Accommodation accommodation, final int nPersons, final String creditCardNumber, final Date dateFrom, final Date dateTo, final Reservation.HalfBoard halfBoard) throws EntityCRUDException, EntityInputException {
-        if (Objects.isNull(guest) || Objects.isNull(accommodation) || nPersons ==0 || Objects.isNull(creditCardNumber) || Objects.isNull(dateFrom) || Objects.isNull(dateTo) || Objects.isNull(halfBoard)) {
+    public void create(final Guest guest, final Accommodation accommodation, final int nPersons, final String creditCardNumber, final Date dateFrom, final Date dateTo) throws EntityCRUDException, EntityInputException {
+        if (Objects.isNull(guest) || Objects.isNull(accommodation) || nPersons ==0 || Objects.isNull(creditCardNumber) || Objects.isNull(dateFrom) || Objects.isNull(dateTo)) {
             throw new EntityInputException("All input parameters are needed to create a Reservation");
         }
         try {
             final Reservation reservation = new Reservation();
             reservation.setGuest(guest);
             reservation.setAccommodation(accommodation);
-            reservation.setNPersons(nPersons);
+            reservation.setnPersons(nPersons);
             reservation.setCreditCardNumber(creditCardNumber);
             reservation.setDateFrom(dateFrom);
             reservation.setDateTo(dateTo);
-            reservation.setHalfBoard(halfBoard);
             this.entityManager.persist(reservation);
         } catch (final Exception e) {
             context.setRollbackOnly();
@@ -84,21 +83,9 @@ public class ReservationServiceBean implements ReservationService {
     }
 
     @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void deleteByID(final long id) throws EntityNotFoundException, EntityCRUDException {
         final Reservation reservation = this.readByID(id);
-        try {
-            entityManager.remove(reservation);
-        } catch (Exception e) {
-            context.setRollbackOnly();
-            throw new EntityCRUDException(String.format("Something went wrong: Reservation removal failed due to %s", e.getMessage()));
-        }
-    }
-
-    @Override
-    @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public void deleteByGuest(final Guest guest) throws EntityNotFoundException, EntityCRUDException {
-        final Reservation reservation = this.readByGuest(guest);
         try {
             entityManager.remove(reservation);
         } catch (Exception e) {

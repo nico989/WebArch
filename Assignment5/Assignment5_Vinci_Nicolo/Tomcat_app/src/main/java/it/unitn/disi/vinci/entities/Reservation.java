@@ -6,13 +6,7 @@ import java.util.Objects;
 
 public class Reservation implements Serializable {
 
-    private static final long serialVersionUID = -4581598877222772474L;
-
-    public enum HalfBoard {
-        Yes,
-        No,
-        Null
-    }
+    private static final long serialVersionUID = -5041457392059431984L;
 
     private Long id;
 
@@ -27,8 +21,6 @@ public class Reservation implements Serializable {
     private Date dateFrom;
 
     private Date dateTo;
-
-    private HalfBoard halfBoard;
 
     public Reservation() {
     }
@@ -57,12 +49,12 @@ public class Reservation implements Serializable {
         this.accommodation = accommodation;
     }
 
-    public int getNPersons() {
+    public int getnPersons() {
         return nPersons;
     }
 
-    public void setNPersons(int n_persons) {
-        this.nPersons = n_persons;
+    public void setnPersons(int nPersons) {
+        this.nPersons = nPersons;
     }
 
     public String getCreditCardNumber() {
@@ -89,14 +81,6 @@ public class Reservation implements Serializable {
         this.dateTo = to;
     }
 
-    public HalfBoard getHalfBoard() {
-        return halfBoard;
-    }
-
-    public void setHalfBoard(HalfBoard half_board) {
-        this.halfBoard = half_board;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -112,8 +96,7 @@ public class Reservation implements Serializable {
         if (!Objects.equals(creditCardNumber, that.creditCardNumber))
             return false;
         if (!Objects.equals(dateFrom, that.dateFrom)) return false;
-        if (!Objects.equals(dateTo, that.dateTo)) return false;
-        return halfBoard == that.halfBoard;
+        return Objects.equals(dateTo, that.dateTo);
     }
 
     @Override
@@ -125,7 +108,6 @@ public class Reservation implements Serializable {
         result = 31 * result + (creditCardNumber != null ? creditCardNumber.hashCode() : 0);
         result = 31 * result + (dateFrom != null ? dateFrom.hashCode() : 0);
         result = 31 * result + (dateTo != null ? dateTo.hashCode() : 0);
-        result = 31 * result + (halfBoard != null ? halfBoard.hashCode() : 0);
         return result;
     }
 }

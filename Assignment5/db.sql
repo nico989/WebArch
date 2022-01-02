@@ -1,5 +1,5 @@
 -- Create table Guest
-CREATE TABLE guest
+CREATE TABLE webarch.guest
 (
     id      BIGINT AUTO_INCREMENT NOT NULL,
     name    VARCHAR(255)          NOT NULL,
@@ -7,11 +7,8 @@ CREATE TABLE guest
     CONSTRAINT pk_guest PRIMARY KEY (id)
 );
 
-ALTER TABLE guest
-    ADD CONSTRAINT uc_guest_id UNIQUE (id);
-
 -- Create table Accommodation
-CREATE TABLE accommodation
+CREATE TABLE webarch.accommodation
 (
     id    BIGINT AUTO_INCREMENT NOT NULL,
     name  VARCHAR(255)          NOT NULL,
@@ -20,7 +17,7 @@ CREATE TABLE accommodation
 );
 
 -- Create table Hotel, parents Accommodation
-CREATE TABLE hotel
+CREATE TABLE webarch.hotel
 (
     id             BIGINT NOT NULL,
     extraHalfBoard INT    NOT NULL,
@@ -29,11 +26,11 @@ CREATE TABLE hotel
     CONSTRAINT pk_hotel PRIMARY KEY (id)
 );
 
-ALTER TABLE hotel
-    ADD CONSTRAINT FK_HOTEL_ON_ID FOREIGN KEY (id) REFERENCES accommodation (id);
+ALTER TABLE webarch.hotel
+    ADD CONSTRAINT FK_HOTEL_ON_ID FOREIGN KEY (id) REFERENCES webarch.accommodation (id);
 
 -- Create table Apartment, parents Accommodation
-CREATE TABLE apartment
+CREATE TABLE webarch.apartment
 (
     id            BIGINT NOT NULL,
     finalCleaning INT    NOT NULL,
@@ -41,28 +38,29 @@ CREATE TABLE apartment
     CONSTRAINT pk_apartment PRIMARY KEY (id)
 );
 
-ALTER TABLE apartment
-    ADD CONSTRAINT FK_APARTMENT_ON_ID FOREIGN KEY (id) REFERENCES accommodation (id);
+ALTER TABLE webarch.apartment
+    ADD CONSTRAINT FK_APARTMENT_ON_ID FOREIGN KEY (id) REFERENCES webarch.accommodation (id);
 
 -- Create table Reservation, linked to Guest and Accommodation
-CREATE TABLE reservation
+CREATE TABLE webarch.reservation
 (
     id               BIGINT AUTO_INCREMENT NOT NULL,
+    TYPE             VARCHAR(31)           NULL,
     guestId          BIGINT                NOT NULL,
     accommodationId  BIGINT                NOT NULL,
     nPersons         INT                   NOT NULL,
     creditCardNumber VARCHAR(255)          NOT NULL,
     dateFrom         datetime              NOT NULL,
     dateTo           datetime              NOT NULL,
-    halfBoard        VARCHAR(255)          NOT NULL,
+    halfBoard        BIT(1)                NULL,
     CONSTRAINT pk_reservation PRIMARY KEY (id)
 );
 
-ALTER TABLE reservation
-    ADD CONSTRAINT FK_RESERVATION_ON_ACCOMMODATIONID FOREIGN KEY (accommodationId) REFERENCES accommodation (id);
+ALTER TABLE webarch.reservation
+    ADD CONSTRAINT FK_RESERVATION_ON_ACCOMMODATIONID FOREIGN KEY (accommodationId) REFERENCES webarch.accommodation (id);
 
-ALTER TABLE reservation
-    ADD CONSTRAINT FK_RESERVATION_ON_GUESTID FOREIGN KEY (guestId) REFERENCES guest (id);
+ALTER TABLE webarch.reservation
+    ADD CONSTRAINT FK_RESERVATION_ON_GUESTID FOREIGN KEY (guestId) REFERENCES webarch.guest (id);
 
 -- Insert of apartments and hotel
 INSERT INTO accommodation (name, price) VALUES ('Artemide', 100);
@@ -122,3 +120,14 @@ where places>occ+20;
 -- Check hotel/apartments availability
 select * from reservation where dateFrom > inputDateTo or dateTo < inputDateFrom;
 select * from reservation where dateFrom > '20220208' or dateTo < '20220207';
+
+insert into reservation (guestId, accommodationId, nPersons, creditCardNumber, dateFrom, dateTo)  values (1, 1, 2, '055', '20220210', '20220214');
+insert into reservationHotel (guestId, accommodationId, nPersons, creditCardNumber, dateFrom, dateTo)  values (1, 1, 2, '055', '20220210', '20220214');
+
+
+insert into reservation (TYPE, guestId, accommodationId, nPersons, creditCardNumber, dateFrom, dateTo)  values ('apartment', 1, 5, 2, '055', '20220220', '20220224')
+insert into reservation (TYPE, guestId, accommodationId, nPersons, creditCardNumber, dateFrom, dateTo)  values ('apartment', 1, 5, 2, '055', '20220201', '20220205')
+insert into reservation (TYPE, guestId, accommodationId, nPersons, creditCardNumber, dateFrom, dateTo)  values ('apartment', 1, 5, 2, '055', '20220210', '20220214')
+insert into reservation (TYPE, guestId, accommodationId, nPersons, creditCardNumber, dateFrom, dateTo)  values ('hotel', 1, 1, 2, '055', '20220220', '20220224')
+insert into reservation (TYPE, guestId, accommodationId, nPersons, creditCardNumber, dateFrom, dateTo)  values ('hotel', 1, 1, 2, '055', '20220201', '20220205')
+insert into reservation (TYPE, guestId, accommodationId, nPersons, creditCardNumber, dateFrom, dateTo)  values ('hotel', 1, 1, 2, '055', '20220210', '20220214')

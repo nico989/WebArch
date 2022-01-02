@@ -30,7 +30,7 @@ public class ServiceLocator {
             this.context = getContext();
             cache = new HashMap<>();
         } catch (final NamingException e) {
-            System.out.printf("Can't initialize context due to %s%n", e.getMessage());
+            System.out.printf("Can't initialize context due to %s", e.getMessage());
             System.exit(1);
         }
     }

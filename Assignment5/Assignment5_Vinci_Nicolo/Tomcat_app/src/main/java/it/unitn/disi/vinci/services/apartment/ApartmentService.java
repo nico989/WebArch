@@ -1,7 +1,7 @@
 package it.unitn.disi.vinci.services.apartment;
 
 import it.unitn.disi.vinci.entities.Apartment;
-import it.unitn.disi.vinci.exceptions.EntityNotFoundException;
+import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
 import java.util.Date;
 import java.util.List;
