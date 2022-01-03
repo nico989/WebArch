@@ -41,7 +41,7 @@ public class GuestServiceBean implements GuestService {
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Guest readByNameSurname(final String name, final String surname) throws EntityNotFoundException {
-        final Query query = entityManager.createQuery("FROM Guest G WHERE G.name = :name AND G.surname = :surname");
+        final Query query = entityManager.createQuery("FROM Guest AS G WHERE G.name = :name AND G.surname = :surname");
         final Guest guest = (Guest) query
                 .setParameter("name", name)
                 .setParameter("surname", surname)

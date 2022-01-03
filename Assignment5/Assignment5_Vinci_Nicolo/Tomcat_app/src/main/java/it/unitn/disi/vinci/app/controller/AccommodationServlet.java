@@ -39,6 +39,8 @@ public class AccommodationServlet extends HttpServlet {
             final int nPersons = Integer.parseInt(INPersons);
             final Date dateFrom = new SimpleDateFormat("dd/M/yyyy").parse(IDateFrom);
             final Date dateTo = new SimpleDateFormat("dd/M/yyyy").parse(IDateTo);
+            System.out.println(dateFrom);
+            System.out.println(dateTo);
 
             final List<Apartment> apartments = ServiceLocator.getInstance().ejbLookUp(ApartmentService.class).readByDateFromDateTo(dateFrom, dateTo);
             //final List<Hotel> hotels = ServiceLocator.getInstance().ejbLookUp(HotelService.class).readByDateFromDateTo(nPersons, dateFrom, dateTo);

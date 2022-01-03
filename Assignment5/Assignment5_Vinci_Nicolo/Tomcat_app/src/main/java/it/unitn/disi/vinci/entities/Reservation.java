@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class Reservation implements Serializable {
+public abstract class Reservation implements Serializable {
 
     private static final long serialVersionUID = -5041457392059431984L;
 

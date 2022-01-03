@@ -9,7 +9,7 @@ import java.util.Objects;
 @Table(name = "reservation", schema = "webarch")
 @DiscriminatorColumn(name="TYPE",discriminatorType=DiscriminatorType.STRING)
 @DiscriminatorValue("apartment")
-public class Reservation implements Serializable {
+public abstract class Reservation implements Serializable {
 
     private static final long serialVersionUID = -5041457392059431984L;
 

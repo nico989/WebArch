@@ -1,8 +1,8 @@
-package it.unitn.disi.vinci.services.reservation;
+package it.unitn.disi.vinci.services.reservationApartment;
 
 import it.unitn.disi.vinci.entities.Accommodation;
 import it.unitn.disi.vinci.entities.Guest;
-import it.unitn.disi.vinci.entities.Reservation;
+import it.unitn.disi.vinci.entities.ReservationApartment;
 import it.unitn.disi.vinci.services.exceptions.EntityCRUDException;
 import it.unitn.disi.vinci.services.exceptions.EntityInputException;
 import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Stateless
-@Remote(ReservationService.class)
+@Remote(ReservationServiceApartment.class)
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class ReservationServiceBean implements ReservationService {
+public class ReservationServiceApartmentBean implements ReservationServiceApartment {
 
     @PersistenceContext(unitName="Default")
     private EntityManager entityManager;
@@ -29,36 +29,36 @@ public class ReservationServiceBean implements ReservationService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Reservation readByID(final long id) throws EntityNotFoundException {
-        final Reservation reservation = entityManager.find(Reservation.class, id);
-        if(Objects.isNull(reservation)) {
+    public ReservationApartment readByID(final long id) throws EntityNotFoundException {
+        final ReservationApartment reservationApartment = entityManager.find(ReservationApartment.class, id);
+        if(Objects.isNull(reservationApartment)) {
             throw new EntityNotFoundException(String.format("Can't find Reservation with id %d", id));
         }
-        return reservation;
+        return reservationApartment;
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Reservation readByGuest(final Guest guest) throws EntityNotFoundException {
-        final Query query = entityManager.createQuery("FROM Reservation R WHERE R.guest = :guest");
-        final Reservation reservation = (Reservation) query
+    public List<ReservationApartment> readByGuest(final Guest guest) throws EntityNotFoundException {
+        final Query query = entityManager.createQuery("FROM ReservationApartment AS RA WHERE RA.guest = :guest");
+        final List<ReservationApartment> reservationsApartment = query
                 .setParameter("guest", guest)
-                .getSingleResult();
-        if (Objects.isNull(reservation)) {
-            throw new EntityNotFoundException(String.format("Can't find Reservation with Guest name %s and surname %s", guest.getName(), guest.getSurname()));
+                .getResultList();
+        if (reservationsApartment.isEmpty()) {
+            throw new EntityNotFoundException(String.format("Can't find Reservations Apartment for Guest name %s and surname %s", guest.getName(), guest.getSurname()));
         }
-        return reservation;
+        return reservationsApartment;
     }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<Reservation> readAll() throws EntityNotFoundException {
+    public List<ReservationApartment> readAll() throws EntityNotFoundException {
         final Query query = entityManager.createQuery("FROM Reservation ");
-        final List<Reservation> reservations = query.getResultList();
-        if (reservations.isEmpty()) {
+        final List<ReservationApartment> reservationsApartments = query.getResultList();
+        if (reservationsApartments.isEmpty()) {
             throw new EntityNotFoundException("There are no Reservations!");
         }
-        return reservations;
+        return reservationsApartments;
     }
 
     @Override
@@ -68,14 +68,14 @@ public class ReservationServiceBean implements ReservationService {
             throw new EntityInputException("All input parameters are needed to create a Reservation");
         }
         try {
-            final Reservation reservation = new Reservation();
-            reservation.setGuest(guest);
-            reservation.setAccommodation(accommodation);
-            reservation.setnPersons(nPersons);
-            reservation.setCreditCardNumber(creditCardNumber);
-            reservation.setDateFrom(dateFrom);
-            reservation.setDateTo(dateTo);
-            this.entityManager.persist(reservation);
+            final ReservationApartment reservationApartment = new ReservationApartment();
+            reservationApartment.setGuest(guest);
+            reservationApartment.setAccommodation(accommodation);
+            reservationApartment.setnPersons(nPersons);
+            reservationApartment.setCreditCardNumber(creditCardNumber);
+            reservationApartment.setDateFrom(dateFrom);
+            reservationApartment.setDateTo(dateTo);
+            this.entityManager.persist(reservationApartment);
         } catch (final Exception e) {
             context.setRollbackOnly();
             throw new EntityCRUDException(String.format("Something went wrong: Reservation insertion failed due to %s", e.getMessage()));
@@ -85,9 +85,9 @@ public class ReservationServiceBean implements ReservationService {
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void deleteByID(final long id) throws EntityNotFoundException, EntityCRUDException {
-        final Reservation reservation = this.readByID(id);
+        final ReservationApartment reservationApartment = this.readByID(id);
         try {
-            entityManager.remove(reservation);
+            entityManager.remove(reservationApartment);
         } catch (Exception e) {
             context.setRollbackOnly();
             throw new EntityCRUDException(String.format("Something went wrong: Reservation removal failed due to %s", e.getMessage()));

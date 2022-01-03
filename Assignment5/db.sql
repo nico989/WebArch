@@ -41,7 +41,7 @@ CREATE TABLE webarch.apartment
 ALTER TABLE webarch.apartment
     ADD CONSTRAINT FK_APARTMENT_ON_ID FOREIGN KEY (id) REFERENCES webarch.accommodation (id);
 
--- Create table Reservation, linked to Guest and Accommodation
+-- Create table Reservation/ReservationHotel, linked to Guest and Accommodation
 CREATE TABLE webarch.reservation
 (
     id               BIGINT AUTO_INCREMENT NOT NULL,
@@ -120,6 +120,7 @@ where places>occ+20;
 -- Check hotel/apartments availability
 select * from reservation where dateFrom > inputDateTo or dateTo < inputDateFrom;
 select * from reservation where dateFrom > '20220208' or dateTo < '20220207';
+select * from reservation where not (dateFrom > '20220208' or dateTo < '20220207');
 
 insert into reservation (guestId, accommodationId, nPersons, creditCardNumber, dateFrom, dateTo)  values (1, 1, 2, '055', '20220210', '20220214');
 insert into reservationHotel (guestId, accommodationId, nPersons, creditCardNumber, dateFrom, dateTo)  values (1, 1, 2, '055', '20220210', '20220214');

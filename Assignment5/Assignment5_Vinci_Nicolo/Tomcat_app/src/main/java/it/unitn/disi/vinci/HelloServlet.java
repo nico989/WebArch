@@ -1,8 +1,9 @@
 package it.unitn.disi.vinci;
 
 import it.unitn.disi.vinci.app.locator.ServiceLocator;
+import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 import it.unitn.disi.vinci.services.guest.GuestService;
-import it.unitn.disi.vinci.exceptions.EntityNotFoundException;
+
 
 import java.io.*;
 import javax.servlet.http.*;

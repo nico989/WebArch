@@ -13,7 +13,7 @@ import java.util.List;
 public interface ReservationHotelService {
 
     public ReservationHotel readByID(final long id) throws EntityNotFoundException;
-    public ReservationHotel readByGuest(final Guest guest) throws EntityNotFoundException;
+    public List<ReservationHotel> readByGuest(final Guest guest) throws EntityNotFoundException;
     public List<ReservationHotel> readAll() throws EntityNotFoundException;
     public void create(final Guest guest, final Accommodation accommodation, final int nPersons, final String creditCardNumber, final Date dateFrom, final Date dateTo, final boolean halfBoard) throws EntityCRUDException, EntityInputException;
     public void deleteByID(final long id) throws EntityNotFoundException, EntityCRUDException;

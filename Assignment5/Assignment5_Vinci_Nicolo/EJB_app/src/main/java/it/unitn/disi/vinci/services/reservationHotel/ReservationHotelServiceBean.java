@@ -40,15 +40,15 @@ public class ReservationHotelServiceBean implements ReservationHotelService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public ReservationHotel readByGuest(Guest guest) throws EntityNotFoundException {
+    public List<ReservationHotel> readByGuest(Guest guest) throws EntityNotFoundException {
         final Query query = entityManager.createQuery("FROM ReservationHotel RH WHERE RH.guest = :guest");
-        final ReservationHotel reservationHotel = (ReservationHotel) query
+        final List<ReservationHotel> reservationsHotel = query
                 .setParameter("guest", guest)
-                .getSingleResult();
-        if (Objects.isNull(reservationHotel)) {
-            throw new EntityNotFoundException(String.format("Can't find Reservation Hotel with Guest name %s and surname %s", guest.getName(), guest.getSurname()));
+                .getResultList();
+        if (reservationsHotel.isEmpty()) {
+            throw new EntityNotFoundException(String.format("Can't find Reservations Hotel for Guest name %s and surname %s", guest.getName(), guest.getSurname()));
         }
-        return reservationHotel;
+        return reservationsHotel;
     }
 
     @Override

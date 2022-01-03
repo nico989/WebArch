@@ -2,25 +2,26 @@ package it.unitn.disi.vinci.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
-@DiscriminatorValue("hotel")
+@DiscriminatorValue("reservationHotel")
 public class ReservationHotel extends Reservation implements Serializable {
 
     private static final long serialVersionUID = 7407293966020858563L;
 
     @Column(name = "halfBoard")
-    private boolean halfBoard;
+    private Boolean halfBoard;
 
     public ReservationHotel() {
         super();
     }
 
-    public boolean isHalfBoard() {
+    public Boolean getHalfBoard() {
         return halfBoard;
     }
 
-    public void setHalfBoard(boolean halfBoard) {
+    public void setHalfBoard(Boolean halfBoard) {
         this.halfBoard = halfBoard;
     }
 
@@ -32,13 +33,13 @@ public class ReservationHotel extends Reservation implements Serializable {
 
         ReservationHotel that = (ReservationHotel) o;
 
-        return halfBoard == that.halfBoard;
+        return Objects.equals(halfBoard, that.halfBoard);
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (halfBoard ? 1 : 0);
+        result = 31 * result + (halfBoard != null ? halfBoard.hashCode() : 0);
         return result;
     }
 }

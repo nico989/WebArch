@@ -43,7 +43,7 @@ public class HotelServiceBean implements HotelService{
                 .setParameter("dateTo", dateTo)
                 .getResultList();
 
-        final List<Hotel> filteredHotel = new ArrayList<>();
+        final List<Hotel> filteredHotels = new ArrayList<>();
 
         for (Hotel hotel: hotels) {
             int totPersons = 0;
@@ -53,15 +53,15 @@ public class HotelServiceBean implements HotelService{
                 }
             }
             if (hotel.getPlaces() > totPersons + nPersons) {
-                filteredHotel.add(hotel);
+                filteredHotels.add(hotel);
             }
         }
 
-        if (filteredHotel.isEmpty()) {
+        if (filteredHotels.isEmpty()) {
             throw new EntityNotFoundException(String.format("No Hotels available from %s to %s for %d persons", dateFrom.toString(), dateTo.toString(), nPersons));
         }
 
-        return filteredHotel;
+        return filteredHotels;
     }
 
     @Override
