@@ -18,11 +18,11 @@ public abstract class Reservation implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "guestId", referencedColumnName = "id", nullable = false)
     private Guest guest;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "accommodationId", referencedColumnName = "id", nullable = false)
     private Accommodation accommodation;
 
