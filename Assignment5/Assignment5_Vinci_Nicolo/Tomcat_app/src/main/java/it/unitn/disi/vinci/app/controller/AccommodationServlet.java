@@ -3,8 +3,10 @@ package it.unitn.disi.vinci.app.controller;
 import it.unitn.disi.vinci.app.locator.ServiceLocator;
 import it.unitn.disi.vinci.app.locator.exceptions.EJBNotFound;
 import it.unitn.disi.vinci.entities.Apartment;
+import it.unitn.disi.vinci.entities.Hotel;
 import it.unitn.disi.vinci.services.apartment.ApartmentService;
 import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
+import it.unitn.disi.vinci.services.hotel.HotelService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,21 +39,27 @@ public class AccommodationServlet extends HttpServlet {
 
         try {
             final int nPersons = Integer.parseInt(INPersons);
-            final Date dateFrom = new SimpleDateFormat("dd/M/yyyy").parse(IDateFrom);
-            final Date dateTo = new SimpleDateFormat("dd/M/yyyy").parse(IDateTo);
+            final Date dateFrom = new SimpleDateFormat("dd/MM/yyyy").parse(IDateFrom);
+            final Date dateTo = new SimpleDateFormat("dd/MM/yyyy").parse(IDateTo);
             System.out.println(dateFrom);
             System.out.println(dateTo);
+            System.out.println(nPersons);
 
-            final List<Apartment> apartments = ServiceLocator.getInstance().ejbLookUp(ApartmentService.class).readByDateFromDateTo(dateFrom, dateTo);
-            //final List<Hotel> hotels = ServiceLocator.getInstance().ejbLookUp(HotelService.class).readByDateFromDateTo(nPersons, dateFrom, dateTo);
+            //final List<Apartment> apartments = ServiceLocator.getInstance().ejbLookUp(ApartmentService.class).readByDateFromDateTo(dateFrom, dateTo);
+            final List<Hotel> hotels = ServiceLocator.getInstance().ejbLookUp(HotelService.class).readByDateFromDateTo(nPersons, dateFrom, dateTo);
 
-            for (Apartment apartment: apartments) {
-                System.out.println(apartment.getName());
+            for (Hotel hotel : hotels) {
+                System.out.println(hotel.getName());
+                System.out.println(hotel.getPlaces());
             }
 
             request.setAttribute("error", false);
             request.getRequestDispatcher("/accommodation.jsp").forward(request, response);
-        } catch (final ParseException | EJBNotFound | EntityNotFoundException e) {
+        } catch (final EntityNotFoundException enfe) {
+            System.out.println("Empty");
+            request.setAttribute("error", false);
+            request.getRequestDispatcher("/accommodation.jsp").forward(request, response);
+        } catch (final ParseException | EJBNotFound e) {
             request.setAttribute("error", true);
             request.getRequestDispatcher("/accommodation.jsp").forward(request, response);
         }

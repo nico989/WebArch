@@ -36,15 +36,12 @@ public class HotelServiceBean implements HotelService{
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public List<Hotel> readByDateFromDateTo(final int nPersons, final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
         final List<Hotel> hotels = this.readAll();
-
-        final Query queryReservationsHotel = entityManager.createQuery("FROM ReservationHotel AS RH WHERE RH.dateFrom > :dateTo OR RH.dateTo < :dateFrom");
+        final Query queryReservationsHotel = entityManager.createQuery("FROM ReservationHotel AS RH WHERE NOT (RH.dateFrom > :dateTo OR RH.dateTo < :dateFrom)");
         final List<ReservationHotel> reservationsHotel = queryReservationsHotel
                 .setParameter("dateFrom", dateFrom)
                 .setParameter("dateTo", dateTo)
                 .getResultList();
-
         final List<Hotel> filteredHotels = new ArrayList<>();
-
         for (Hotel hotel: hotels) {
             int totPersons = 0;
             for (ReservationHotel reservationHotel: reservationsHotel) {
@@ -52,15 +49,13 @@ public class HotelServiceBean implements HotelService{
                     totPersons += reservationHotel.getnPersons();
                 }
             }
-            if (hotel.getPlaces() > totPersons + nPersons) {
+            if (hotel.getPlaces() >= totPersons + nPersons) {
                 filteredHotels.add(hotel);
             }
         }
-
         if (filteredHotels.isEmpty()) {
             throw new EntityNotFoundException(String.format("No Hotels available from %s to %s for %d persons", dateFrom.toString(), dateTo.toString(), nPersons));
         }
-
         return filteredHotels;
     }
 
