@@ -7,6 +7,7 @@ import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.annotation.Resource;
@@ -22,7 +23,7 @@ public class GuestServiceBean implements GuestService {
 
     private final short MAX_LENGTH = 64;
 
-    @PersistenceContext(unitName="Default")
+    @PersistenceContext(unitName = "Default")
     private EntityManager entityManager;
 
     @Resource
@@ -32,7 +33,7 @@ public class GuestServiceBean implements GuestService {
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Guest readById(final long id) throws EntityNotFoundException {
         final Guest guest = entityManager.find(Guest.class, id);
-        if(Objects.isNull(guest)) {
+        if (Objects.isNull(guest)) {
             throw new EntityNotFoundException(String.format("Can't find Guest with id %d", id));
         }
         return guest;
@@ -65,7 +66,7 @@ public class GuestServiceBean implements GuestService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void create(final String name, final String surname) throws EntityCRUDException, EntityInputException {
+    public void create(final String name, final String surname) throws EntityCRUDException, EntityInputException, EntityNotFoundException {
         if (Objects.isNull(name) || name.length() < this.MIN_LENGTH || name.length() > this.MAX_LENGTH) {
             throw new EntityInputException("Name length must be greater than 1 and less than 64 characters");
         }
@@ -76,7 +77,7 @@ public class GuestServiceBean implements GuestService {
         try {
             guest = this.readByNameSurname(name, surname);
             throw new EntityInputException(String.format("Guest with name %s and surname %s already exists", guest.getName(), guest.getSurname()));
-        } catch (EntityNotFoundException customException) {
+        } catch (final NoResultException ex) {
             try {
                 guest = new Guest();
                 guest.setName(name);

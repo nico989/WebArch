@@ -10,7 +10,7 @@ import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 import java.util.Date;
 import java.util.List;
 
-public interface ReservationServiceApartment {
+public interface ReservationApartmentService {
 
     public ReservationApartment readByID(final long id) throws EntityNotFoundException;
     public List<ReservationApartment> readByGuest(final Guest guest) throws EntityNotFoundException;

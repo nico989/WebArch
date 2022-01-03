@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Objects;
 
 @Stateless
-@Remote(ReservationServiceApartment.class)
+@Remote(ReservationApartmentService.class)
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class ReservationServiceApartmentBean implements ReservationServiceApartment {
+public class ReservationApartmentServiceBean implements ReservationApartmentService {
 
     @PersistenceContext(unitName="Default")
     private EntityManager entityManager;

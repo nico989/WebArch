@@ -2,6 +2,7 @@ package it.unitn.disi.vinci.app.controller;
 
 import it.unitn.disi.vinci.app.locator.ServiceLocator;
 import it.unitn.disi.vinci.app.locator.exceptions.EJBNotFound;
+import it.unitn.disi.vinci.app.model.UserRequest;
 import it.unitn.disi.vinci.entities.Apartment;
 import it.unitn.disi.vinci.entities.Hotel;
 import it.unitn.disi.vinci.services.apartment.ApartmentService;
@@ -13,11 +14,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @WebServlet(name = "accommodation", value = "/accommodation")
 public class AccommodationServlet extends HttpServlet {
@@ -25,46 +28,51 @@ public class AccommodationServlet extends HttpServlet {
     public void init() {
     }
 
+    private void createUserRequestBeanInSession(HttpServletRequest request, Date dateFrom, Date dateTo, int nPersons) {
+        HttpSession session = request.getSession(true);
+        if (Objects.isNull(session.getAttribute("userRequest"))) {
+            session.setAttribute("userRequest", new UserRequest());
+        }
+        UserRequest userRequest = (UserRequest) session.getAttribute("userRequest");
+        userRequest.setDateFrom(dateFrom);
+        userRequest.setDateTo(dateTo);
+        userRequest.setnPersons(nPersons);
+    }
+
+    private void forwardToJSP(boolean error, boolean empty, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("error", error);
+        request.setAttribute("empty", empty);
+        request.getRequestDispatcher("/accommodation.jsp").forward(request, response);
+    }
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        final String name = request.getParameter("name");
-        final String surname = request.getParameter("surname");
         final String IDateFrom = request.getParameter("dateFrom");
         final String IDateTo = request.getParameter("dateTo");
         final String INPersons = request.getParameter("nPersons");
 
-        if (name.isEmpty() || surname.isEmpty() || IDateFrom.isEmpty() || IDateTo.isEmpty() || INPersons.isEmpty()) {
-            request.setAttribute("error", true);
-            request.getRequestDispatcher("/accommodation.jsp").forward(request, response);
-        }
-
         try {
-            final int nPersons = Integer.parseInt(INPersons);
-            final Date dateFrom = new SimpleDateFormat("dd/MM/yyyy").parse(IDateFrom);
-            final Date dateTo = new SimpleDateFormat("dd/MM/yyyy").parse(IDateTo);
-            System.out.println(dateFrom);
-            System.out.println(dateTo);
-            System.out.println(nPersons);
+            if (IDateFrom.isEmpty() || IDateTo.isEmpty() || INPersons.isEmpty()) {
+                forwardToJSP(true, false, request, response);
+            } else {
+                final int nPersons = Integer.parseInt(INPersons);
+                final Date dateFrom = new SimpleDateFormat("dd/MM/yyyy").parse(IDateFrom);
+                final Date dateTo = new SimpleDateFormat("dd/MM/yyyy").parse(IDateTo);
 
-            //final List<Apartment> apartments = ServiceLocator.getInstance().ejbLookUp(ApartmentService.class).readByDateFromDateTo(dateFrom, dateTo);
-            final List<Hotel> hotels = ServiceLocator.getInstance().ejbLookUp(HotelService.class).readByDateFromDateTo(nPersons, dateFrom, dateTo);
+                final List<Hotel> hotels = ServiceLocator.getInstance().ejbLookUp(HotelService.class).readByDateFromDateTo(nPersons, dateFrom, dateTo);
+                final List<Apartment> apartments = ServiceLocator.getInstance().ejbLookUp(ApartmentService.class).readByDateFromDateTo(dateFrom, dateTo);
 
-            for (Hotel hotel : hotels) {
-                System.out.println(hotel.getName());
-                System.out.println(hotel.getPlaces());
+                createUserRequestBeanInSession(request, dateFrom, dateTo, nPersons);
+
+                request.setAttribute("hotels", hotels);
+                request.setAttribute("apartments", apartments);
+
+                forwardToJSP(false, false, request, response);
             }
-
-            request.setAttribute("error", false);
-            request.getRequestDispatcher("/accommodation.jsp").forward(request, response);
-        } catch (final EntityNotFoundException enfe) {
-            System.out.println("Empty");
-            request.setAttribute("error", false);
-            request.getRequestDispatcher("/accommodation.jsp").forward(request, response);
-        } catch (final ParseException | EJBNotFound e) {
-            request.setAttribute("error", true);
-            request.getRequestDispatcher("/accommodation.jsp").forward(request, response);
+        } catch (final EntityNotFoundException e) {
+            forwardToJSP(false, true, request, response);
+        } catch (final EJBNotFound | ParseException e) {
+            forwardToJSP(true, false, request, response);
         }
-
-
     }
 
     public void destroy() {

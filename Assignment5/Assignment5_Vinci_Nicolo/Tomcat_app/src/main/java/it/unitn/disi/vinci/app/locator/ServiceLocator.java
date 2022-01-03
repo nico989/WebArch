@@ -1,7 +1,8 @@
 package it.unitn.disi.vinci.app.locator;
 
 import it.unitn.disi.vinci.app.locator.exceptions.EJBNotFound;
-import it.unitn.disi.vinci.entities.Reservation;
+import it.unitn.disi.vinci.entities.ReservationApartment;
+import it.unitn.disi.vinci.entities.ReservationHotel;
 import it.unitn.disi.vinci.services.apartment.ApartmentService;
 import it.unitn.disi.vinci.services.guest.GuestService;
 import it.unitn.disi.vinci.services.hotel.HotelService;
@@ -48,18 +49,18 @@ public class ServiceLocator {
         final T ejb;
 
         if (cache.containsKey(requestedEjb.getName())) {
-            System.out.println("cache");
             ejb = requestedEjb.cast(cache.get(requestedEjb.getName()));
         } else {
-            System.out.println("no cache");
             if (ApartmentService.class.isAssignableFrom(requestedEjb)) {
                 ejbToLookUp = "ejb:/EJB_app/ApartmentServiceBean!it.unitn.disi.vinci.services.apartment.ApartmentService";
             } else if (GuestService.class.isAssignableFrom(requestedEjb)) {
                 ejbToLookUp = "ejb:/EJB_app/GuestServiceBean!it.unitn.disi.vinci.services.guest.GuestService";
             } else if (HotelService.class.isAssignableFrom(requestedEjb)) {
                 ejbToLookUp = "ejb:/EJB_app/HotelServiceBean!it.unitn.disi.vinci.services.hotel.HotelService";
-            } else if (Reservation.class.isAssignableFrom(requestedEjb)) {
-                ejbToLookUp = "ejb:/EJB_app/ReservationServiceBean!it.unitn.disi.vinci.services.reservation.ReservationService";
+            } else if (ReservationApartment.class.isAssignableFrom(requestedEjb)) {
+                ejbToLookUp = "ejb:/EJB_app/ReservationApartmentServiceBean!it.unitn.disi.vinci.services.reservationApartment.ReservationApartmentService";
+            } else if (ReservationHotel.class.isAssignableFrom(requestedEjb)) {
+                ejbToLookUp = "ejb:/EJB_app/ReservationHotelServiceBean!it.unitn.disi.vinci.services.reservationHotel.ReservationHotelService";
             } else {
                 throw new EJBNotFound(String.format("EJB Interface %s not supported", requestedEjb));
             }

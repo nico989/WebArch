@@ -6,5 +6,6 @@
 <body>
     <jsp:include page="banner.jsp"></jsp:include>
 
+    <jsp:include page="inputError.jsp"></jsp:include>
 </body>
 </html>
