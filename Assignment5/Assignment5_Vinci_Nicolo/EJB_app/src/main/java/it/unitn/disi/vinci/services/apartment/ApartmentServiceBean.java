@@ -1,12 +1,14 @@
 package it.unitn.disi.vinci.services.apartment;
 
 import it.unitn.disi.vinci.entities.Apartment;
+import it.unitn.disi.vinci.entities.ReservationApartment;
 import it.unitn.disi.vinci.services.exceptions.EntityNotFoundException;
 
 import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -32,7 +34,7 @@ public class ApartmentServiceBean implements ApartmentService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<Apartment> readByDateFromDateTo(final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
+    public List<Apartment> readByDateFromDateTo(final int nPersons, final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
         final Query queryReservationsApartment = entityManager.createQuery("FROM Apartment AS A WHERE A.id NOT IN(" +
                 "SELECT RA.accommodation.id FROM ReservationApartment AS RA WHERE NOT (RA.dateFrom > :dateTo OR RA.dateTo < :dateFrom)" +
                 ")");
@@ -40,10 +42,16 @@ public class ApartmentServiceBean implements ApartmentService {
                 .setParameter("dateFrom", dateFrom)
                 .setParameter("dateTo", dateTo)
                 .getResultList();
-        if (apartments.isEmpty()) {
+        final List<Apartment> filteredApartments = new ArrayList<>();
+        for (Apartment apartment: apartments) {
+            if (apartment.getMaxPersons() >= nPersons) {
+                filteredApartments.add(apartment);
+            }
+        }
+        if (filteredApartments.isEmpty()) {
             throw new EntityNotFoundException(String.format("No Apartments available from %s to %s", dateFrom.toString(), dateTo.toString()));
         }
-        return apartments;
+        return filteredApartments;
     }
 
     @Override

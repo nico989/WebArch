@@ -66,7 +66,7 @@ public class GuestServiceBean implements GuestService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void create(final String name, final String surname) throws EntityCRUDException, EntityInputException, EntityNotFoundException {
+    public void create(final String name, final String surname) throws EntityCRUDException, EntityInputException {
         if (Objects.isNull(name) || name.length() < this.MIN_LENGTH || name.length() > this.MAX_LENGTH) {
             throw new EntityInputException("Name length must be greater than 1 and less than 64 characters");
         }
@@ -75,18 +75,13 @@ public class GuestServiceBean implements GuestService {
         }
         Guest guest;
         try {
-            guest = this.readByNameSurname(name, surname);
-            throw new EntityInputException(String.format("Guest with name %s and surname %s already exists", guest.getName(), guest.getSurname()));
-        } catch (final NoResultException ex) {
-            try {
-                guest = new Guest();
-                guest.setName(name);
-                guest.setSurname(surname);
-                this.entityManager.persist(guest);
-            } catch (final Exception e) {
-                context.setRollbackOnly();
-                throw new EntityCRUDException(String.format("Something went wrong: Guest insertion failed due to %s", e.getMessage()));
-            }
+            guest = new Guest();
+            guest.setName(name);
+            guest.setSurname(surname);
+            this.entityManager.persist(guest);
+        } catch (final Exception e) {
+            context.setRollbackOnly();
+            throw new EntityCRUDException(String.format("Something went wrong: Guest insertion failed due to %s", e.getMessage()));
         }
     }
 
