@@ -39,39 +39,47 @@ public class AccommodationServlet extends HttpServlet {
         userRequest.setnPersons(nPersons);
     }
 
-    private void forwardToJSP(boolean error, boolean empty, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void forwardToJSP(boolean error, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("error", error);
-        request.setAttribute("empty", empty);
         request.getRequestDispatcher("/accommodation.jsp").forward(request, response);
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         final String IDateFrom = request.getParameter("dateFrom");
         final String IDateTo = request.getParameter("dateTo");
         final String INPersons = request.getParameter("nPersons");
-
-        try {
-            if (IDateFrom.isEmpty() || IDateTo.isEmpty() || INPersons.isEmpty()) {
-                forwardToJSP(true, false, request, response);
-            } else {
-                final int nPersons = Integer.parseInt(INPersons);
-                final Date dateFrom = new SimpleDateFormat("dd/MM/yyyy").parse(IDateFrom);
-                final Date dateTo = new SimpleDateFormat("dd/MM/yyyy").parse(IDateTo);
-
-                final List<Hotel> hotels = ServiceLocator.getInstance().ejbLookUp(HotelService.class).readByDateFromDateTo(nPersons, dateFrom, dateTo);
-                final List<Apartment> apartments = ServiceLocator.getInstance().ejbLookUp(ApartmentService.class).readByDateFromDateTo(dateFrom, dateTo);
-
+        if (IDateFrom.isEmpty() || IDateTo.isEmpty() || INPersons.isEmpty()) {
+            forwardToJSP(true, request, response);
+        } else {
+            int nPersons;
+            Date dateFrom;
+            Date dateTo;
+            try {
+                nPersons = Integer.parseInt(INPersons);
+                dateFrom = new SimpleDateFormat("dd/MM/yyyy").parse(IDateFrom);
+                dateTo = new SimpleDateFormat("dd/MM/yyyy").parse(IDateTo);
                 createUserRequestBeanInSession(request, dateFrom, dateTo, nPersons);
-
+                List<Hotel> hotels = null;
+                try {
+                    hotels = ServiceLocator.getInstance().ejbLookUp(HotelService.class).readByDateFromDateTo(nPersons, dateFrom, dateTo);
+                } catch (final EJBNotFound | EntityNotFoundException e) {
+                    request.setAttribute("emptyHotels", e.getMessage());
+                }
                 request.setAttribute("hotels", hotels);
+                List<Apartment> apartments = null;
+                try {
+                    apartments = ServiceLocator.getInstance().ejbLookUp(ApartmentService.class).readByDateFromDateTo(nPersons, dateFrom, dateTo);
+                } catch (final EntityNotFoundException | EJBNotFound e) {
+                    request.setAttribute("emptyApartments", e.getMessage());
+                }
                 request.setAttribute("apartments", apartments);
-
-                forwardToJSP(false, false, request, response);
+                forwardToJSP(false, request, response);
+            } catch (ParseException e) {
+                forwardToJSP(true, request, response);
             }
-        } catch (final EntityNotFoundException e) {
-            forwardToJSP(false, true, request, response);
-        } catch (final EJBNotFound | ParseException e) {
-            forwardToJSP(true, false, request, response);
         }
     }
 

@@ -11,7 +11,7 @@
 <body>
     <jsp:include page="banner.jsp"></jsp:include>
     <h2>Available Accommodations</h2>
-    <% if(Objects.nonNull(request.getAttribute("hotels")) && Objects.nonNull(request.getAttribute("apartments"))) { %>
+    <% if(Objects.nonNull(request.getAttribute("hotels"))) { %>
         <div>
             <h3>Hotels</h3>
             <form action="singleAccommodation" method="post">
@@ -31,8 +31,8 @@
                         <td>
                             <label>
                                 <input type="checkbox" name="hotelId" value="<%=hotel.getId()%>">
-                                <input type="hidden" name="type" value="hotel">
                             </label>
+                            <input type="hidden" name="type" value="hotel">
                         </td>
                         <td><%=hotel.getName()%></td>
                         <td><%=hotel.getPrice()%></td>
@@ -49,7 +49,15 @@
                 <input type="submit" value="Book Hotel">
             </form>
         </div>
-        <div>
+    <% } else { %>
+        <% if(Objects.nonNull(request.getAttribute("emptyHotels"))) { %>
+            <div>
+                <p><b><%=request.getAttribute("emptyHotels")%></b></p>
+            </div>
+        <% } %>
+    <% } %>
+    <% if(Objects.nonNull(request.getAttribute("apartments"))) { %>
+    <div>
             <h3>Apartments</h3>
             <form action="singleAccommodation" method="post">
                 <table>
@@ -66,8 +74,8 @@
                             <td>
                                 <label>
                                     <input type="checkbox" name="apartmentId" value="<%=apartment.getId()%>">
-                                    <input type="hidden" name="type" value="apartment">
                                 </label>
+                                <input type="hidden" name="type" value="apartment">
                             </td>
                             <td><%=apartment.getName()%></td>
                             <td><%=apartment.getPrice()%></td>
@@ -79,8 +87,13 @@
                 <input type="submit" value="Book Apartment">
             </form>
         </div>
+    <% } else { %>
+        <% if(Objects.nonNull(request.getAttribute("emptyApartments"))) { %>
+            <div>
+                <p><b><%=request.getAttribute("emptyApartments")%></b></p>
+            </div>
+        <% } %>
     <% } %>
     <jsp:include page="inputError.jsp"></jsp:include>
-    <jsp:include page="emptyResult.jsp"></jsp:include>
 </body>
 </html>

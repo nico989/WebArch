@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Objects;
 
-@WebServlet(name = "singleAccommodationHotel", value = "/singleAccommodationHotel")
+@WebServlet(name = "singleAccommodation", value = "/singleAccommodation")
 public class SingleAccommodationServlet extends HttpServlet {
     public void init() {
     }
@@ -24,45 +24,45 @@ public class SingleAccommodationServlet extends HttpServlet {
         return (UserRequest) request.getSession(false).getAttribute("userRequest");
     }
 
-    private void forwardToJSP(boolean error, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("error", error);
+    private void forwardToJSP(String exception, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("exception", exception);
         request.getRequestDispatcher("/singleAccommodation.jsp").forward(request, response);
     }
 
-    private void handleHotel(UserRequest.Type type, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void handleHotel(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Objects.isNull(request.getParameter("hotelId"))) {
-            forwardToJSP(true, request, response);
+            forwardToJSP(null, request, response);
         } else {
             final int hotelId = Integer.parseInt(request.getParameter("hotelId"));
             final boolean extraHalfBoard = Objects.nonNull(request.getParameter("extraHalfBoard")) && request.getParameter("extraHalfBoard").equals("chosen");
             final UserRequest userRequest = getUserRequestFromSession(request);
             userRequest.setAccommodationId(hotelId);
             userRequest.setExtraHalfBoard(extraHalfBoard);
-            userRequest.setType(type);
+            userRequest.setType(UserRequest.Type.Hotel);
             try {
                 final long totPrice = ServiceLocator.getInstance().ejbLookUp(HotelService.class).getPriceByID(userRequest.getAccommodationId(), userRequest.getnPersons(), userRequest.isExtraHalfBoard(), userRequest.getDateFrom(), userRequest.getDateTo());
                 request.setAttribute("totPrice", totPrice);
-                forwardToJSP(false, request, response);
+                forwardToJSP(null, request, response);
             } catch (final EJBNotFound | EntityNotFoundException e) {
-                forwardToJSP(true, request, response);
+                forwardToJSP(e.getMessage(), request, response);
             }
         }
     }
 
-    private void handleApartment(UserRequest.Type type, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void handleApartment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(Objects.isNull(request.getParameter("apartmentId"))) {
-            forwardToJSP(true, request, response);
+            forwardToJSP(null, request, response);
         } else {
             final int apartmentId = Integer.parseInt(request.getParameter("apartmentId"));
             final UserRequest userRequest = getUserRequestFromSession(request);
             userRequest.setAccommodationId(apartmentId);
-            userRequest.setType(type);
+            userRequest.setType(UserRequest.Type.Apartment);
             try {
                 final long totPrice = ServiceLocator.getInstance().ejbLookUp(ApartmentService.class).getPriceByID(userRequest.getAccommodationId(), userRequest.getDateFrom(), userRequest.getDateTo());
                 request.setAttribute("totPrice", totPrice);
-                forwardToJSP(false, request, response);
+                forwardToJSP(null, request, response);
             } catch (final EJBNotFound | EntityNotFoundException e) {
-                forwardToJSP(true, request, response);
+                forwardToJSP(e.getMessage(), request, response);
             }
         }
     }
@@ -72,9 +72,9 @@ public class SingleAccommodationServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if(request.getParameter("type").equals("hotel")) {
-            handleHotel(UserRequest.Type.Hotel, request, response);
+            handleHotel(request, response);
         } else {
-            handleApartment(UserRequest.Type.Apartment, request, response);
+            handleApartment(request, response);
         }
     }
 

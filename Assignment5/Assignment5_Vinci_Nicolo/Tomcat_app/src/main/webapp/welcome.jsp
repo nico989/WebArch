@@ -16,7 +16,7 @@
     </div>
     <br/><br/>
     <div>
-        <form action="reservation" method="post">
+        <form action="reservation" method="get">
             Name:<input type="text" name="name"/>
             Surname:<input type="text" name="surname"/><br/><br/>
             <input type="submit" value="Show your reservations"/>

@@ -10,8 +10,6 @@ public class UserRequest implements Serializable {
         Apartment
     }
 
-    private String name;
-    private String surname;
     private int accommodationId;
     private Date dateFrom;
     private Date dateTo;
@@ -20,22 +18,6 @@ public class UserRequest implements Serializable {
     private Type type;
 
     public UserRequest() {
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public int getAccommodationId() {
@@ -84,19 +66,5 @@ public class UserRequest implements Serializable {
 
     public void setType(Type type) {
         this.type = type;
-    }
-
-    @Override
-    public String toString() {
-        return "UserRequest{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", accommodationId=" + accommodationId +
-                ", dateFrom=" + dateFrom +
-                ", dateTo=" + dateTo +
-                ", nPersons=" + nPersons +
-                ", extraHalfBoard=" + extraHalfBoard +
-                ", type=" + type +
-                '}';
     }
 }

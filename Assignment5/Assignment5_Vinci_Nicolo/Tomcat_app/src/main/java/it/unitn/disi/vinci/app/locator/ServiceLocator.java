@@ -6,6 +6,8 @@ import it.unitn.disi.vinci.entities.ReservationHotel;
 import it.unitn.disi.vinci.services.apartment.ApartmentService;
 import it.unitn.disi.vinci.services.guest.GuestService;
 import it.unitn.disi.vinci.services.hotel.HotelService;
+import it.unitn.disi.vinci.services.reservationApartment.ReservationApartmentService;
+import it.unitn.disi.vinci.services.reservationHotel.ReservationHotelService;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -57,9 +59,9 @@ public class ServiceLocator {
                 ejbToLookUp = "ejb:/EJB_app/GuestServiceBean!it.unitn.disi.vinci.services.guest.GuestService";
             } else if (HotelService.class.isAssignableFrom(requestedEjb)) {
                 ejbToLookUp = "ejb:/EJB_app/HotelServiceBean!it.unitn.disi.vinci.services.hotel.HotelService";
-            } else if (ReservationApartment.class.isAssignableFrom(requestedEjb)) {
+            } else if (ReservationApartmentService.class.isAssignableFrom(requestedEjb)) {
                 ejbToLookUp = "ejb:/EJB_app/ReservationApartmentServiceBean!it.unitn.disi.vinci.services.reservationApartment.ReservationApartmentService";
-            } else if (ReservationHotel.class.isAssignableFrom(requestedEjb)) {
+            } else if (ReservationHotelService.class.isAssignableFrom(requestedEjb)) {
                 ejbToLookUp = "ejb:/EJB_app/ReservationHotelServiceBean!it.unitn.disi.vinci.services.reservationHotel.ReservationHotelService";
             } else {
                 throw new EJBNotFound(String.format("EJB Interface %s not supported", requestedEjb));
