@@ -3,6 +3,7 @@ package it.unitn.disi.vinci.services.reservationHotel;
 
 import it.unitn.disi.vinci.entities.Accommodation;
 import it.unitn.disi.vinci.entities.Guest;
+import it.unitn.disi.vinci.entities.Hotel;
 import it.unitn.disi.vinci.entities.ReservationHotel;
 import it.unitn.disi.vinci.services.exceptions.EntityCRUDException;
 import it.unitn.disi.vinci.services.exceptions.EntityInputException;
