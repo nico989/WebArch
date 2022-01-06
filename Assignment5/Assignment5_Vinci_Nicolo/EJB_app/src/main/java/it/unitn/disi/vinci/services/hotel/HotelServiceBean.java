@@ -89,9 +89,14 @@ public class HotelServiceBean implements HotelService {
 
     @Override
     public long getPriceByID(final long id, final int nPersons, final boolean halfBoard, final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
+        long days;
+        if (dateFrom.equals(dateTo)) {
+            days = 1;
+        } else {
+            long diffInMillies = Math.abs(dateTo.getTime() - dateFrom.getTime());
+            days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        }
         final Hotel hotel = this.readByID(id);
-        long diffInMillies = Math.abs(dateTo.getTime() - dateFrom.getTime());
-        long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         if (halfBoard) {
             return (hotel.getPrice() + hotel.getExtraHalfBoard()) * days * nPersons;
         } else {

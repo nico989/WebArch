@@ -43,7 +43,7 @@ public class ApartmentServiceBean implements ApartmentService {
                 .setParameter("dateTo", dateTo)
                 .getResultList();
         final List<Apartment> filteredApartments = new ArrayList<>();
-        for (Apartment apartment: apartments) {
+        for (Apartment apartment : apartments) {
             if (apartment.getMaxPersons() >= nPersons) {
                 filteredApartments.add(apartment);
             }
@@ -67,9 +67,14 @@ public class ApartmentServiceBean implements ApartmentService {
 
     @Override
     public long getPriceByID(final long id, final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
+        long days;
+        if (dateFrom.equals(dateTo)) {
+            days = 1;
+        } else {
+            long diffInMillies = Math.abs(dateTo.getTime() - dateFrom.getTime());
+            days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
+        }
         final Apartment apartment = this.readByID(id);
-        long diffInMillies = Math.abs(dateTo.getTime() - dateFrom.getTime());
-        long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         return (apartment.getPrice() * days) + apartment.getFinalCleaning();
     }
 }

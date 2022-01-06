@@ -1,3 +1,6 @@
+-- Create webarch schema
+create schema webarch;
+
 -- Create table Guest
 CREATE TABLE webarch.guest
 (
