@@ -31,7 +31,7 @@ public class ReservationHotelServiceBean implements ReservationHotelService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public ReservationHotel readByID(long id) throws EntityNotFoundException {
+    public ReservationHotel readByID(final long id) throws EntityNotFoundException {
         final ReservationHotel reservationHotel = entityManager.find(ReservationHotel.class, id);
         if(Objects.isNull(reservationHotel)) {
             throw new EntityNotFoundException(String.format("Can't find Reservation Hotel with id %d", id));
@@ -41,7 +41,7 @@ public class ReservationHotelServiceBean implements ReservationHotelService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public List<ReservationHotel> readByGuest(Guest guest) throws EntityNotFoundException {
+    public List<ReservationHotel> readByGuest(final Guest guest) throws EntityNotFoundException {
         final Query query = entityManager.createQuery("FROM ReservationHotel RH WHERE RH.guest = :guest");
         final List<ReservationHotel> reservationsHotel = query
                 .setParameter("guest", guest)
@@ -65,7 +65,7 @@ public class ReservationHotelServiceBean implements ReservationHotelService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void create(Guest guest, Accommodation accommodation, int nPersons, String creditCardNumber, Date dateFrom, Date dateTo, boolean halfBoard) throws EntityCRUDException, EntityInputException {
+    public void create(final Guest guest, final Accommodation accommodation, final int nPersons, final String creditCardNumber, final Date dateFrom, final Date dateTo, final boolean halfBoard) throws EntityCRUDException, EntityInputException {
         if (Objects.isNull(guest) || Objects.isNull(accommodation) || nPersons ==0 || Objects.isNull(creditCardNumber) || Objects.isNull(dateFrom) || Objects.isNull(dateTo) || Objects.isNull(halfBoard)) {
             throw new EntityInputException("All input parameters are needed to create a Reservation");
         }
@@ -87,7 +87,7 @@ public class ReservationHotelServiceBean implements ReservationHotelService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void deleteByID(long id) throws EntityNotFoundException, EntityCRUDException {
+    public void deleteByID(final long id) throws EntityNotFoundException, EntityCRUDException {
         final ReservationHotel reservationHotel = this.readByID(id);
         try {
             entityManager.remove(reservationHotel);

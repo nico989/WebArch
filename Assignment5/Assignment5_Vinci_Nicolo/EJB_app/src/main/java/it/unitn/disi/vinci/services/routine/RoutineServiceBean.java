@@ -1,8 +1,6 @@
 package it.unitn.disi.vinci.services.routine;
 
-import it.unitn.disi.vinci.entities.Apartment;
-import it.unitn.disi.vinci.entities.Guest;
-import it.unitn.disi.vinci.entities.Hotel;
+import it.unitn.disi.vinci.entities.*;
 import it.unitn.disi.vinci.services.apartment.ApartmentService;
 import it.unitn.disi.vinci.services.exceptions.EntityCRUDException;
 import it.unitn.disi.vinci.services.exceptions.EntityInputException;
@@ -77,13 +75,14 @@ public class RoutineServiceBean implements RoutineService {
 
     @Override
     public void cleanAll() throws EntityNotFoundException, EntityCRUDException {
-        final List<Hotel> hotels = hotelService.readAll();
-        for (Hotel hotel: hotels) {
-            reservationHotelService.deleteByID(hotel.getId());
+        final List<ReservationHotel> reservationsHotel = reservationHotelService.readAll();
+        for (ReservationHotel reservationHotel: reservationsHotel) {
+            reservationHotelService.deleteByID(reservationHotel.getId());
         }
-        final List<Apartment> apartments = apartmentService.readAll();
-        for (Apartment apartment: apartments) {
-            reservationApartmentService.deleteByID(apartment.getId());
+        final List<ReservationApartment> reservationsApartment = reservationApartmentService.readAll();
+        for (ReservationApartment reservationApartment: reservationsApartment) {
+            reservationApartmentService.deleteByID(reservationApartment.getId());
         }
     }
+
 }

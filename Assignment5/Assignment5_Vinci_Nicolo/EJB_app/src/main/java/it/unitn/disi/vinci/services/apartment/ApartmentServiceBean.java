@@ -24,7 +24,7 @@ public class ApartmentServiceBean implements ApartmentService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
-    public Apartment readByID(long id) throws EntityNotFoundException {
+    public Apartment readByID(final long id) throws EntityNotFoundException {
         final Apartment apartment = entityManager.find(Apartment.class, id);
         if (Objects.isNull(apartment)) {
             throw new EntityNotFoundException(String.format("Can't find Apartment with id %d", id));
@@ -66,7 +66,7 @@ public class ApartmentServiceBean implements ApartmentService {
     }
 
     @Override
-    public long getPriceByID(final long id, Date dateFrom, Date dateTo) throws EntityNotFoundException {
+    public long getPriceByID(final long id, final Date dateFrom, final Date dateTo) throws EntityNotFoundException {
         final Apartment apartment = this.readByID(id);
         long diffInMillies = Math.abs(dateTo.getTime() - dateFrom.getTime());
         long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
