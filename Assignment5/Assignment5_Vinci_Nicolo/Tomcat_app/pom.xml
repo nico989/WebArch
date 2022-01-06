@@ -39,7 +39,7 @@
         <dependency>
             <groupId>org.wildfly</groupId>
             <artifactId>wildfly-client-all</artifactId>
-            <version>20.0.1.Final</version>
+            <version>25.0.1.Final</version>
         </dependency>
     </dependencies>
 

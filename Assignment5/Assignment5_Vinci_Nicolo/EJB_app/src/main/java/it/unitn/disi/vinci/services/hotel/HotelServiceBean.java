@@ -8,28 +8,38 @@ import javax.ejb.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Stateless
 @Remote(HotelService.class)
 @TransactionManagement(TransactionManagementType.CONTAINER)
-public class HotelServiceBean implements HotelService{
+public class HotelServiceBean implements HotelService {
 
-    @PersistenceContext(unitName="Default")
+    @PersistenceContext(unitName = "Default")
     private EntityManager entityManager;
 
     @Override
     @TransactionAttribute(TransactionAttributeType.SUPPORTS)
     public Hotel readByID(final long id) throws EntityNotFoundException {
         final Hotel hotel = entityManager.find(Hotel.class, id);
-        if(Objects.isNull(hotel)) {
+        if (Objects.isNull(hotel)) {
             throw new EntityNotFoundException(String.format("Can't find Hotel with id %d", id));
         }
         return hotel;
+    }
+
+    private List<Date> getDaysBetweenDates(final Date dateFrom, final Date dateTo) {
+        final List<Date> dates = new ArrayList<>();
+        final Calendar calendar = new GregorianCalendar();
+        calendar.setTime(dateFrom);
+        while (calendar.getTime().before(dateTo)) {
+            dates.add(calendar.getTime());
+            calendar.add(Calendar.DATE, 1);
+        }
+        System.out.println(calendar.getTime());
+        dates.add(calendar.getTime());
+        return dates;
     }
 
     @Override
@@ -41,16 +51,23 @@ public class HotelServiceBean implements HotelService{
                 .setParameter("dateFrom", dateFrom)
                 .setParameter("dateTo", dateTo)
                 .getResultList();
-        final List<Hotel> filteredHotels = new ArrayList<>();
-        for (Hotel hotel: hotels) {
+        final List<Hotel> filteredHotels = new ArrayList<>(hotels);
+        final List<Date> dates = getDaysBetweenDates(dateFrom, dateTo);
+        for (Hotel hotel : hotels) {
             int totPersons = 0;
-            for (ReservationHotel reservationHotel: reservationsHotel) {
-                if (hotel.equals(reservationHotel.getAccommodation())){
-                    totPersons += reservationHotel.getnPersons();
+            for (Date date : dates) {
+                for (ReservationHotel reservationHotel : reservationsHotel) {
+                    if (hotel.equals(reservationHotel.getAccommodation()) && !date.before(reservationHotel.getDateFrom()) && !date.after(reservationHotel.getDateTo())) {
+                        totPersons += reservationHotel.getnPersons();
+                    }
+                }
+                if (totPersons + nPersons > hotel.getPlaces()) {
+                    filteredHotels.remove(hotel);
+                    break;
                 }
             }
-            if (hotel.getPlaces() >= totPersons + nPersons) {
-                filteredHotels.add(hotel);
+            if (totPersons + nPersons > hotel.getPlaces()) {
+                filteredHotels.remove(hotel);
             }
         }
         if (filteredHotels.isEmpty()) {
@@ -76,8 +93,8 @@ public class HotelServiceBean implements HotelService{
         long diffInMillies = Math.abs(dateTo.getTime() - dateFrom.getTime());
         long days = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
         if (halfBoard) {
-            return (hotel.getPrice()+ hotel.getExtraHalfBoard()) * days * nPersons;
-        } else{
+            return (hotel.getPrice() + hotel.getExtraHalfBoard()) * days * nPersons;
+        } else {
             return (hotel.getPrice() * days * nPersons);
         }
     }
