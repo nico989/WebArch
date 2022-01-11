@@ -53,20 +53,21 @@ public class HotelServiceBean implements HotelService {
                 .getResultList();
         final List<Hotel> filteredHotels = new ArrayList<>(hotels);
         final List<Date> dates = getDaysBetweenDates(dateFrom, dateTo);
-        for (Hotel hotel : hotels) {
-            int totPersons = 0;
-            for (Date date : dates) {
-                for (ReservationHotel reservationHotel : reservationsHotel) {
+        for (final Hotel hotel : hotels) {
+            boolean unavailable = false;
+            for (final Date date : dates) {
+                int totPersons = 0;
+                for (final ReservationHotel reservationHotel : reservationsHotel) {
                     if (hotel.equals(reservationHotel.getAccommodation()) && !date.before(reservationHotel.getDateFrom()) && !date.after(reservationHotel.getDateTo())) {
                         totPersons += reservationHotel.getnPersons();
                     }
                 }
                 if (totPersons + nPersons > hotel.getPlaces()) {
-                    filteredHotels.remove(hotel);
+                    unavailable = true;
                     break;
                 }
             }
-            if (totPersons + nPersons > hotel.getPlaces()) {
+            if (unavailable) {
                 filteredHotels.remove(hotel);
             }
         }
